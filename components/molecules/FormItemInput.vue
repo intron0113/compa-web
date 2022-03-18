@@ -1,5 +1,13 @@
 <template>
-  <div class="form-item form-item-input"></div>
+  <div class="form-item form-item-input">
+    <input
+      v-bind="$attrs"
+      :class="{ small: itemStatus === 'small' }"
+      :placeholder="placeholder"
+      class="input"
+      @input="$emit('input', $event.target.value)"
+    />
+  </div>
 </template>
 
 <script>
@@ -7,19 +15,19 @@ export default {
   props: {
     value: {
       type: String,
-      default: '',
+      default: "",
     },
     itemStatus: {
       type: String,
       required: false,
-      default: 'default',
+      default: "default",
     },
     placeholder: {
       type: String,
-      default: 'プレースホルダー',
+      default: "プレースホルダー",
     },
   },
-}
+};
 </script>
 
 <style lang="scss" scoped>

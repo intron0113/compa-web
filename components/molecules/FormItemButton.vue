@@ -1,14 +1,16 @@
-<template></template>
+<template>
+  <ButtonLink v-bind="$attrs" :label="label" @click="$emit('click')" />
+</template>
 
 <script>
 export default {
   props: {
     label: {
       type: String,
-      default: 'label',
+      default: "label",
     },
   },
-}
+};
 </script>
 
 <style lang="scss" scoped>

@@ -1,9 +1,18 @@
 <template>
-  <div class="page register-finish"></div>
+  <div class="page register-finish">
+    <div class="form">
+      <p class="title">アカウントの作成</p>
+      <div class="text">
+        <p class="main">There is always light behind the clouds.</p>
+        <p class="sub">from Louisa May Alcott</p>
+      </div>
+      <FormItemButton label="始める" type="button" @click="$router.push('/')" />
+    </div>
+  </div>
 </template>
 
 <script>
-export default {}
+export default {};
 </script>
 
 <style lang="scss" scoped>
