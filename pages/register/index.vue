@@ -1,9 +1,14 @@
 <template>
-  <div class="page register"></div>
+  <div class="page register">
+    <div class="form">
+      <p class="title">アカウントの作成</p>
+      <FormRegisterProfile />
+    </div>
+  </div>
 </template>
 
 <script>
-export default {}
+export default {};
 </script>
 
 <style lang="scss" scoped>

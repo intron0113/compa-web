@@ -1,5 +1,8 @@
 <template>
-  <label class="form-item form-item-icon"> </label>
+  <label class="form-item form-item-icon">
+    <input v-bind="$attrs" class="file" @change="$emit('change', $event)" />
+    <img v-if="img" :src="img" class="image" />
+  </label>
 </template>
 
 <script>
@@ -7,10 +10,10 @@ export default {
   props: {
     img: {
       type: String,
-      default: '',
+      default: "",
     },
   },
-}
+};
 </script>
 
 <style lang="scss" scoped>

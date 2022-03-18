@@ -1,53 +1,94 @@
 <template>
-  <form class="form form-register-profile" @submit.prevent></form>
+  <form class="form form-register-profile" @submit.prevent>
+    <FormItemIcon :img="postData.thumbnail" type="file" @change="changeImg" />
+    <div class="content">
+      <div class="sns">
+        <IconBrand item-status="google" @click="loginGoogle" />
+        <IconBrand item-status="twitter" @click="loginTwitter" />
+        <IconBrand item-status="facebook" @click="loginFacebook" />
+      </div>
+      <div class="form">
+        <FormItemInput v-model="name" placeholder="ユーザー名" type="text" />
+        <FormItemInput
+          v-model="email"
+          required
+          placeholder="メールアドレス"
+          type="email"
+        />
+        <div class="input">
+          <div class="input">
+            <FormItemInput
+              v-model="password"
+              required
+              placeholder="パスワード"
+              type="password"
+            />
+            <FormItemInput
+              v-model="passwordCheck"
+              required
+              placeholder="パスワード（確認）"
+              type="password"
+            />
+          </div>
+          <p class="placeholder">
+            半角英字、数字、記号を組み合わせて 8 文字以上で入力してください
+          </p>
+        </div>
+      </div>
+    </div>
+    <div class="button">
+      <nuxt-link to="/login" class="link">代わりにログイン</nuxt-link>
+      <FormItemButton type="submit" label="次へ" @click="register" />
+    </div>
+  </form>
 </template>
 
 <script>
 export default {
   data() {
     return {
-      thumbnail: '',
+      thumbnail: "",
       postData: {
-        thumbnail: '',
+        thumbnail: "",
       },
-      name: '',
-      email: '',
-      password: '',
-      passwordCheck: '',
-    }
+      name: "",
+      email: "",
+      password: "",
+      passwordCheck: "",
+    };
   },
   methods: {
     changeImg(e) {
-      this.thumbnail = e.target.files[0]
+      this.thumbnail = e.target.files[0];
       if (this.thumbnail) {
-        const reader = new FileReader()
-        reader.readAsDataURL(this.thumbnail)
+        const reader = new FileReader();
+        reader.readAsDataURL(this.thumbnail);
         reader.onload = () => {
-          this.postData.thumbnail = reader.result + ''
-        }
+          this.postData.thumbnail = reader.result + "";
+        };
       }
     },
     register() {
       if (this.password === this.passwordCheck) {
-        this.$store.dispatch('register', {
+        this.$store.dispatch("register", {
           name: this.name,
           email: this.email,
           password: this.password,
           thumbnail: this.thumbnail,
-        })
+        });
       }
     },
     loginGoogle() {
-      this.$store.dispatch('loginGoogle')
+      this.$store.dispatch("loginGoogle");
     },
     loginTwitter() {
-      this.$store.dispatch('loginTwitter')
+      this.$store.dispatch("loginTwitter");
     },
     loginFacebook() {
-      this.$store.dispatch('loginFacebook')
+      this.$store.dispatch("loginFacebook");
     },
   },
-}
+};
 </script>
 
 <style lang="scss" scoped>
