@@ -1,5 +1,14 @@
 <template>
-  <li class="list-item list-item-chat"></li>
+  <li class="list-item list-item-chat">
+    <IconUser :image="image" />
+    <div class="content">
+      <p class="name">{{ name }}</p>
+      <time class="time">{{
+        $dayjs(messages.time).format("YYYY.MM.DD HH:mm")
+      }}</time>
+      <p class="text">{{ messages.text }}</p>
+    </div>
+  </li>
 </template>
 
 <script>
@@ -8,17 +17,17 @@ export default {
     image: {
       type: String,
       required: false,
-      default: '',
+      default: "",
     },
     messages: {
       type: Object,
     },
     name: {
       type: String,
-      default: '',
+      default: "",
     },
   },
-}
+};
 </script>
 
 <style lang="scss" scoped>

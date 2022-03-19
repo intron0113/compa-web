@@ -1,5 +1,13 @@
 <template>
-  <div class="icon icon-user"></div>
+  <div class="icon icon-user">
+    <img v-if="!!image" :src="image" alt="プロフィール画像" class="image" />
+    <img
+      v-else
+      src="/atoms/icons/user.jpg"
+      alt="プロフィール画像"
+      class="image"
+    />
+  </div>
 </template>
 
 <script>
@@ -8,10 +16,10 @@ export default {
     image: {
       type: String,
       required: false,
-      default: '',
+      default: "",
     },
   },
-}
+};
 </script>
 
 <style lang="scss" scoped>

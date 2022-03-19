@@ -1,5 +1,14 @@
 <template>
-  <ul class="list list-chat"></ul>
+  <ul class="list list-chat">
+    <li
+      is="ListItemChat"
+      v-for="message in messages"
+      :key="message.id"
+      :messages="message"
+      :image="image"
+      :name="name"
+    ></li>
+  </ul>
 </template>
 
 <script>
@@ -8,19 +17,19 @@ export default {
     image: {
       type: String,
       required: false,
-      default: '',
+      default: "",
     },
     name: {
       type: String,
-      default: '',
+      default: "",
     },
   },
   computed: {
     messages() {
-      return this.$store.getters['chat/messages'] //eslint-disable-line
+      return this.$store.getters["chat/messages"]; //eslint-disable-line
     },
   },
-}
+};
 </script>
 
 <style lang="scss" scoped>

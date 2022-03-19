@@ -1,5 +1,8 @@
 <template>
-  <li class="list-item list-item-task"></li>
+  <li class="list-item list-item-task">
+    <FormItemInputCheck v-model="isChecked" />
+    <p class="text">{{ todos.task }}</p>
+  </li>
 </template>
 
 <script>
@@ -12,10 +15,10 @@ export default {
   },
   data() {
     return {
-      isChecked: '',
-    }
+      isChecked: "",
+    };
   },
-}
+};
 </script>
 
 <style lang="scss" scoped>
@@ -29,7 +32,7 @@ export default {
     position: relative;
 
     &:before {
-      content: '';
+      content: "";
       position: absolute;
       top: -5px;
       display: inline-block;

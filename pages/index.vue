@@ -1,23 +1,29 @@
 <template>
-  <div class="page"></div>
+  <div class="page">
+    <NavHeader />
+    <div class="container">
+      <ViewChat :image="image" :name="name" />
+      <ViewTask />
+    </div>
+  </div>
 </template>
 
 <script>
 export default {
   async fetch({ store }) {
-    await store.dispatch('checkLogin')
-    store.dispatch('todo/getData')
-    store.dispatch('chat/getData')
+    await store.dispatch("checkLogin");
+    store.dispatch("todo/getData");
+    store.dispatch("chat/getData");
   },
   computed: {
     image() {
-      return this.$store.getters.user.photoURL
+      return this.$store.getters.user.photoURL;
     },
     name() {
-      return this.$store.getters.user.name
+      return this.$store.getters.user.name;
     },
   },
-}
+};
 </script>
 
 <style lang="scss" scoped>

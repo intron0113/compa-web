@@ -69,7 +69,7 @@ export default {
           messagingSenderId: "70436731025",
           appId: "1:70436731025:web:2127e926c21aa8a144e730",
           measurementId: "G-580RRYM4J8",
-          databaseURL: "https://compa-med.firebaseio.com",
+          // databaseURL: "https://compa-med.firebaseio.com",
         },
         services: {
           auth: true,

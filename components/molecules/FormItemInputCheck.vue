@@ -1,5 +1,13 @@
 <template>
-  <label class="form-item form-item-input-check"> </label>
+  <label class="form-item form-item-input-check">
+    <input
+      :checked="checked"
+      type="checkbox"
+      class="input"
+      @input="$emit('switch', $event.target.checked)"
+    />
+    <span class="mark"></span>
+  </label>
 </template>
 
 <script>
@@ -10,7 +18,7 @@ export default {
       default: false,
     },
   },
-}
+};
 </script>
 
 <style lang="scss" scoped>
@@ -43,7 +51,7 @@ export default {
   }
 
   .input:checked + .mark::before {
-    content: '';
+    content: "";
     display: block;
     position: absolute;
     top: 50%;
