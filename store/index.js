@@ -21,7 +21,7 @@ export const actions = {
         payload.password
       );
       dispatch("checkLogin");
-      this.$router.push("/");
+      this.$router.push("/posts");
     } catch (error) {
       console.log(error); //eslint-disable-line
     }
@@ -59,7 +59,7 @@ export const actions = {
                 displayName: payload.name,
                 photoURL: url,
               });
-              this.$router.push("/register/finish");
+              this.$router.push("/auth/registerFinish");
             });
         });
     } catch (error) {
