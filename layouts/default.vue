@@ -1,55 +1,151 @@
 <template>
-  <div>
-    <Nuxt />
-  </div>
+  <v-app light>
+    <v-app-bar
+      color="primary"
+      :clipped-left="$vuetify.breakpoint.lgAndUp"
+      clipped-right
+      app
+    >
+      <v-container>
+        <v-row>
+          <v-col cols="6" sm="8" md="10">
+            <v-toolbar-title
+              @click="$router.push('/')"
+              style="width: 100%"
+              class="ml-0 pl-4"
+            >
+              <span class="white--text">{{ title }}</span>
+              <v-spacer />
+            </v-toolbar-title>
+          </v-col>
+
+          <!-- 新規登録ボタン -->
+          <v-col cols="3" sm="2" md="1">
+            <v-btn
+              to="auth/register"
+              x-small
+              color="secondary"
+              depressed
+              elevation="2"
+              outlined
+              >新規登録</v-btn
+            >
+          </v-col>
+          <!-- ログインアイコン -->
+          <v-col cols="3" sm="2" md="1">
+            <v-btn to="auth/login" x-small text color="secondary">
+              ログイン
+            </v-btn>
+          </v-col>
+        </v-row>
+      </v-container>
+
+      <!-- </v-col>
+        </v-row> -->
+    </v-app-bar>
+    <v-content>
+      <nuxt />
+    </v-content>
+    <v-footer color="primary">
+      <v-row :justify="justify">
+        <v-col>
+          <span class="white--text"
+            >&copy; {{ new Date().getFullYear() }} {{ author }}</span
+          >
+        </v-col>
+        <v-col>
+          <v-list dense color="primary">
+            <v-list-item
+              v-for="(item, index) in footerMenuItems"
+              :key="index"
+              @click="footerMenuItemClick(item.href)"
+            >
+              <v-list-item-action>
+                <v-icon>{{ item.icon }}</v-icon>
+              </v-list-item-action>
+              <v-list-item-content>
+                <v-list-item-title class="white--text">
+                  {{ item.text }}
+                </v-list-item-title>
+              </v-list-item-content>
+            </v-list-item>
+          </v-list>
+        </v-col>
+      </v-row>
+    </v-footer>
+  </v-app>
 </template>
 
+<script>
+export default {
+  data() {
+    return {
+      search: false,
+      drawer: null,
+      title: "Compa",
+      avatarMenuItems: [
+        { icon: "", text: "マイページ", href: "/my-page-top" },
+        { icon: "", text: "新規投稿", href: "/posting" },
+        { icon: "", text: "新規イベント", href: "/events" },
+        { icon: "mdi-logout", text: "ログアウト", href: "/logout" },
+      ],
+      footerMenuItems: [
+        { icon: "", text: "利用規約", href: "userPolicy" },
+        { icon: "", text: "プライバシーポリシー", href: "privacyPolicy" },
+      ],
+      author: "Compa",
+      justify: "space-between",
+    };
+  },
+  methods: {
+    toggleDrawer() {
+      this.drawer = !this.drawer;
+    },
+    avatarMenuItemClick(href) {
+      switch (href) {
+        case "/logout":
+          window.alert("TODO implement logout");
+          break;
+        default:
+          this.$router.push(href);
+          break;
+      }
+    },
+    footerMenuItemClick(href) {
+      switch (href) {
+        default:
+          this.$router.push(href);
+          break;
+      }
+    },
+    changeSerach() {
+      this.search = !this.search;
+    },
+    setCanMessageSubmit() {
+      this.canMessageSubmit = true;
+    },
+    say() {
+      if (!this.canMessageSubmit) {
+        return;
+      }
+
+      // -- submit message -- //
+
+      this.$router.push("/serch");
+      this.message = "";
+      this.canMessageSubmit = false;
+    },
+  },
+};
+</script>
 <style>
-html {
-  font-family: 'Source Sans Pro', -apple-system, BlinkMacSystemFont, 'Segoe UI',
-    Roboto, 'Helvetica Neue', Arial, sans-serif;
-  font-size: 16px;
-  word-spacing: 1px;
-  -ms-text-size-adjust: 100%;
-  -webkit-text-size-adjust: 100%;
-  -moz-osx-font-smoothing: grayscale;
-  -webkit-font-smoothing: antialiased;
-  box-sizing: border-box;
-}
+.serachMobile {
+  position: fixed;
+  z-index: 10;
+  width: 90vh;
 
-*,
-*::before,
-*::after {
-  box-sizing: border-box;
-  margin: 0;
-}
-
-.button--green {
-  display: inline-block;
-  border-radius: 4px;
-  border: 1px solid #3b8070;
-  color: #3b8070;
-  text-decoration: none;
-  padding: 10px 30px;
-}
-
-.button--green:hover {
-  color: #fff;
-  background-color: #3b8070;
-}
-
-.button--grey {
-  display: inline-block;
-  border-radius: 4px;
-  border: 1px solid #35495e;
-  color: #35495e;
-  text-decoration: none;
-  padding: 10px 30px;
-  margin-left: 15px;
-}
-
-.button--grey:hover {
-  color: #fff;
-  background-color: #35495e;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 </style>

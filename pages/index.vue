@@ -1,101 +1,28 @@
 <template>
   <div>
-    <span>
-      <!-- ナビゲーション -->
-      <v-navigation-drawer
-        v-model="drawer"
-        absolute
-        right
-        temporary
-        class="grey darken-4"
-      >
-        <v-list class="mx-auto">
-          <div v-if="!$store.state.isAuthenticated">
-            <v-btn class="white--text" text to="/login">ログイン</v-btn>
-            <v-btn text to="/register" class="register white--text">
-              ユーザー登録
-            </v-btn>
-          </div>
-          <div v-else>
-            <p>
-              <v-btn class="white--text" text to="/bookindex">ホーム</v-btn>
-            </p>
-            <p>
-              <v-btn class="white--text" text to="/search">投稿する</v-btn>
-            </p>
-            <p>
-              <v-btn class="white--text" text to="/profile">マイページ</v-btn>
-            </p>
-            <p>
-              <v-btn class="white--text" text @click="logout">ログアウト</v-btn>
-            </p>
-          </div>
-        </v-list>
-      </v-navigation-drawer>
-      <!-- ここまで -->
-
-      <v-app-bar app color="grey darken-4" dark class="nav" absolute temporary>
-        <!-- <v-icon class="hidden-md-and-up" @click="drawer = !drawer"></v-icon> -->
-        <!-- <v-spacer class="hidden-md-and-up"></v-spacer> -->
-        <router-link to="/">
-          <v-toolbar-title>
-            {{ appTitle }}
-          </v-toolbar-title>
-        </router-link>
-
-        <!-- <v-spacer class="hidden-sm-and-down"></v-spacer> -->
-        <div class="hidden-md-and-up">
-          <!-- ヘッダーメニュー -->
-          <v-app-bar-nav-icon @click="drawer = !drawer"></v-app-bar-nav-icon>
-        </div>
-        <div v-if="!$store.state.isAuthenticated" class="hidden-sm-and-down">
-          <v-btn text to="/login">ログイン</v-btn>
-          <v-btn text to="/register" class="register"> ユーザー登録 </v-btn>
-        </div>
-        <div v-else class="hidden-sm-and-down">
-          <v-btn text to="/bookindex">ホーム</v-btn>
-          <v-btn text to="/search">投稿する</v-btn>
-          <v-btn text to="/profile">マイページ</v-btn>
-          <v-btn text @click="logout">ログアウト</v-btn>
-        </div>
-      </v-app-bar>
-    </span>
     <section>
-      <v-container class="home"></v-container>
+      <Kodawari />
+      <v-container class="home"> </v-container>
       <v-main>
-        <div class="discription">
-          <h2>SHALIBOとは</h2>
-          <p class="discription__comment">
-            読書した内容を 1
-            ページにまとめるシンプルな「読書記録アプリ」です。<br />
-            本の内容をWEB
-            上で投稿・管理し、他のユーザーと知識を共有し合うことで、<br />
-            同じ本を要約することに時間をかけずに、まだ要約されていない書籍に専念することができます。<br />
-          </p>
-        </div>
         <div class="features">
-          <h2>SHALIBOの特徴</h2>
+          <h2>Co-mpaでできること</h2>
           <div class="features__list">
             <div class="contents">
               <p class="contents__title">アウトプット機能</p>
               <div class="contents__discription">
-                <p>
-                  読み終えたら、読書した内容を質問テンプレートに沿って記録することができます。
-                </p>
+                <p>マークダウン形式で記事を書き投稿できます。</p>
               </div>
             </div>
             <div class="contents">
-              <p class="contents__title">投稿記録</p>
+              <p class="contents__title">検索機能</p>
               <div class="contents__discription">
-                <p>
-                  読書した本の内容を記録。投稿した本はマイページに保存が残ります。
-                </p>
+                <p>他のユーザーの記事を検索し閲覧できます。</p>
               </div>
             </div>
             <div class="contents">
               <p class="contents__title">編集機能</p>
               <div class="contents__discription">
-                <p>コメント編集で文字の付け足しや、削除ができます。</p>
+                <p>記事編集で文字の付け足しや、削除ができます。</p>
               </div>
             </div>
           </div>
@@ -105,13 +32,36 @@
   </div>
 </template>
 
-<script>
+<scripti>
+import Kodawari from '../components/organisms/Kodawari.vue';
 export default {
   name: "Home",
 };
-</script>
+</scripti>
 
-<style scoped>
+<style lang="scss" scoped>
+.content-width {
+  width: 90%;
+  margin: 0 auto;
+  max-width: 1070px;
+}
+
+.flex {
+  display: flex;
+  flex-direction: column;
+}
+
+.travel {
+  width: 90%;
+  margin: 0 auto;
+  max-width: 1070px;
+
+  &__inner {
+    display: flex;
+    flex-direction: column;
+  }
+}
+
 .title {
   width: 50%;
   height: 20%;
@@ -135,7 +85,7 @@ export default {
 }
 .discription {
   width: 100%;
-  height: 150px;
+  height: 300px;
   color: #232323;
   font-size: 1rem;
   line-height: 35px;
