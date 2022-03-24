@@ -1,0 +1,16 @@
+@import "~vuetify/src/styles/styles.sass";
+
+$material-light: map-merge(
+  $material-light,
+  (
+    "background":
+      var(--v-background-base, map-get($material-light, "background")),
+  )
+);
+$material-dark: map-merge(
+  $material-dark,
+  (
+    "background":
+      var(--v-background-base, map-get($material-dark, "background")),
+  )
+);

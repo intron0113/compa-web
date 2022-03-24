@@ -1,3 +1,4 @@
+import colors from "vuetify/es5/util/colors";
 export default {
   // Disable server-side rendering: https://go.nuxtjs.dev/ssr-mode
   ssr: false,
@@ -85,6 +86,31 @@ export default {
 
   // Axios module configuration: https://go.nuxtjs.dev/config-axios
   axios: {},
+  // Vuetify module configuration: https://go.nuxtjs.dev/config-vuetify
+  vuetify: {
+    customVariables: ["~/assets/variables.scss"],
+    theme: {
+      light: true,
+
+      themes: {
+        light: {
+          primary: "#000080",
+          secondary: "#ffffff",
+          accent: "#FFB000",
+          error: colors.red.accent3,
+        },
+        dark: {
+          primary: "#202f55",
+          accent: colors.grey.darken3,
+          secondary: "#ffffff",
+          info: colors.teal.lighten1,
+          warning: colors.amber.base,
+          error: colors.deepOrange.accent4,
+          success: colors.green.accent3,
+        },
+      },
+    },
+  },
 
   // Build Configuration: https://go.nuxtjs.dev/config-build
   build: {},
