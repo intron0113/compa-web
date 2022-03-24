@@ -1,12 +1,16 @@
 <template>
-  <section class="kodawari">
-    <div class="kodawari-back"></div>
+  <section class="topimage">
+    <div class="topimage-back"></div>
     <div class="container">
-      <div class="kosawari-text">
-        <h2>創業昭和３３年の老舗「梅干庵」</h2>
-        <p>厳選された素材を最新設備の工場で製品化。</p>
-        <p>美味しくて安心感のある梅干はこうして生まれました。</p>
-        <div class="btn-1"><span>新規登録</span></div>
+      <div class="topimage-text">
+        <h1>アウトプットしよう</h1>
+        <p>医療従事者の為の学習アウトプットサービスです。</p>
+        <p>学習した事を外に出力していきましょう！！</p>
+        <div class="btn-1">
+          <nuxt-link tag="div" to="auth/register" class="btn"
+            >新規登録
+          </nuxt-link>
+        </div>
       </div>
     </div>
   </section>
@@ -31,22 +35,19 @@ export default {
 };
 </script>
 <style>
-/* 梅やこだわり */
-
-.kodawari {
+.topimage {
   width: 100%;
   height: 400p;
-  background: url("~assets/image-1.jpg");
+  background: url("~assets/topimage.jpg");
   background-position: center center;
   background-repeat: no-repeat;
   background-size: cover;
   padding: 10rem 0rem 20rem 0rem;
   color: #fff;
   position: relative;
-  /* margin-top: 50px; */
 }
 
-.kodawari-back {
+.topimage-back {
   width: 100%;
   position: absolute;
   height: 100%;
@@ -54,10 +55,19 @@ export default {
   left: 0;
   background-color: rgba(0, 0, 0, 0.5);
 }
-.kosawari-text {
+.topimage-text {
   position: absolute;
   top: 50px;
   right: 50px;
+}
+
+.btn {
+  color: white;
+}
+
+.btn:hover {
+  color: black;
+  cursor: pointer;
 }
 
 .btn-1 {
