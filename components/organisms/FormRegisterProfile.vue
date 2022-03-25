@@ -1,46 +1,55 @@
 <template>
-  <form class="form form-register-profile" @submit.prevent>
-    <FormItemIcon :img="postData.thumbnail" type="file" @change="changeImg" />
-    <div class="content">
-      <div class="sns">
-        <IconBrand item-status="google" @click="loginGoogle" />
-        <IconBrand item-status="twitter" @click="loginTwitter" />
-        <IconBrand item-status="facebook" @click="loginFacebook" />
-      </div>
-      <div class="form">
-        <FormItemInput v-model="name" placeholder="ユーザー名" type="text" />
-        <FormItemInput
-          v-model="email"
-          required
-          placeholder="メールアドレス"
-          type="email"
-        />
-        <div class="input">
+  <v-row justify="center">
+    <form class="form form-register-profile" @submit.prevent>
+      <FormItemIcon :img="postData.thumbnail" type="file" @change="changeImg" />
+      <div class="content">
+        <div class="sns col-sm-6">
+          <IconBrand item-status="google" @click="loginGoogle" />
+          <IconBrand item-status="twitter" @click="loginTwitter" />
+        </div>
+        <div class="form col-sm-6">
+          <FormItemInput
+            v-model="name"
+            class="col-sm-12"
+            placeholder="ユーザー名"
+            type="text"
+          />
+          <FormItemInput
+            v-model="email"
+            class="col-sm-12"
+            required
+            placeholder="メールアドレス"
+            type="email"
+          />
           <div class="input">
-            <FormItemInput
-              v-model="password"
-              required
-              placeholder="パスワード"
-              type="password"
-            />
-            <FormItemInput
-              v-model="passwordCheck"
-              required
-              placeholder="パスワード（確認）"
-              type="password"
-            />
+            <div class="row input">
+              <FormItemInput
+                class="col-lg-6 col-sm-12"
+                v-model="password"
+                required
+                placeholder="パスワード"
+                type="password"
+              />
+              <FormItemInput
+                class="col-lg-6 col-sm-12"
+                v-model="passwordCheck"
+                required
+                placeholder="パスワード（確認）"
+                type="password"
+              />
+            </div>
+            <p class="placeholder">
+              半角英字、数字、記号を組み合わせて 8 文字以上で入力してください
+            </p>
           </div>
-          <p class="placeholder">
-            半角英字、数字、記号を組み合わせて 8 文字以上で入力してください
-          </p>
         </div>
       </div>
-    </div>
-    <div class="button">
-      <nuxt-link to="/login" class="link">代わりにログイン</nuxt-link>
-      <FormItemButton type="submit" label="次へ" @click="register" />
-    </div>
-  </form>
+      <div class="button">
+        <!-- <nuxt-link to="/auth/login" class="link">ログイン</nuxt-link> -->
+        <FormItemButton type="submit" label="次へ" @click="register" />
+      </div>
+    </form>
+  </v-row>
 </template>
 
 <script>
@@ -105,7 +114,7 @@ export default {
 
     > .sns {
       display: flex;
-      justify-content: space-between;
+      justify-content: space-around;
       width: 240px;
       margin-right: 40px;
 
