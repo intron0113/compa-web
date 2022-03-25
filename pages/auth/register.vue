@@ -1,12 +1,5 @@
 <template>
   <v-container>
-    <!-- <div class="page register">
-    <div class="form">
-      <p class="title">アカウントの作成</p>
-      <FormRegisterProfile />
-    </div>
-  </div> -->
-
     <v-row justify="center">
       <v-col
         class="
