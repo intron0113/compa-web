@@ -1,14 +1,45 @@
 <template>
-  <div class="page register">
+  <v-container>
+    <!-- <div class="page register">
     <div class="form">
       <p class="title">アカウントの作成</p>
       <FormRegisterProfile />
     </div>
-  </div>
+  </div> -->
+
+    <v-row justify="center">
+      <v-col
+        class="
+          col-lg-8
+          col-lg-offset-2
+          col-md-8
+          col-md-offset-2
+          col-sm-10
+          col-sm-offset-1
+        "
+      >
+        <div>
+          <div class="text-center">Co-mpaへようこそ！</div>
+          <div class="text-center">新規登録して利用を開始しましょう。</div>
+        </div>
+        <hr class="mb-10" />
+        <div class="row">
+          <FormRegisterProfile />
+        </div>
+      </v-col>
+      <v-col cols="12">
+        <p class="text-center">
+          アカウントお持ちの方は<a href="/auth/login">こちらからログイン</a>
+        </p>
+      </v-col>
+    </v-row>
+  </v-container>
 </template>
 
 <script>
-export default {};
+export default {
+  layout: "plain",
+};
 </script>
 
 <style lang="scss" scoped>

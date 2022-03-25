@@ -33,6 +33,7 @@ export default {
 <style lang="scss" scoped>
 .form-item-input {
   > .input {
+    outline: solid 2px gray;
     width: 100%;
     padding: 12px 16px;
     font-size: 16px;
