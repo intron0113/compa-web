@@ -8,36 +8,36 @@
           <IconBrand item-status="twitter" @click="loginTwitter" />
         </div>
         <div class="form col-sm-6">
-          <FormItemInput
-            v-model="name"
-            class="col-sm-12"
-            placeholder="ユーザー名"
-            type="text"
-          />
-          <FormItemInput
-            v-model="email"
-            class="col-sm-12"
-            required
-            placeholder="メールアドレス"
-            type="email"
-          />
-          <div class="input">
-            <div class="row input">
-              <FormItemInput
-                class="col-lg-6 col-sm-12"
-                v-model="password"
-                required
-                placeholder="パスワード"
-                type="password"
-              />
-              <FormItemInput
-                class="col-lg-6 col-sm-12"
-                v-model="passwordCheck"
-                required
-                placeholder="パスワード（確認）"
-                type="password"
-              />
-            </div>
+          <div class="row input">
+            <FormItemInput
+              v-model="name"
+              class="col-sm-12"
+              placeholder="ユーザー名"
+              type="text"
+            />
+            <FormItemInput
+              v-model="email"
+              class="col-sm-12"
+              required
+              placeholder="メールアドレス"
+              type="email"
+            />
+
+            <FormItemInput
+              class="col-lg-6 col-sm-12"
+              v-model="password"
+              required
+              placeholder="パスワード"
+              type="password"
+            />
+            <FormItemInput
+              class="col-lg-6 col-sm-12"
+              v-model="passwordCheck"
+              required
+              placeholder="パスワード（確認）"
+              type="password"
+            />
+
             <p class="placeholder">
               半角英字、数字、記号を組み合わせて 8 文字以上で入力してください
             </p>
@@ -164,7 +164,7 @@ export default {
   > .button {
     margin-top: 40px;
     display: flex;
-    justify-content: space-between;
+    justify-content: flex-end;
     align-items: center;
 
     > .link {
