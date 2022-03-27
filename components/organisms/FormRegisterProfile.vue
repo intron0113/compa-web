@@ -1,55 +1,57 @@
 <template>
-  <v-row justify="center">
-    <form class="form form-register-profile" @submit.prevent>
-      <FormItemIcon :img="postData.thumbnail" type="file" @change="changeImg" />
-      <div class="content">
-        <div class="sns col-sm-6">
-          <IconBrand item-status="google" @click="loginGoogle" />
-          <IconBrand item-status="twitter" @click="loginTwitter" />
-        </div>
-        <div class="form col-sm-6">
-          <div class="row input">
-            <FormItemInput
-              v-model="name"
-              class="col-sm-12"
-              placeholder="ユーザー名"
-              type="text"
-            />
-            <FormItemInput
-              v-model="email"
-              class="col-sm-12"
-              required
-              placeholder="メールアドレス"
-              type="email"
-            />
+  <div class="row">
+    <div class="sns col-sm-6">
+      <SocialRegister />
+    </div>
+    <div class="form col-sm-6 col-xs-12">
+      <form class="form form-register-profile" @submit.prevent>
+        <div class="v-row input">
+          <FormItemInput
+            v-model="name"
+            class="col-sm-12"
+            placeholder="ユーザー名"
+            type="text"
+          />
+          <FormItemInput
+            v-model="email"
+            class="col-sm-12"
+            required
+            placeholder="メールアドレス"
+            type="email"
+          />
 
-            <FormItemInput
-              class="col-lg-6 col-sm-12"
-              v-model="password"
-              required
-              placeholder="パスワード"
-              type="password"
-            />
-            <FormItemInput
-              class="col-lg-6 col-sm-12"
-              v-model="passwordCheck"
-              required
-              placeholder="パスワード（確認）"
-              type="password"
-            />
+          <FormItemInput
+            class="col-lg-6 col-sm-12"
+            v-model="password"
+            required
+            placeholder="パスワード"
+            type="password"
+          />
+          <FormItemInput
+            class="col-lg-6 col-sm-12"
+            v-model="passwordCheck"
+            required
+            placeholder="パスワード（確認）"
+            type="password"
+          />
 
-            <p class="placeholder">
-              半角英字、数字、記号を組み合わせて 8 文字以上で入力してください
-            </p>
-          </div>
+          <p class="placeholder">
+            半角英字、数字、記号を組み合わせて 8 文字以上で入力してください
+          </p>
         </div>
-      </div>
-      <div class="button">
-        <!-- <nuxt-link to="/auth/login" class="link">ログイン</nuxt-link> -->
-        <FormItemButton type="submit" label="次へ" @click="register" />
-      </div>
-    </form>
-  </v-row>
+
+        <FormItemIcon
+          :img="postData.thumbnail"
+          type="file"
+          @change="changeImg"
+        />
+        <p class="placeholder">好きな画像をアイコンに設定してください。</p>
+        <div class="button">
+          <FormItemButton type="submit" label="登録" @click="register" />
+        </div>
+      </form>
+    </div>
+  </div>
 </template>
 
 <script>
@@ -87,53 +89,13 @@ export default {
         });
       }
     },
-    loginGoogle() {
-      this.$store.dispatch("loginGoogle");
-    },
-    loginTwitter() {
-      this.$store.dispatch("loginTwitter");
-    },
-    loginFacebook() {
-      this.$store.dispatch("loginFacebook");
-    },
   },
 };
 </script>
 
 <style lang="scss" scoped>
 .form-register-profile {
-  > .form-item-icon {
-    margin: auto;
-    width: 120px;
-    height: 120px;
-  }
-
   > .content {
-    display: flex;
-    margin-top: 24px;
-
-    > .sns {
-      display: flex;
-      justify-content: space-around;
-      width: 240px;
-      margin-right: 40px;
-
-      > .icon {
-        border: 1px solid $blue;
-        width: 64px;
-        height: 64px;
-        border-radius: 50%;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-
-        > .icon-brand-google {
-          width: 32px;
-          height: 32px;
-        }
-      }
-    }
-
     > .form {
       width: calc(100% - 280px);
 
@@ -164,7 +126,7 @@ export default {
   > .button {
     margin-top: 40px;
     display: flex;
-    justify-content: flex-end;
+    justify-content: space-between;
     align-items: center;
 
     > .link {

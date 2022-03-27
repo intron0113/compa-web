@@ -71,7 +71,7 @@ export const actions = {
       const provider = new this.$fireModule.auth.GoogleAuthProvider();
       await this.$fire.auth.signInWithPopup(provider).then(() => {
         dispatch("checkLogin");
-        this.$router.push("/");
+        this.$router.push("/posts");
       });
     } catch (error) {
       console.log(error); //eslint-disable-line
@@ -82,7 +82,7 @@ export const actions = {
       const provider = new this.$fireModule.auth.TwitterAuthProvider();
       await this.$fire.auth.signInWithPopup(provider).then(() => {
         dispatch("checkLogin");
-        this.$router.push("/");
+        this.$router.push("/posts");
       });
     } catch (error) {
       console.log(error); //eslint-disable-line

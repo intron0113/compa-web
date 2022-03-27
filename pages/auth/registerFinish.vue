@@ -1,10 +1,11 @@
 <template>
   <div class="page register-finish">
     <div class="form">
-      <p class="title">アカウントの作成</p>
+      <p class="title">登録完了</p>
+      <hr class="mb-10" />
       <div class="text">
-        <p class="main">There is always light behind the clouds.</p>
-        <p class="sub">from Louisa May Alcott</p>
+        <p class="main">登録完了しました。</p>
+        <p class="sub">始めていきましょう。</p>
       </div>
       <FormItemButton
         label="始める"
@@ -16,7 +17,9 @@
 </template>
 
 <script>
-export default {};
+export default {
+  layout: "plain",
+};
 </script>
 
 <style lang="scss" scoped>
