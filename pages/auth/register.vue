@@ -16,9 +16,8 @@
           <div class="text-center">新規登録して利用を開始しましょう。</div>
         </div>
         <hr class="mb-10" />
-        <div class="row">
-          <FormRegisterProfile />
-        </div>
+
+        <FormRegisterProfile />
       </v-col>
       <v-col cols="12">
         <p class="text-center">
