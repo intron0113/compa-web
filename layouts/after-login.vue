@@ -108,9 +108,10 @@
             >
               <template v-slot:activator="{ on }">
                 <v-btn icon large class="mr-1" v-on="on">
-                  <v-avatar size="38px" item>
+                  <!-- <v-avatar size="38px" item>
                     <v-icon dark x-large>mdi-account-circle</v-icon>
-                  </v-avatar>
+                  </v-avatar> -->
+                  <IconUser :image="image" />
                 </v-btn>
               </template>
               <v-list dense>
@@ -238,66 +239,66 @@ export default {
       image: this.$store.getters.user.photoURL,
       search: false,
       drawer: null,
-      title: 'Compa',
+      title: "Compa",
       avatarMenuItems: [
-        { icon: '', text: 'マイページ', href: 'login/my-page-top' },
-        { icon: '', text: '新規投稿', href: 'login/posting' },
-        { icon: '', text: '新規イベント', href: 'login/events' },
-        { icon: 'mdi-logout', text: 'ログアウト', href: 'login/logout' },
+        { icon: "", text: "マイページ", href: "login/my-page-top" },
+        { icon: "", text: "新規投稿", href: "login/posting" },
+        { icon: "", text: "新規イベント", href: "login/events" },
+        { icon: "mdi-logout", text: "ログアウト", href: "login/logout" },
       ],
       footerMenuItems: [
-        { icon: '', text: 'About', href: '/login/about' },
-        { icon: '', text: '利用規約', href: '/login/terms-of-service' },
+        { icon: "", text: "About", href: "/login/about" },
+        { icon: "", text: "利用規約", href: "/login/terms-of-service" },
         {
-          icon: '',
-          text: 'プライバシーポリシー',
-          href: '/login/privacy-policy',
+          icon: "",
+          text: "プライバシーポリシー",
+          href: "/login/privacy-policy",
         },
       ],
-      author: 'Compa',
-      justify: 'space-between',
-    }
+      author: "Compa",
+      justify: "space-between",
+    };
   },
   methods: {
     toggleDrawer() {
-      this.drawer = !this.drawer
+      this.drawer = !this.drawer;
     },
     avatarMenuItemClick(href) {
       switch (href) {
-        case '/logout':
-          window.alert('TODO implement logout')
-          break
+        case "/logout":
+          window.alert("TODO implement logout");
+          break;
         default:
-          this.$router.push(href)
-          break
+          this.$router.push(href);
+          break;
       }
     },
     footerMenuItemClick(href) {
       switch (href) {
         default:
-          this.$router.push(href)
-          break
+          this.$router.push(href);
+          break;
       }
     },
     changeSerach() {
-      this.search = !this.search
+      this.search = !this.search;
     },
     setCanMessageSubmit() {
-      this.canMessageSubmit = true
+      this.canMessageSubmit = true;
     },
     say() {
       if (!this.canMessageSubmit) {
-        return
+        return;
       }
 
       // -- submit message -- //
 
-      this.$router.push('/login/serch')
-      this.message = ''
-      this.canMessageSubmit = false
+      this.$router.push("/login/serch");
+      this.message = "";
+      this.canMessageSubmit = false;
     },
   },
-}
+};
 </script>
 <style lang="scss" scoped>
 .serachMobile {
@@ -319,7 +320,7 @@ export default {
   width: 100%;
 
   > .title {
-    font-family: 'Pacifico', cursive;
+    font-family: "Pacifico", cursive;
     font-size: 22px;
     line-height: 120%;
   }

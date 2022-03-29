@@ -1,8 +1,6 @@
 <template>
   <div class="view view-chat">
-    <div class="top">
-      <p class="title">チャット</p>
-    </div>
+    <div class="top"></div>
     <ListChat :image="image" :name="name" />
     <FormChat />
   </div>
@@ -25,8 +23,6 @@ export default {
 
 <style lang="scss" scoped>
 .view-chat {
-  height: 100vh;
-
   > .top {
     padding: 12px 17px;
     border-bottom: 1px solid #bbbbbb;
