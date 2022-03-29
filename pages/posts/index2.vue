@@ -1,16 +1,15 @@
 <template>
-  <section>
-    <div class="page">
-      <div class="container">
-        <ViewChat :image="image" :name="name" />
-      </div>
+  <div class="page">
+    <NavHeader />
+    <div class="container">
+      <ViewChat :image="image" :name="name" />
+      <ViewTask />
     </div>
-  </section>
+  </div>
 </template>
 
 <script>
 export default {
-  layout: "after-login",
   async fetch({ store }) {
     await store.dispatch("checkLogin");
     store.dispatch("todo/getData");
