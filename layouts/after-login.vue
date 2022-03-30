@@ -209,7 +209,7 @@
             >&copy; {{ new Date().getFullYear() }} {{ author }}</span
           >
         </v-col>
-        <v-col>
+        <!-- <v-col>
           <v-list dense color="primary">
             <v-list-item
               v-for="(item, index) in footerMenuItems"
@@ -226,7 +226,7 @@
               </v-list-item-content>
             </v-list-item>
           </v-list>
-        </v-col>
+        </v-col> -->
       </v-row>
     </v-footer>
   </v-app>
@@ -247,7 +247,6 @@ export default {
         { icon: "mdi-logout", text: "ログアウト", href: "login/logout" },
       ],
       footerMenuItems: [
-        { icon: "", text: "About", href: "/login/about" },
         { icon: "", text: "利用規約", href: "/login/terms-of-service" },
         {
           icon: "",
