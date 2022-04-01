@@ -32,13 +32,17 @@ export default {
   },
 
   // Global CSS: https://go.nuxtjs.dev/config-css
-  css: ["~/assets/css/reset.css", "~/assets/scss/style.scss"],
+  css: [
+    "element-ui/lib/theme-chalk/index.css",
+    "~/assets/css/reset.css",
+    "~/assets/scss/style.scss",
+  ],
   styleResources: {
     scss: ["~/assets/scss/_color.scss", "~/assets/scss/_color.scss"],
   },
 
   // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
-  plugins: ["~/plugins/day.js"],
+  plugins: ["@/plugins/element-ui", "~/plugins/day.js", "@/plugins/moment"],
 
   // Auto import components: https://go.nuxtjs.dev/config-components
   components: [
@@ -61,6 +65,7 @@ export default {
     // https://go.nuxtjs.dev/axios
     "@nuxtjs/axios",
     "@nuxtjs/style-resources",
+    ["@nuxtjs/moment", ["ja"]],
     [
       "@nuxtjs/firebase",
       {
@@ -85,7 +90,7 @@ export default {
   ],
 
   // Axios module configuration: https://go.nuxtjs.dev/config-axios
-  axios: {},
+  axios: { baseURL: "https://compa-med-default-rtdb.firebaseio.com" },
   // Vuetify module configuration: https://go.nuxtjs.dev/config-vuetify
   vuetify: {
     customVariables: ["~/assets/variables.scss"],
@@ -113,5 +118,12 @@ export default {
   },
 
   // Build Configuration: https://go.nuxtjs.dev/config-build
-  build: {},
+  build: {
+    // vendeer: ["moment"],
+    // plugins: [
+    //   new MomentLocalesPlugin({
+    //     localesToKeep: ["es-us", "ja"],
+    //   }),
+    // ],
+  },
 };
