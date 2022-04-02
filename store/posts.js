@@ -2,11 +2,19 @@ import moment from "~/plugins/moment";
 
 export const state = () => ({
   posts: [],
+
+  // posts.js
+  todos: [],
 });
 
 export const getters = {
   posts: (state) =>
     state.posts.map((post) => Object.assign({ likes: [] }, post)),
+
+  // posts.js
+  todos: (state) => {
+    return state.todos;
+  },
 };
 
 export const mutations = {
@@ -18,6 +26,12 @@ export const mutations = {
   },
   clearPosts(state) {
     state.posts = [];
+  },
+
+  // posts.js
+
+  setData(state, data) {
+    state.todos = data;
   },
 };
 
@@ -70,5 +84,38 @@ export const actions = {
     post.likes = post.likes.filter((like) => like.user_id !== user.id) || [];
     const newPost = await this.$axios.$put(`/posts/${post.id}.json`, post);
     commit("updatePost", { post: newPost });
+  },
+
+  // posts.js
+
+  async submitTask({ dispatch }, { task, uid }) {
+    try {
+      await this.$fire.firestore.collection("task").doc().set({
+        task,
+        uid,
+      });
+      dispatch("getData");
+    } catch (error) {
+      console.log(error); //eslint-disable-line
+    }
+  },
+  async getData({ commit }) {
+    try {
+      const user = this.$fire.auth.currentUser;
+      console.log(user.uid);
+      const querySnapshot = await this.$fire.firestore
+        .collection("task")
+        .where("uid", "==", user.uid)
+        .get();
+      const todos = [];
+      querySnapshot.forEach((doc) => {
+        const data = doc.data();
+        console.log(data);
+        todos.push(data);
+      });
+      commit("setData", todos);
+    } catch (error) {
+      console.log(error);
+    }
   },
 };
