@@ -8,9 +8,9 @@ export const state = () => ({
 });
 
 export const getters = {
-  posts: (state) =>
-    state.posts.map((post) => Object.assign({ likes: [] }, post)),
-
+  posts: (state) => {
+    return state.posts;
+  },
   // posts.js
   todos: (state) => {
     return state.todos;
@@ -19,7 +19,7 @@ export const getters = {
 
 export const mutations = {
   addPost(state, { post }) {
-    state.posts.push(post);
+    state.posts = post;
   },
   updatePost(state, { post }) {
     state.posts = state.posts.map((p) => (p.id === post.id ? post : p));
