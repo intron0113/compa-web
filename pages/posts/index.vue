@@ -10,7 +10,7 @@
         @row-click="handleClick"
         class="table"
       >
-        <el-table-column prop="user.id" label="投稿者" width="180">
+        <el-table-column prop="uid" label="投稿者" width="180">
         </el-table-column>
         <el-table-column prop="title" label="タイトル">
           <!-- <template v-slot="scope">
@@ -21,8 +21,8 @@
             </span>
           </template> -->
         </el-table-column>
-        <el-table-column prop="created_at" label="投稿日時" width="240">
-        </el-table-column>
+        <!-- <el-table-column prop="created_at" label="投稿日時" width="240">
+        </el-table-column> -->
       </el-table>
     </el-card>
   </section>
@@ -42,26 +42,27 @@ export default {
       //   post.created_at = moment(post.created_at).format("YYYY/MM/DD HH:mm:ss");
       //   return post;
       // });
-      return [
-        {
-          id: "001",
-          title: "How to devlopment Nuxt.js Application",
-          body: "Lorem ipusm dolor sit amet,consectutr adipiscing elit...",
-          created_at: "2021/03/20 12:00:00",
-          user: {
-            id: "potato4d",
-          },
-        },
-        {
-          id: "002",
-          title: "How to devlopment Nuxt.js Application",
-          body: "Lorem ipusm dolor sit amet,consectutr adipiscing elit...",
-          created_at: "2021/03/20 12:00:00",
-          user: {
-            id: "potato4d",
-          },
-        },
-      ];
+      // return [
+      //   {
+      //     id: "001",
+      //     title: "How to devlopment Nuxt.js Application",
+      //     body: "Lorem ipusm dolor sit amet,consectutr adipiscing elit...",
+      //     created_at: "2021/03/20 12:00:00",
+      //     user: {
+      //       id: "potato4d",
+      //     },
+      //   },
+      //   {
+      //     id: "002",
+      //     title: "How to devlopment Nuxt.js Application",
+      //     body: "Lorem ipusm dolor sit amet,consectutr adipiscing elit...",
+      //     created_at: "2021/03/20 12:00:00",
+      //     user: {
+      //       id: "potato4d",
+      //     },
+      //   },
+      // ];
+      return this.$store.getters["posts / posts"];
     },
     // ...mapGetters("posts", ["posts"]),
   },

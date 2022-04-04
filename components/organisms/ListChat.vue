@@ -1,14 +1,14 @@
 <template>
   <div>
     <ul class="list list-chat">
-      <li
+      <!-- <li
         is="listItemChat"
         v-for="message in messages"
         :key="message.id"
         :messages="message"
         :image="image"
         :name="name"
-      ></li>
+      ></li> -->
       <!-- <ListItemChat /> -->
     </ul>
     <component :is="ListItemChat"> </component>

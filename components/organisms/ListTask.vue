@@ -1,11 +1,11 @@
 <template>
   <ul class="list list-task">
-    <li
+    <!-- <li
       is="ListItemTask"
       v-for="todo in todos"
       :key="todo.id"
       :todos="todo"
-    ></li>
+    ></li> -->
   </ul>
 </template>
 

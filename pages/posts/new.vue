@@ -23,8 +23,8 @@
 </template>
 
 <script>
-import { mapGetters, mapActions } from "vuex";
 export default {
+  layout: "after-login",
   // asyncData({ redirect, store }) {
   //   if (!store.getters["uid"]) {
   //     redirect("/");

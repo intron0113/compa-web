@@ -34,6 +34,9 @@ export const actions = {
         title,
         body,
       });
+      console.log(uid);
+      console.log(title);
+      console.log(body);
       dispatch("getData");
     } catch (error) {
       // console.log(title);
@@ -44,7 +47,7 @@ export const actions = {
     try {
       const user = this.$fire.auth.currentUser;
       console.log(user.uid);
-      const querySnapshot = await this.$firestore
+      const querySnapshot = await this.$fire.firestore
         .collection("posts")
         .where("uid", "==", user.uid)
         .get();
