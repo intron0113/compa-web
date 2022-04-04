@@ -12,7 +12,7 @@
             <v-toolbar-title
               style="width: 100%"
               class="ml-0 pl-4"
-              @click="$router.push('/login')"
+              @click="$router.push('/posts')"
             >
               <span class="white--text">{{ title }}</span>
               <v-spacer />
@@ -75,7 +75,7 @@
           </v-col>
           <!-- PC用記事投稿ボタン -->
           <v-col cols="2" class="d-none d-sm-block">
-            <v-btn depressed color="blue"> 投稿する </v-btn>
+            <v-btn depressed color="blue" to="posts/new"> 投稿する </v-btn>
           </v-col>
 
           <!-- モバイル用検索アイコン -->
@@ -242,7 +242,7 @@ export default {
       title: "Compa",
       avatarMenuItems: [
         { icon: "", text: "マイページ", href: "login/my-page-top" },
-        { icon: "", text: "新規投稿", href: "login/posting" },
+        { icon: "", text: "新規投稿", href: "posts/new" },
         { icon: "", text: "新規イベント", href: "login/events" },
         { icon: "mdi-logout", text: "ログアウト", href: "login/logout" },
       ],
