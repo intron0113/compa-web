@@ -13,7 +13,7 @@
         />
       </div>
       <div class="text-right" style="margin-top: 16px">
-        <el-button type="primary" @click="publish" round>
+        <el-button type="primary" @click="publishPost" round>
           <span class="el-icon-upload2" />
           <span>Publish</span>
         </el-button>
@@ -25,10 +25,11 @@
 <script>
 import { mapGetters, mapActions } from "vuex";
 export default {
-  asyncData({ redirect, store }) {
-    if (!store.getters["user"]) {
-      redirect("/");
-    }
+  // asyncData({ redirect, store }) {
+  //   if (!store.getters["uid"]) {
+  //     redirect("/");
+  //   }
+  data() {
     return {
       formData: {
         title: "",
@@ -37,19 +38,30 @@ export default {
     };
   },
   computed: {
-    ...mapGetters(["user"]),
+    uid() {
+      return this.$store.getters.user.uid;
+    },
   },
   methods: {
-    async publish() {
-      const payload = {
-        user: this.user,
-        ...this.formData,
-      };
-      await this.publishPost({ payload });
-      this.$router.push("/posts");
+    // async publish() {
+    //   const payload = {
+    //     user: this.uid,
+    //     ...this.formData,
+    //   };
+    //   await this.publishPost({ payload });
+    //   this.$router.push("/posts");
+    // },
+    // ...mapActions("users", ["updateUser"]),
+    // ...mapActions("posts", ["publishPost"]),
+    publishPost() {
+      this.$store.dispatch("posts/publishPost", {
+        uid: this.uid,
+        title: this.formData.title,
+        body: this.formData.body,
+      });
+      this.title = "";
+      this.body = "";
     },
-    ...mapActions("users", ["updateUser"]),
-    ...mapActions("posts", ["publishPost"]),
   },
 };
 </script>
