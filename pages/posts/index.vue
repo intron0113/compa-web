@@ -1,10 +1,10 @@
 <template>
   <section class="container posts-page">
-    <el-card style="flex: 1">
-      <div class="clearfix">
-        <span>新着投稿</span>
-      </div>
-      <el-table
+    <!-- <el-card style="flex: 1"> -->
+    <div class="clearfix">
+      <span>新着投稿</span>
+    </div>
+    <!-- <el-table
         :data="showPosts"
         style="width: 100%"
         @row-click="handleClick"
@@ -12,19 +12,26 @@
       >
         <el-table-column prop="uid" label="投稿者" width="180">
         </el-table-column>
-        <el-table-column prop="title" label="タイトル">
-          <!-- <template v-slot="scope">
+        <el-table-column prop="title" label="タイトル"> -->
+    <!-- <template v-slot="scope">
             <span>{{ scope.row.title }}&nbsp;</span>
             <span>
               <i class="el-icon-star-on" />
               <span>{{ scope.row.likes.length }}</span>
             </span>
           </template> -->
-        </el-table-column>
-        <!-- <el-table-column prop="created_at" label="投稿日時" width="240">
+    <!-- </el-table-column> -->
+    <!-- <el-table-column prop="created_at" label="投稿日時" width="240">
         </el-table-column> -->
-      </el-table>
-    </el-card>
+    <!-- </el-table>
+    </el-card> -->
+    <ul>
+      <li
+        v-for="showPost in showPosts"
+        :key="showPost.id"
+        :showPosts="showpost"
+      ></li>
+    </ul>
   </section>
 </template>
 
