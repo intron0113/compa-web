@@ -35,6 +35,7 @@ export const actions = {
         email: user.email,
         photoURL: user.photoURL,
       });
+      console.log(user);
     } catch (error) {
       console.log(error); //eslint-disable-line
     }

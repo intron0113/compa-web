@@ -27,6 +27,44 @@ export const mutations = {
 };
 
 export const actions = {
+  async fetchPost({ commit }, { uid }) {
+    const post = await this.$axios.$get(`/posts/${uid}.json`);
+    commit("addPost", { post: { ...post, uid } });
+  },
+  async fetchPosts({ commit }) {
+    // const posts = await this.$axios.$get(`/posts.json`);
+    // commit("clearPosts");
+    // Object.entries(posts || [])
+    //   .reverse()
+    //   .forEach(([uid, content]) =>
+    //     commit("addPost", {
+    //       post: {
+    //         uid,
+    //         ...content,
+    //       },
+    //     })
+    //   );
+    // console.log(commit);
+
+    try {
+      const user = this.$fire.auth.currentUser;
+      // console.log(user.uid);
+      const querySnapshot = await this.$fire.firestore
+        .collection("posts")
+        // .where("uid", "==", user.uid)
+        .get();
+      const posts = [];
+      querySnapshot.forEach((doc) => {
+        const data = doc.data();
+        console.log(data);
+        posts.push(data);
+      });
+      commit("setData", posts);
+    } catch (error) {
+      console.log(error);
+    }
+  },
+
   async publishPost({ dispatch }, { title, uid, body }) {
     try {
       await this.$fire.firestore.collection("posts").doc().set({
@@ -37,13 +75,13 @@ export const actions = {
       console.log(uid);
       console.log(title);
       console.log(body);
-      dispatch("getData");
+      dispatch("getPosts");
     } catch (error) {
       // console.log(title);
       console.log(error); //eslint-disable-line
     }
   },
-  async getData({ commit }) {
+  async getPosts({ commit }) {
     try {
       const user = this.$fire.auth.currentUser;
       console.log(user.uid);

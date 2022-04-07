@@ -26,11 +26,7 @@
     <!-- </el-table>
     </el-card> -->
     <ul>
-      <li
-        v-for="showPost in showPosts"
-        :key="showPost.id"
-        :showPosts="showpost"
-      ></li>
+      <li v-for="post in posts" :key="post.id" :posts="post"></li>
     </ul>
   </section>
 </template>
@@ -40,11 +36,11 @@
 // import { mapGetters } from "vuex";
 export default {
   layout: "after-login",
-  // async asyncData({ store }) {
-  //   await store.dispatch("posts/fetchPosts");
-  // },
+  async asyncData({ store }) {
+    await store.dispatch("posts/fetchPosts");
+  },
   computed: {
-    showPosts() {
+    posts() {
       // return this.posts.map((post) => {
       //   post.created_at = moment(post.created_at).format("YYYY/MM/DD HH:mm:ss");
       //   return post;
@@ -69,9 +65,9 @@ export default {
       //     },
       //   },
       // ];
-      return this.$store.getters["posts / posts"];
+      return this.$store.getters["posts/posts"];
+      // ...mapGetters("posts", ["posts"]),
     },
-    // ...mapGetters("posts", ["posts"]),
   },
   methods: {
     handleClick(post) {
