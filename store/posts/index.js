@@ -65,20 +65,23 @@ export const actions = {
     }
   },
 
-  async publishPost({ dispatch }, { title, uid, body }) {
+  async publishPost({ dispatch }, payload) {
     try {
       await this.$fire.firestore.collection("posts").doc().set({
-        uid,
-        title,
-        body,
+        uid: payload.uid,
+        title: payload.title,
+        body: payload.body,
+        // time: this.$fireModule.database.ServerValue.TIMESTAMP,
+        time: this.$fireModule.firestore.FieldValue.serverTimestamp(),
       });
-      console.log(uid);
-      console.log(title);
-      console.log(body);
+      // console.log(uid);
+      // console.log(title);
+      // console.log(body);
       dispatch("getPosts");
     } catch (error) {
       // console.log(title);
       console.log(error); //eslint-disable-line
+      console.log(payload); //eslint-disable-line
     }
   },
   async getPosts({ commit }) {
