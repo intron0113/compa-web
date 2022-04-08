@@ -29,7 +29,7 @@ export const mutations = {
 export const actions = {
   async fetchPost({ commit }, { uid }) {
     const post = await this.$axios.$get(`/posts/${uid}.json`);
-    commit("addPost", { post: { ...post, uid } });
+    commit("addPost", { poFFFFFFst: { ...post, uid } });
   },
   async fetchPosts({ commit }) {
     // const posts = await this.$axios.$get(`/posts.json`);
@@ -53,6 +53,7 @@ export const actions = {
         .collection("posts")
         // .where("uid", "==", user.uid)
         .get();
+
       const posts = [];
       querySnapshot.forEach((doc) => {
         const data = doc.data();
