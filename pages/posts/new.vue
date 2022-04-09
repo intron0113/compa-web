@@ -41,6 +41,12 @@ export default {
     uid() {
       return this.$store.getters.user.uid;
     },
+    name() {
+      return this.$store.getters.user.name;
+    },
+    photoURL() {
+      return this.$store.getters.user.photoURL;
+    },
   },
   methods: {
     // async publish() {
@@ -55,6 +61,8 @@ export default {
     // ...mapActions("posts", ["publishPost"]),
     publishPost() {
       this.$store.dispatch("posts/publishPost", {
+        photoURL: this.photoURL,
+        name: this.name,
         uid: this.uid,
         title: this.formData.title,
         body: this.formData.body,

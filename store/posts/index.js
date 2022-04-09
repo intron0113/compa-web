@@ -67,12 +67,17 @@ export const actions = {
   },
 
   async publishPost({ dispatch }, payload) {
+    const collection = this.$fire.firestore.collection("posts");
+    const newId = collection.doc().id;
+
     try {
-      await this.$fire.firestore.collection("posts").doc().set({
+      await collection.doc(newId).set({
+        postId: newId,
+        photoURL: payload.photoURL,
+        name: payload.name,
         uid: payload.uid,
         title: payload.title,
         body: payload.body,
-        // time: this.$fireModule.database.ServerValue.TIMESTAMP,
         time: this.$fireModule.firestore.FieldValue.serverTimestamp(),
       });
       // console.log(uid);

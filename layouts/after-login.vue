@@ -111,7 +111,7 @@
                   <!-- <v-avatar size="38px" item>
                     <v-icon dark x-large>mdi-account-circle</v-icon>
                   </v-avatar> -->
-                  <IconUser :image="image" />
+                  <NavHeader />
                 </v-btn>
               </template>
               <v-list dense>
@@ -236,7 +236,6 @@
 export default {
   data() {
     return {
-      image: this.$store.getters.user.photoURL,
       search: false,
       drawer: null,
       title: "Compa",
