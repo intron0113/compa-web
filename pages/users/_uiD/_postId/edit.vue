@@ -1,8 +1,12 @@
 <template>
   <section class="container posts-page">
-    <el-card style="flex: 1">
+    <el-card style="flex: 1" v-for="(post, index) in selectPost" :key="index">
       <div class="clearfix">
-        <el-input placeholder="タイトルを入力" v-model="formData.title" />
+        <el-input
+          value="post.title"
+          placeholder="タイトルを入力"
+          v-model="formData.title"
+        />
       </div>
       <div>
         <el-input
@@ -25,10 +29,18 @@
 <script>
 export default {
   layout: "after-login",
-  // asyncData({ redirect, store }) {
-  //   if (!store.getters["uid"]) {
-  //     redirect("/");
-  //   }
+  async asyncData({ store, route, error }) {
+    const id = route.params;
+    console.log(id);
+    try {
+      await store.dispatch("posts/getPost", {
+        postId: id.postId,
+        uid: id.uid,
+      });
+    } catch (e) {
+      error({ statusCode: 404 });
+    }
+  },
   data() {
     return {
       formData: {
@@ -38,6 +50,9 @@ export default {
     };
   },
   computed: {
+    selectPost() {
+      return this.$store.getters["posts/selectPost"];
+    },
     uid() {
       return this.$store.getters.user.uid;
     },
@@ -69,7 +84,6 @@ export default {
       });
       this.title = "";
       this.body = "";
-      this.$router.push("/user/editComplete");
     },
   },
 };
