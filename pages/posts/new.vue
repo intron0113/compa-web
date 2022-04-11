@@ -32,7 +32,7 @@ export default {
   data() {
     return {
       formData: {
-        title: "",
+        title: "無題",
         body: "",
       },
     };

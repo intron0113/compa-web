@@ -1,6 +1,6 @@
 <template>
   <section class="container posts-page">
-    <el-card style="flex: 1" v-for="(post, index) in selectPost" :key="index">
+    <el-card style="flex: 1">
       <div class="clearfix">
         <el-input
           value="post.title"
@@ -43,16 +43,28 @@ export default {
   },
   data() {
     return {
-      formData: {
-        title: "",
-        body: "",
-      },
+      //   formData: {
+      //     title: "",
+      //     body: "",
+      //   },
     };
   },
   computed: {
-    selectPost() {
+    formData() {
       return this.$store.getters["posts/selectPost"];
     },
+
+    // selectPost() {
+    //   return this.$store.getters[
+    //     ("posts/selectPost",
+    //     {
+    //       formData: {
+    //         title: "selectPost.title",
+    //         body: "selectPost.body",
+    //       },
+    //     })
+    //   ];
+    // },
     uid() {
       return this.$store.getters.user.uid;
     },
