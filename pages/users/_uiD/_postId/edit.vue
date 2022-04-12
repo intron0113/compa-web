@@ -2,11 +2,7 @@
   <section class="container posts-page">
     <el-card style="flex: 1">
       <div class="clearfix">
-        <el-input
-          value="post.title"
-          placeholder="タイトルを入力"
-          v-model="formData.title"
-        />
+        <el-input placeholder="タイトルを入力" v-model="formData.title" />
       </div>
       <div>
         <el-input
@@ -15,6 +11,8 @@
           rows="15"
           v-model="formData.body"
         />
+        {{ formData }}
+        <!-- {{ formDatta.title }} -->
       </div>
       <div class="text-right" style="margin-top: 16px">
         <el-button type="primary" @click="publishPost" round>

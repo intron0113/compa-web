@@ -12,6 +12,10 @@ export const getters = {
   selectPost: (state) => {
     return state.selectPost;
   },
+
+  selectTitle: (state, getters) => {
+    return getters.selectPost.forEach((selectPost) => selectPost.title);
+  },
 };
 
 export const mutations = {
