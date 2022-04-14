@@ -1,20 +1,17 @@
 <template>
   <v-app>
     <v-main background-colorr:secondary>
-      <v-container
-        class="py-8 px-6"
-        fluid
-      >
+      <v-container class="py-8 px-6" fluid>
         <v-row>
           <v-col cols="12">
             <v-suheader>{{ post }}</v-suheader>
           </v-col>
-          <!-- <v-col cols="12">
+          <v-col cols="12">
             <select>
               <option>新しい順</option>
               <option>古い順</option>
             </select>
-          </v-col> -->
+          </v-col>
           <v-col cols="12">
             <v-card>
               <v-list two-line>
@@ -30,21 +27,19 @@
                         :src="post.photoURL"
                         alt="プロフィール画像"
                         class="image"
-                      >
+                      />
                       <img
                         v-else
                         src="/atoms/icons/user.jpg"
                         alt="プロフィール画像"
                         class="image"
-                      >
+                      />
                     </div>
 
                     <v-list-item-content>
-                      <v-list-item-subtitle>
-                        {{
-                          post.name
-                        }}
-                      </v-list-item-subtitle>
+                      <v-list-item-subtitle>{{
+                        post.name
+                      }}</v-list-item-subtitle>
 
                       <v-list-item-subtitle>
                         投稿日 {{ postedDay(post.time) }}
@@ -59,7 +54,7 @@
                     v-if="post !== 10"
                     :key="`divider-${post}`"
                     inset
-                  />
+                  ></v-divider>
                 </template>
               </v-list>
             </v-card>
@@ -72,7 +67,7 @@
                   v-model="page"
                   :length="length"
                   @input="pageChange"
-                />
+                ></v-pagination>
               </v-content>
             </v-col>
           </v-row>
@@ -150,7 +145,6 @@ export default {
   min-width: 32px;
   height: 32px;
   overflow: hidden;
-  margin-right: 10px;
 
   > .image {
     width: 100%;

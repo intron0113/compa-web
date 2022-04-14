@@ -1,13 +1,23 @@
 <template>
   <div class="page register-finish">
     <div class="form">
-      <p class="title">記事を削除する</p>
-      <hr class="mb-10" />
+      <p class="title">
+        記事を削除する
+      </p>
+      <hr class="mb-10">
       <div class="text">
-        <p class="main">記事を削除しますか？</p>
-        <p class="sub">一度削除したデータは復旧できません</p>
+        <p class="main">
+          記事を削除しますか？
+        </p>
+        <p class="sub">
+          一度削除したデータは復旧できません
+        </p>
       </div>
-      <FormItemButton label="削除" type="button" @click="deletePost" />
+      <FormItemButton
+        label="削除"
+        type="button"
+        @click="deletePost"
+      />
     </div>
   </div>
 </template>

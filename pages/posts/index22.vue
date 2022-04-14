@@ -7,13 +7,19 @@
       <el-table
         :data="posts"
         style="width: 100%"
-        @row-click="handleClick"
         class="table"
+        @row-click="handleClick"
       >
-        <el-table-column prop="uid" label="投稿者" width="180">
-        </el-table-column>
-        <el-table-column prop="title" label="タイトル">
-          <template v-slot="scope">
+        <el-table-column
+          prop="uid"
+          label="投稿者"
+          width="180"
+        />
+        <el-table-column
+          prop="title"
+          label="タイトル"
+        >
+          <template #default="scope">
             <span>{{ scope.row.title }}&nbsp;</span>
             <!-- <span>
               <i class="el-icon-star-on" />
@@ -26,7 +32,11 @@
       </el-table>
     </el-card>
     <ul>
-      <li v-for="post in posts" :key="post.id" :posts="post"></li>
+      <li
+        v-for="post in posts"
+        :key="post.id"
+        :posts="post"
+      />
     </ul>
   </section>
 </template>

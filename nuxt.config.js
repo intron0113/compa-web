@@ -42,7 +42,15 @@ export default {
   },
 
   // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
-  plugins: ["@/plugins/element-ui", "~/plugins/day.js", "@/plugins/moment"],
+  plugins: [
+    "@/plugins/element-ui",
+    "~/plugins/day.js",
+    "@/plugins/moment",
+    {
+      src: "@/plugins/plugin",
+      mode: "client",
+    },
+  ],
 
   // Auto import components: https://go.nuxtjs.dev/config-components
   components: [
@@ -63,6 +71,7 @@ export default {
   // Modules: https://go.nuxtjs.dev/config-modules
   modules: [
     // https://go.nuxtjs.dev/axios
+    "@nuxtjs/markdownit",
     "@nuxtjs/axios",
     "@nuxtjs/style-resources",
     ["@nuxtjs/moment", ["ja"]],
@@ -88,6 +97,9 @@ export default {
       },
     ],
   ],
+  markdownit: {
+    injected: true,
+  },
 
   // Axios module configuration: https://go.nuxtjs.dev/config-axios
   axios: { baseURL: "https://compa-med-default-rtdb.firebaseio.com" },
