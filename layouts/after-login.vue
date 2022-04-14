@@ -20,19 +20,7 @@
           </v-col>
           <v-col cols="6" md="7" class="d-none d-sm-block">
             <div
-              class="
-                v-input
-                mx-2 mx-md-4
-                v-input--hide-details v-input--dense
-                theme--light
-                v-text-field
-                v-text-field--single-line
-                v-text-field--solo
-                v-text-field--is-booted
-                v-text-field--enclosed
-                v-text-field--placeholder
-                rounded-lg
-              "
+              class="v-input mx-2 mx-md-4 v-input--hide-details v-input--dense theme--light v-text-field v-text-field--single-line v-text-field--solo v-text-field--is-booted v-text-field--enclosed v-text-field--placeholder rounded-lg"
               style="max-width: 450px"
               data-v-7f162986=""
             >
@@ -52,16 +40,16 @@
                       >
                         <path
                           d="M9.5,3A6.5,6.5 0 0,1 16,9.5C16,11.11 15.41,12.59 14.44,13.73L14.71,14H15.5L20.5,19L19,20.5L14,15.5V14.71L13.73,14.44C12.59,15.41 11.11,16 9.5,16A6.5,6.5 0 0,1 3,9.5A6.5,6.5 0 0,1 9.5,3M9.5,5C7,5 5,7 5,9.5C5,12 7,14 9.5,14C12,14 14,12 14,9.5C14,7 12,5 9.5,5Z"
-                        ></path></svg
+                        /></svg
                     ></span>
                   </div>
                   <div class="v-text-field__slot">
                     <input
+                      id="input-18"
                       autocomplete="off"
                       role="button"
                       aria-haspopup="true"
                       aria-expanded="false"
-                      id="input-18"
                       placeholder="compa内検索"
                       type="text"
                       value=""
@@ -75,7 +63,7 @@
           </v-col>
           <!-- PC用記事投稿ボタン -->
           <v-col cols="2" class="d-none d-sm-block">
-            <v-btn depressed color="blue" to="posts/new"> 投稿する </v-btn>
+            <v-btn depressed color="blue" to="/posts/new"> 投稿する </v-btn>
           </v-col>
 
           <!-- モバイル用検索アイコン -->
@@ -94,7 +82,7 @@
                 >
                   <path
                     d="M9.5,3A6.5,6.5 0 0,1 16,9.5C16,11.11 15.41,12.59 14.44,13.73L14.71,14H15.5L20.5,19L19,20.5L14,15.5V14.71L13.73,14.44C12.59,15.41 11.11,16 9.5,16A6.5,6.5 0 0,1 3,9.5A6.5,6.5 0 0,1 9.5,3M9.5,5C7,5 5,7 5,9.5C5,12 7,14 9.5,14C12,14 14,12 14,9.5C14,7 12,5 9.5,5Z"
-                  ></path></svg
+                  /></svg
               ></span>
             </v-btn>
           </v-col>
@@ -106,7 +94,7 @@
               :close-on-click="true"
               :close-on-content-click="true"
             >
-              <template v-slot:activator="{ on }">
+              <template #activator="{ on }">
                 <v-btn icon large class="mr-1" v-on="on">
                   <!-- <v-avatar size="38px" item>
                     <v-icon dark x-large>mdi-account-circle</v-icon>
@@ -142,21 +130,7 @@
       <v-container>
         <!-- モバイル検索 -->
         <div
-          class="
-            serachMobile
-            v-input
-            mx-2 mx-md-4
-            v-input--hide-details v-input--dense
-            theme--light
-            v-text-field
-            v-text-field--single-line
-            v-text-field--solo
-            v-text-field--is-booted
-            v-text-field--enclosed
-            v-text-field--placeholder
-            rounded-lg
-            d-block d-sm-none
-          "
+          class="serachMobile v-input mx-2 mx-md-4 v-input--hide-details v-input--dense theme--light v-text-field v-text-field--single-line v-text-field--solo v-text-field--is-booted v-text-field--enclosed v-text-field--placeholder rounded-lg d-block d-sm-none"
           style="max-width: 90%"
           data-v-7f162986=""
         >
@@ -179,16 +153,16 @@
                   >
                     <path
                       d="M9.5,3A6.5,6.5 0 0,1 16,9.5C16,11.11 15.41,12.59 14.44,13.73L14.71,14H15.5L20.5,19L19,20.5L14,15.5V14.71L13.73,14.44C12.59,15.41 11.11,16 9.5,16A6.5,6.5 0 0,1 3,9.5A6.5,6.5 0 0,1 9.5,3M9.5,5C7,5 5,7 5,9.5C5,12 7,14 9.5,14C12,14 14,12 14,9.5C14,7 12,5 9.5,5Z"
-                    ></path></svg
+                    /></svg
                 ></span>
               </div>
               <div class="v-text-field__slot">
                 <input
+                  id="input-18"
                   autocomplete="off"
                   role="button"
                   aria-haspopup="true"
                   aria-expanded="false"
-                  id="input-18"
                   placeholder="検索"
                   type="text"
                   value=""
@@ -236,14 +210,14 @@
 export default {
   data() {
     return {
+      uid: this.$store.getters.user.uid,
       search: false,
       drawer: null,
       title: "Compa",
       avatarMenuItems: [
-        { icon: "", text: "マイページ", href: "login/my-page-top" },
-        { icon: "", text: "新規投稿", href: "posts/new" },
-        { icon: "", text: "新規イベント", href: "login/events" },
-        { icon: "mdi-logout", text: "ログアウト", href: "login/logout" },
+        { icon: "", text: "マイページ", href: "/users" },
+        { icon: "", text: "新規投稿", href: "/posts/new" },
+        { icon: "mdi-logout", text: "ログアウト", href: "/auth/logout" },
       ],
       footerMenuItems: [
         { icon: "", text: "利用規約", href: "/login/terms-of-service" },
@@ -257,14 +231,19 @@ export default {
       justify: "space-between",
     };
   },
+
   methods: {
+    openMypame(post) {
+      this.$router.push(`/users/${this.uid}`);
+    },
     toggleDrawer() {
       this.drawer = !this.drawer;
     },
     avatarMenuItemClick(href) {
       switch (href) {
-        case "/logout":
-          window.alert("TODO implement logout");
+        case "/users":
+          this.$router.push(`/users/${this.uid}`);
+          // window.alert("TODO implement logout");
           break;
         default:
           this.$router.push(href);

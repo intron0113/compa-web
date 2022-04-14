@@ -1,34 +1,31 @@
 <template>
   <v-app>
     <v-main background-colorr:secondary>
-      <v-container
-        class="py-8 px-6"
-        v-for="(post, index) in selectPost"
-        :key="index"
-        fluid
-      >
+      <v-container class="py-8 px-6" fluid>
         <v-row>
           <v-col cols="4" md="2">
             <v-card elevation="5 py-3">
               <v-card-actions class="justify-center px-6 py-3">
                 <v-btn
-                  @click="editPost(post, index)"
                   block
                   color="accent"
                   depressed
                   elevation="2"
-                  >編集</v-btn
+                  @click="editPost(post, index)"
                 >
+                  編集
+                </v-btn>
               </v-card-actions>
               <v-card-actions class="justify-center px-6 py-3">
                 <v-btn
-                  @click="deletePost(post, index)"
                   block
                   color="accent"
                   depressed
                   elevation="2"
-                  >削除</v-btn
+                  @click="deletePost(post, index)"
                 >
+                  削除
+                </v-btn>
               </v-card-actions>
             </v-card>
           </v-col>
@@ -37,8 +34,8 @@
               <v-list-item>
                 <div class="icon icon-user">
                   <img
-                    v-if="!!post.photoURL"
-                    :src="post.photoURL"
+                    v-if="!!photoURL"
+                    :src="photoURL"
                     alt="プロフィール画像"
                     class="image"
                   />
@@ -51,25 +48,31 @@
                 </div>
 
                 <v-list-item-content>
-                  <v-list-item-title>{{ post.name }}</v-list-item-title>
+                  <v-list-item-title>{{ name }}</v-list-item-title>
 
                   <v-list-item-subtitle>
-                    {{ postedDay(post.time) }}に投稿
+                    <!-- {{ postedDay(time) }}に投稿 -->
+                    {{ time }}に投稿
                   </v-list-item-subtitle>
                 </v-list-item-content>
               </v-list-item>
               <v-list-item three-line>
                 <v-list-item-content>
-                  <v-list-item-title class="text-h5 mb-1">{{
-                    post.title
-                  }}</v-list-item-title>
+                  <v-list-item-title class="text-h5 mb-1">
+                    {{ title }}
+                  </v-list-item-title>
                 </v-list-item-content>
               </v-list-item>
             </v-card>
 
             <v-card class="mt-4">
               <v-card-text>
-                {{ post.body }}
+                <!-- {{ post.body }}
+                <div
+                  class="m-editor-preview"
+                  v-html="displayTitle(post.body)"
+                /> -->
+                <div class="m-editor-preview" v-html="$md.render(markdown)" />
               </v-card-text>
             </v-card>
           </v-col>
@@ -95,8 +98,27 @@ export default {
       error({ statusCode: 404 });
     }
   },
-  data: () => ({}),
+  data() {
+    return {
+      // body: this.$store.getters["posts/selectPost.body"],
+      // name: this.$store.getters["posts/selectPost.name"],
+      photoURL: this.$store.getters["posts/selectPost.photoURL"],
+      postId: this.$store.getters["posts/selectPost.postId"],
+      time: this.$store.getters["posts/selectPost.tims"],
+      title: this.$store.getters["posts/selectPost.title"],
+      uid: this.$store.getters["posts/selectPost.uid"],
+      markdown: "# Hello World!",
+    };
+  },
   computed: {
+    body() {
+      // return thisthis.$store.getters["posts/selectPost.body"];
+      this.$store.getters["posts/selectPost.body"];
+      return console.log(body);
+    },
+    name() {
+      return this.$store.getters["posts/selectPost.name"];
+    },
     selectPost() {
       return this.$store.getters["posts/selectPost"];
     },
@@ -121,6 +143,10 @@ export default {
     },
     toComment() {
       this.comment = !this.comment;
+    },
+
+    displayTitle: function (text) {
+      return text.split(/\n/);
     },
   },
 };

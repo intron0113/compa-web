@@ -2,20 +2,30 @@
   <section class="container posts-page">
     <el-card style="flex: 1">
       <div class="clearfix">
-        <el-input placeholder="タイトルを入力" v-model="formData.title" />
+        <el-input
+          v-model="formData.title"
+          placeholder="タイトルを入力"
+        />
       </div>
       <div>
         <el-input
+          v-model="formData.body"
           placeholder="本文を入力……"
           type="textarea"
           rows="15"
-          v-model="formData.body"
         />
         {{ formData }}
         <!-- {{ formDatta.title }} -->
       </div>
-      <div class="text-right" style="margin-top: 16px">
-        <el-button type="primary" @click="publishPost" round>
+      <div
+        class="text-right"
+        style="margin-top: 16px"
+      >
+        <el-button
+          type="primary"
+          round
+          @click="publishPost"
+        >
           <span class="el-icon-upload2" />
           <span>Publish</span>
         </el-button>
@@ -45,10 +55,16 @@ export default {
       //     title: "",
       //     body: "",
       //   },
+      formData: [],
     };
   },
+  // mounted() {
+  //   return this.$store.getters["posts/selectPost"].then(
+  //     (response) => (this.formData = response.data)
+  //   );
+  // },
   computed: {
-    formData() {
+    formDatas() {
       return this.$store.getters["posts/selectPost"];
     },
 
