@@ -47,6 +47,10 @@ export const mutations = {
 };
 
 export const actions = {
+  async fetchMembers({ commit }, payload) {
+    return commit("setPost", payload);
+  },
+
   async fetchPost({ commit }, { uid }) {
     const post = await this.$axios.$get(`/posts/${uid}.json`);
     commit("addPost", { poFFFFFFst: { ...post, uid } });
@@ -134,6 +138,45 @@ export const actions = {
     }
   },
 
+  async deletePost({ dispatch }, payload) {
+    const collection = this.$fire.firestore.collection("posts");
+
+    try {
+      await collection.doc(payload.postId).delete();
+      // console.log(uid);
+      // console.log(title);
+      // console.log(body);
+      dispatch("getPosts");
+    } catch (error) {
+      // console.log(title);
+      console.log(error); //eslint-disable-line
+      console.log(payload); //eslint-disable-line
+    }
+  },
+  async updatePost({ dispatch }, payload) {
+    const collection = this.$fire.firestore.collection("posts");
+    const newId = collection.doc().id;
+
+    try {
+      await collection.doc(payload.postId).update({
+        postId: payload.postId,
+        photoURL: payload.photoURL,
+        name: payload.name,
+        uid: payload.uid,
+        title: payload.title,
+        body: payload.body,
+        time: this.$fireModule.firestore.FieldValue.serverTimestamp(),
+      });
+      // console.log(uid);
+      // console.log(title);
+      // console.log(body);
+      dispatch("getPosts");
+    } catch (error) {
+      // console.log(title);
+      console.log(error); //eslint-disable-line
+      console.log(payload); //eslint-disable-line
+    }
+  },
   async publishPost({ dispatch }, payload) {
     const collection = this.$fire.firestore.collection("posts");
     const newId = collection.doc().id;

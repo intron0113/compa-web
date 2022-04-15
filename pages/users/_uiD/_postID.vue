@@ -11,7 +11,7 @@
                   color="accent"
                   depressed
                   elevation="2"
-                  @click="editPost(post, index)"
+                  @click="editPost(selectPost)"
                 >
                   編集
                 </v-btn>
@@ -22,7 +22,7 @@
                   color="accent"
                   depressed
                   elevation="2"
-                  @click="deletePost(post, index)"
+                  @click="deletePost(selectPost)"
                 >
                   削除
                 </v-btn>
@@ -32,34 +32,19 @@
           <v-col cols="12" md="10">
             <v-card class="mx-auto" outlined>
               <v-list-item>
-                <div class="icon icon-user">
-                  <img
-                    v-if="!!photoURL"
-                    :src="photoURL"
-                    alt="プロフィール画像"
-                    class="image"
-                  />
-                  <img
-                    v-else
-                    src="/atoms/icons/user.jpg"
-                    alt="プロフィール画像"
-                    class="image"
-                  />
-                </div>
-
+                <IconUser :image="selectPost.photoURL" />
                 <v-list-item-content>
-                  <v-list-item-title>{{ name }}</v-list-item-title>
+                  <v-list-item-title>{{ selectPost.name }}</v-list-item-title>
 
                   <v-list-item-subtitle>
-                    <!-- {{ postedDay(time) }}に投稿 -->
-                    {{ time }}に投稿
+                    {{ postedDay(selectPost.time) }}に投稿
                   </v-list-item-subtitle>
                 </v-list-item-content>
               </v-list-item>
               <v-list-item three-line>
                 <v-list-item-content>
                   <v-list-item-title class="text-h5 mb-1">
-                    {{ title }}
+                    {{ selectPost.title }}
                   </v-list-item-title>
                 </v-list-item-content>
               </v-list-item>
@@ -67,12 +52,11 @@
 
             <v-card class="mt-4">
               <v-card-text>
-                <!-- {{ post.body }}
-                <div
+                <!-- <div
                   class="m-editor-preview"
-                  v-html="displayTitle(post.body)"
+                  v-html="$md.render(selectPost.body)"
                 /> -->
-                <div class="m-editor-preview" v-html="$md.render(markdown)" />
+                <div v-html="$md.render(selectPost.body)" />
               </v-card-text>
             </v-card>
           </v-col>
@@ -80,7 +64,6 @@
       </v-container>
     </v-main>
   </v-app>
-  <!-- </div> -->
 </template>
 <script>
 export default {
@@ -99,37 +82,20 @@ export default {
     }
   },
   data() {
-    return {
-      // body: this.$store.getters["posts/selectPost.body"],
-      // name: this.$store.getters["posts/selectPost.name"],
-      photoURL: this.$store.getters["posts/selectPost.photoURL"],
-      postId: this.$store.getters["posts/selectPost.postId"],
-      time: this.$store.getters["posts/selectPost.tims"],
-      title: this.$store.getters["posts/selectPost.title"],
-      uid: this.$store.getters["posts/selectPost.uid"],
-      markdown: "# Hello World!",
-    };
+    return {};
   },
   computed: {
-    body() {
-      // return thisthis.$store.getters["posts/selectPost.body"];
-      this.$store.getters["posts/selectPost.body"];
-      return console.log(body);
-    },
-    name() {
-      return this.$store.getters["posts/selectPost.name"];
-    },
     selectPost() {
       return this.$store.getters["posts/selectPost"];
     },
   },
 
   methods: {
-    editPost(post) {
-      this.$router.push(`/users/${post.uid}/${post.postId}/edit`);
+    editPost(selectPost) {
+      this.$router.push(`/users/${selectPost.uid}/${selectPost.postId}/edit`);
     },
-    deletePost(post) {
-      this.$router.push(`/users/${post.uid}/${post.postId}/delete`);
+    deletePost(selectPost) {
+      this.$router.push(`/users/${selectPost.uid}/${selectPost.postId}/delete`);
     },
     postedDay(timestamp) {
       return timestamp.toDate().toLocaleString("ja-JP");
