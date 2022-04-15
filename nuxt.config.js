@@ -36,6 +36,7 @@ export default {
     "element-ui/lib/theme-chalk/index.css",
     "~/assets/css/reset.css",
     "~/assets/scss/style.scss",
+    "simplemde/dist/simplemde.min.css",
   ],
   styleResources: {
     scss: ["~/assets/scss/_color.scss", "~/assets/scss/_color.scss"],
@@ -50,6 +51,7 @@ export default {
       src: "@/plugins/plugin",
       mode: "client",
     },
+    { src: "~plugins/nuxt-simplemde-plugin.js", mode: "client" },
   ],
 
   // Auto import components: https://go.nuxtjs.dev/config-components
