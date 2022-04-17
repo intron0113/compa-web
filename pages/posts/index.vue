@@ -1,10 +1,7 @@
 <template>
   <v-app>
     <v-main background-colorr:secondary>
-      <v-container
-        class="py-8 px-6"
-        fluid
-      >
+      <v-container class="py-8 px-6" fluid>
         <v-row>
           <v-col cols="12">
             <v-suheader>{{ post }}</v-suheader>
@@ -16,66 +13,62 @@
             </select>
           </v-col> -->
           <v-col cols="12">
-            <v-card>
+            <v-card class="px-5">
+              <v-col clos="12">
+                <v-subheader>投稿記事</v-subheader>
+              </v-col>
+
               <v-list two-line>
-                <template>
-                  <v-list-item
-                    v-for="(post, index) in posts"
-                    :key="index"
-                    @click="openPost(post, index)"
-                  >
-                    <div class="icon icon-user">
+                <v-card
+                  v-for="post in displayLists"
+                  :key="post.index"
+                  @click="openPost(post, index)"
+                >
+                  <v-row>
+                    <v-col class="mx-3" cols="12" lg="8">
+                      <!-- <div class="icon icon-user"> -->
                       <img
                         v-if="!!post.photoURL"
                         :src="post.photoURL"
                         alt="プロフィール画像"
-                        class="image"
-                      >
+                        class="image icon icon-user"
+                      />
                       <img
                         v-else
                         src="/atoms/icons/user.jpg"
                         alt="プロフィール画像"
-                        class="image"
-                      >
-                    </div>
+                        class="image icon icon-user"
+                      />
+                      <!-- </div> -->
 
-                    <v-list-item-content>
-                      <v-list-item-subtitle>
-                        {{
-                          post.name
-                        }}
-                      </v-list-item-subtitle>
+                      <v-list-item-content>
+                        <v-list-item-subtitle>
+                          {{ post.name }}
+                        </v-list-item-subtitle>
 
-                      <v-list-item-subtitle>
-                        投稿日 {{ postedDay(post.time) }}
-                      </v-list-item-subtitle>
-                      <v-list-item-title>
-                        {{ post.title }}
-                      </v-list-item-title>
-                    </v-list-item-content>
-                  </v-list-item>
-
-                  <v-divider
-                    v-if="post !== 10"
-                    :key="`divider-${post}`"
-                    inset
-                  />
-                </template>
+                        <v-list-item-subtitle>
+                          投稿日 {{ postedDay(post.time) }}
+                        </v-list-item-subtitle>
+                        <v-list-item-title>
+                          {{ post.title }}
+                        </v-list-item-title>
+                      </v-list-item-content>
+                    </v-col>
+                  </v-row>
+                </v-card>
               </v-list>
+              <v-col cols="12">
+                <v-content>
+                  <v-pagination
+                    v-model="page"
+                    :length="length"
+                    class="pagination-more-width:400px"
+                    @input="pageChange"
+                  />
+                </v-content>
+              </v-col>
             </v-card>
           </v-col>
-
-          <v-row>
-            <v-col cols="12">
-              <v-content>
-                <v-pagination
-                  v-model="page"
-                  :length="length"
-                  @input="pageChange"
-                />
-              </v-content>
-            </v-col>
-          </v-row>
         </v-row>
       </v-container>
     </v-main>
@@ -108,10 +101,11 @@ export default {
       this.pageSize * (this.page - 1),
       this.pageSize * this.page
     );
+    console.log(this.displayLists);
   },
   methods: {
     pageChange(pageNumber) {
-      this.displayLists = this.lists.slice(
+      this.displayLists = this.posts.slice(
         this.pageSize * (pageNumber - 1),
         this.pageSize * pageNumber
       );
