@@ -16,7 +16,7 @@
                 </v-col>
 
                 <v-list two-line>
-                  <v-card v-for="list in archiveLists" :key="list.index">
+                  <v-card v-for="list in userPosts" :key="list.index">
                     <!-- <v-list-item> -->
                     <v-row>
                       <v-col class="mx-3" cols="12" lg="8">
@@ -24,7 +24,7 @@
 
                         <v-list-item-content>
                           <v-list-item-title>
-                            Message {{ list.id }}
+                            Message {{ list.title }}
                           </v-list-item-title>
 
                           <v-list-item-subtitle>
@@ -152,6 +152,15 @@
 <script>
 export default {
   layout: "after-login",
+  async asyncData({ store, route, error }) {
+    const id = route.params;
+    console.log(id);
+    try {
+      await store.dispatch("posts/userPosts", id);
+    } catch (e) {
+      error({ statusCode: 404 });
+    }
+  },
   data: () => ({
     tab: "archive",
     post: "投稿した記事",
@@ -170,6 +179,11 @@ export default {
     ePageSize: 1,
     imgSrc: "",
   }),
+  computed: {
+    userPosts() {
+      return this.$store.getters["posts/setUserPosts"];
+    },
+  },
   mounted() {
     this.aLists = new Array(10).fill().map((v, i) => {
       return { id: i, title: "Title" + i };
@@ -179,6 +193,7 @@ export default {
       this.aPageSize * (this.aPage - 1),
       this.aPageSize * this.aPage
     );
+    console.log(this.archiveLists);
     this.eLists = new Array(10).fill().map((v, i) => {
       return { id: i, title: "Title" + i };
     });

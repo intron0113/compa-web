@@ -2,6 +2,7 @@ import moment from "~/plugins/moment";
 
 export const state = () => ({
   posts: [],
+  userPosts: [],
   selectPost: {
     body: "",
     name: "",
@@ -16,6 +17,9 @@ export const state = () => ({
 export const getters = {
   posts: (state) => {
     return state.posts;
+  },
+  userPosts: (state) => {
+    return state.userPosts;
   },
   selectPost: (state) => {
     return state.selectPost;
@@ -44,6 +48,9 @@ export const mutations = {
   setPost(state, data) {
     state.selectPost = data;
   },
+  setUserPosts(state, data) {
+    state.userPosts = data;
+  },
 };
 
 export const actions = {
@@ -55,26 +62,31 @@ export const actions = {
     const post = await this.$axios.$get(`/posts/${uid}.json`);
     commit("addPost", { poFFFFFFst: { ...post, uid } });
   },
-  // async getPost({ commit }, payload) {
-  //   try {
-  //     console.log(payload.postId);
-  //     const querySnapshot = await this.$fire.firestore
-  //       .collection("posts")
-  //       .where("postId", "==", payload.postId)
-  //       .get();
 
-  //     const selectPost = [];
-  //     querySnapshot.forEach((doc) => {
-  //       const data = doc.data();
-  //       console.log(data);
-  //       selectPost.push(data);
-  //     });
-  //     console.log(selectPost);
-  //     commit("setPost", selectPost);
-  //   } catch (error) {
-  //     console.log(error);
-  //   }
-  // },
+  async userPosts({ commit }, uid) {
+    try {
+      console.log(uid.uid);
+      const querySnapshot = await this.$fire.firestore
+        .collection("posts")
+        .where("uid", "==", uid.uid)
+        .get();
+
+      const posts = [];
+      querySnapshot.forEach((doc) => {
+        const data = doc.data();
+        console.log(data);
+        posts.push(data);
+      });
+      commit("setUserPosts", {
+        posts,
+      });
+
+      // selectPost.push(data);
+      // console.log(selectPost);
+    } catch (error) {
+      console.log(error);
+    }
+  },
   async getPost({ commit }, payload) {
     try {
       console.log(payload.postId);
