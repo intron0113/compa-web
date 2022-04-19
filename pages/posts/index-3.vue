@@ -3,6 +3,8 @@
     <NavHeader />
     <div class="container">
       <ViewChat :image="image" :name="name" />
+      <ViewChat :image="image" :name="name" />
+      <ViewChat :image="image" :name="name" />
       <ViewTask />
     </div>
   </div>
