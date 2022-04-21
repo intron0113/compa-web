@@ -24,8 +24,6 @@
                     <!-- <v-list-item> -->
                     <v-row>
                       <v-col class="mx-3" cols="12" lg="8">
-                        <v-list-item-avatar color="grey darken-1" />
-
                         <v-list-item-content>
                           <v-list-item-subtitle>
                             投稿日 {{ postedDay(post.time) }}
@@ -50,7 +48,7 @@
                       v-model="page"
                       :length="length"
                       class="pagination-more-width:400px"
-                      @input="PageChange"
+                      @input="pageChange"
                     />
                   </v-content>
                 </v-col>
@@ -92,7 +90,7 @@ export default {
   }),
   computed: {
     userPosts() {
-      return this.$store.getters["posts/setUserPosts"];
+      return this.$store.getters["posts/userPosts"];
     },
   },
   mounted() {

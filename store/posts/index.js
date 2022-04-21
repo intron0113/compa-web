@@ -71,15 +71,13 @@ export const actions = {
         .where("uid", "==", uid.uid)
         .get();
 
-      const posts = [];
+      const userPosts = [];
       querySnapshot.forEach((doc) => {
         const data = doc.data();
         console.log(data);
-        posts.push(data);
+        userPosts.push(data);
       });
-      commit("setUserPosts", {
-        posts,
-      });
+      commit("setUserPosts", userPosts);
 
       // selectPost.push(data);
       // console.log(selectPost);
