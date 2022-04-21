@@ -14,9 +14,10 @@
           align-content="center"
           style="height: 100%"
         >
-          <v-avatar width="10vh" height="auto">
+          <!-- <v-avatar width="10vh" height="auto">
             <img alt="PROFILE" style="object-fit: cover" />
-          </v-avatar>
+          </v-avatar> -->
+          <IconUser :image="image" />
         </v-row>
       </v-col>
       <v-card-text class="justify-center">
@@ -44,7 +45,11 @@
 </template>
 <script>
 export default {
-  data: () => ({}),
+  data() {
+    return {
+      image: this.$store.getters.user.photoURL,
+    };
+  },
 
   methods: {
     aPageChange(pageNumber) {
