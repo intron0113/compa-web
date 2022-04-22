@@ -12,27 +12,24 @@
         <v-row
           justify="space-around"
           align-content="center"
-          style="height: 100%"
+          style="height: 100px"
         >
           <!-- <v-avatar width="10vh" height="auto">
             <img alt="PROFILE" style="object-fit: cover" />
           </v-avatar> -->
-          <IconUser :image="image" />
+          <IconUser :image="image" style="width: 72px; height: 72px" />
         </v-row>
       </v-col>
       <v-card-text class="justify-center">
         <v-row>
-          <v-col col="4">
-            <a href="/intron0113" class="css-1it6av2">0<br />投稿</a>
-          </v-col>
-          <v-col col="4">
+          <v-col col="6">
             <a href="/intron0113/following_users" class="css-1it6av2"
-              >3<br />フォロー</a
+              ><br />フォロー</a
             >
           </v-col>
-          <v-col col="4">
+          <v-col col="6">
             <a href="/intron0113/followers" class="css-1it6av2"
-              >1<br />フォロワー</a
+              ><br />フォロワー</a
             >
           </v-col>
         </v-row>
