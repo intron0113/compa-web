@@ -46,6 +46,13 @@ export const actions = {
         payload.email,
         payload.password
       );
+      const user = this.$fire.auth.currentUser;
+      this.$fire.firestore.collection("user").doc().set({
+        uid: user.uid,
+        name: user.displayName,
+        email: user.email,
+        password: user.password,
+      });
       dispatch("checkLogin");
       const storageRef = this.$fire.storage.ref();
       storageRef
