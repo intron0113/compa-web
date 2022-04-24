@@ -54,22 +54,34 @@ export const actions = {
         password: user.password,
       });
       dispatch("checkLogin");
-      const storageRef = this.$fire.storage.ref();
-      storageRef
-        .child(`users/${state.user.uid}.png`)
-        .put(payload.thumbnail)
-        .then(() => {
-          storageRef
-            .child(`users/${state.user.uid}.png`)
-            .getDownloadURL()
-            .then((url) => {
-              this.$fire.auth.currentUser.updateProfile({
-                displayName: payload.name,
-                photoURL: url,
-              });
-              this.$router.push("/auth/registerFinish");
-            });
-        });
+      this.$router.push("/auth/registerFinish");
+      // const storageRef = this.$fire.storage.ref();
+      // storageRef
+      //   .child(`users/${state.user.uid}.png`)
+      //   .put(payload.thumbnail)
+      //   .then(() => {
+      //     storageRef
+      //       .child(`users/${state.user.uid}.png`)
+      //       .getDownloadURL()
+      //       .then((url) => {
+      //         this.$fire.auth.currentUser.updateProfile({
+      //           displayName: payload.name,
+      //           photoURL: url,
+      //         });
+      //         this.$router.push("/auth/registerFinish");
+      //       });
+      //   });
+    } catch (error) {
+      console.log(error); //eslint-disable-line
+    }
+  },
+  async registerGoogle({ dispatch }) {
+    try {
+      const provider = new this.$fireModule.auth.GoogleAuthProvider();
+      await this.$fire.auth.signInWithPopup(provider).then(() => {
+        dispatch("checkLogin");
+        this.$router.push("/posts");
+      });
     } catch (error) {
       console.log(error); //eslint-disable-line
     }
@@ -77,6 +89,17 @@ export const actions = {
   async loginGoogle({ dispatch }) {
     try {
       const provider = new this.$fireModule.auth.GoogleAuthProvider();
+      await this.$fire.auth.signInWithPopup(provider).then(() => {
+        dispatch("checkLogin");
+        this.$router.push("/posts");
+      });
+    } catch (error) {
+      console.log(error); //eslint-disable-line
+    }
+  },
+  async registerTwitter({ dispatch }) {
+    try {
+      const provider = new this.$fireModule.auth.TwitterAuthProvider();
       await this.$fire.auth.signInWithPopup(provider).then(() => {
         dispatch("checkLogin");
         this.$router.push("/posts");
