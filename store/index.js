@@ -46,31 +46,33 @@ export const actions = {
         payload.email,
         payload.password
       );
-      const user = this.$fire.auth.currentUser;
-      this.$fire.firestore.collection("user").doc().set({
-        uid: user.uid,
-        name: user.displayName,
-        email: user.email,
-        password: user.password,
-      });
       dispatch("checkLogin");
       this.$router.push("/auth/registerFinish");
-      // const storageRef = this.$fire.storage.ref();
-      // storageRef
-      //   .child(`users/${state.user.uid}.png`)
-      //   .put(payload.thumbnail)
-      //   .then(() => {
-      //     storageRef
-      //       .child(`users/${state.user.uid}.png`)
-      //       .getDownloadURL()
-      //       .then((url) => {
-      //         this.$fire.auth.currentUser.updateProfile({
-      //           displayName: payload.name,
-      //           photoURL: url,
-      //         });
-      //         this.$router.push("/auth/registerFinish");
-      //       });
-      //   });
+      const storageRef = this.$fire.storage.ref();
+      storageRef
+        .child(`users/${state.user.uid}.png`)
+        .put(payload.thumbnail)
+        .then(() => {
+          storageRef
+            .child(`users/${state.user.uid}.png`)
+            .getDownloadURL()
+            .then((url) => {
+              this.$fire.auth.currentUser.updateProfile({
+                displayName: payload.name,
+                photoURL: url,
+              });
+
+              this.$router.push("/auth/registerFinish");
+            });
+          const user = this.$fire.auth.currentUser;
+          this.$fire.firestore.collection("user").doc().set({
+            uid: user.uid,
+            name: payload.name,
+            email: user.email,
+            photoURL: user.photoURL,
+          });
+          console.log(user);
+        });
     } catch (error) {
       console.log(error); //eslint-disable-line
     }
@@ -81,6 +83,13 @@ export const actions = {
       await this.$fire.auth.signInWithPopup(provider).then(() => {
         dispatch("checkLogin");
         this.$router.push("/posts");
+      });
+      const user = this.$fire.auth.currentUser;
+      this.$fire.firestore.collection("user").doc().set({
+        uid: user.uid,
+        name: user.displayName,
+        email: user.email,
+        photoURL: user.photoURL,
       });
     } catch (error) {
       console.log(error); //eslint-disable-line
@@ -103,6 +112,13 @@ export const actions = {
       await this.$fire.auth.signInWithPopup(provider).then(() => {
         dispatch("checkLogin");
         this.$router.push("/posts");
+      });
+      const user = this.$fire.auth.currentUser;
+      this.$fire.firestore.collection("user").doc().set({
+        uid: user.uid,
+        name: user.displayName,
+        email: user.email,
+        password: user.password,
       });
     } catch (error) {
       console.log(error); //eslint-disable-line
