@@ -114,20 +114,6 @@ export const actions = {
     }
   },
   async fetchPosts({ commit }) {
-    // const posts = await this.$axios.$get(`/posts.json`);
-    // commit("clearPosts");
-    // Object.entries(posts || [])
-    //   .reverse()
-    //   .forEach(([uid, content]) =>
-    //     commit("addPost", {
-    //       post: {
-    //         uid,
-    //         ...content,
-    //       },
-    //     })
-    //   );
-    // console.log(commit);
-
     try {
       const user = this.$fire.auth.currentUser;
       // console.log(user.uid);
