@@ -4,7 +4,7 @@
       <v-btn
         block
         class="color-twitter text-capitalize mb-3"
-        @click="loginTwitter"
+        @click="registerTwitter"
       >
         <v-icon left class="color-twitter__icon" size="22">
           mdi-twitter
@@ -15,17 +15,10 @@
       <v-btn
         block
         class="color-google text-capitalize mb-3"
-        @click="loginGoogle"
+        @click="registerGoogle"
       >
         <span
-          class="
-            color-google__icon
-            v-icon
-            notranslate
-            v-icon--left
-            mdi
-            theme--light
-          "
+          class="color-google__icon v-icon notranslate v-icon--left mdi theme--light"
         >
           <svg
             enable-background="new 0 0 46 46"
@@ -63,11 +56,11 @@
 <script>
 export default {
   methods: {
-    loginGoogle() {
-      this.$store.dispatch("loginGoogle");
+    registerGoogle() {
+      this.$store.dispatch("registerGoogle");
     },
-    loginTwitter() {
-      this.$store.dispatch("loginTwitter");
+    registerTwitter() {
+      this.$store.dispatch("registerTwitter");
     },
   },
 };
