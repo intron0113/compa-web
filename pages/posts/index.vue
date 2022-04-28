@@ -78,9 +78,9 @@
 <script>
 export default {
   layout: "after-login",
-  // async asyncData({ store }) {
-  //   await store.dispatch("posts/fetchPosts");
-  // },
+  async asyncData({ store }) {
+    await store.dispatch("posts/fetchPosts");
+  },
   data: () => ({
     post: "投稿記事",
     drawer: null,

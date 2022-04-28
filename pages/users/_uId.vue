@@ -16,29 +16,38 @@
                 </v-col>
 
                 <v-list two-line>
-                  <v-card
-                    v-for="post in postLists"
-                    :key="post.index"
-                    @click="openPost(post, index)"
-                  >
-                    <!-- <v-list-item> -->
+                  <v-card v-for="post in postLists" :key="post.index">
                     <v-row>
-                      <v-col class="mx-3" cols="12" lg="8">
-                        <v-list-item-content>
-                          <v-list-item-subtitle>
-                            投稿日 {{ postedDay(post.time) }}
-                          </v-list-item-subtitle>
-                          <v-list-item-title>
-                            {{ post.title }}
-                          </v-list-item-title>
-                        </v-list-item-content>
+                      <v-col @click="openPost(post, index)">
+                        <!-- <v-card @click="openPost(post, index)"> -->
+                        <v-row>
+                          <v-col class="mx-3" cols="12" lg="8">
+                            <v-list-item-content>
+                              <v-list-item-subtitle>
+                                投稿日 {{ postedDay(post.time) }}
+                              </v-list-item-subtitle>
+                              <v-list-item-title>
+                                {{ post.title }}
+                              </v-list-item-title>
+                            </v-list-item-content>
+                          </v-col>
+                        </v-row>
+                        <!-- </v-list-item> -->
+                        <!-- <v-list-item> -->
+                        <!-- </v-card> -->
                       </v-col>
                       <v-col class="mb-4" cols="12" lg="4">
-                        <v-btn class="mx-3"> 編集 </v-btn>
-                        <v-btn> 削除 </v-btn>
+                        <v-btn
+                          class="mx-3 z-index:100"
+                          @click="editPost(post, index)"
+                        >
+                          編集
+                        </v-btn>
+                        <v-btn class="mx-3" @click="deletePost(post)">
+                          削除
+                        </v-btn>
                       </v-col>
                     </v-row>
-                    <!-- </v-list-item> -->
                   </v-card>
                 </v-list>
 
@@ -108,7 +117,19 @@ export default {
         this.pageSize * pageNumber
       );
     },
-
+    editPost(post) {
+      this.$router.push(`/users/${post.uid}/${post.postId}/edit`);
+    },
+    deletePost(post) {
+      this.$router.push(`/users/${post.uid}/${post.postId}/delete`);
+    },
+    openPost(post) {
+      // this.$store.dispatch("posts/getPost", {
+      //   postId: post.postId,
+      //   uid: post.uid,
+      // });
+      this.$router.push(`/users/${post.uid}/${post.postId}`);
+    },
     postedDay(timestamp) {
       return timestamp.toDate().toLocaleString("ja-JP");
     },

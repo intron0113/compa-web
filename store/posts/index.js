@@ -77,6 +77,20 @@ export const actions = {
         console.log(data);
         userPosts.push(data);
       });
+      for (let i = 0; i < userPosts.length; i++) {
+        const post = userPosts[i];
+        const userQuerySnapshot = await this.$fire.firestore
+          .collection("user")
+          .where("uid", "==", post.uid)
+          .get();
+        userQuerySnapshot.forEach((doc) => {
+          const userData = doc.data();
+
+          post.name = userData.name;
+          post.photoURL = userData.photoURL;
+        });
+      }
+
       commit("setUserPosts", userPosts);
 
       // selectPost.push(data);
@@ -94,21 +108,38 @@ export const actions = {
         .get();
 
       const selectPost = [];
+
       querySnapshot.forEach((doc) => {
         const data = doc.data();
         console.log(data);
-        commit("setPost", {
-          body: data.body,
-          name: data.name,
-          photoURL: data.photoURL,
-          postId: data.postId,
-          time: data.time,
-          title: data.title,
-          uid: data.uid,
-        });
+        selectPost.push(data);
       });
-      // selectPost.push(data);
-      // console.log(selectPost);
+
+      for (let i = 0; i < selectPost.length; i++) {
+        const post = selectPost[i];
+        const userQuerySnapshot = await this.$fire.firestore
+          .collection("user")
+          .where("uid", "==", post.uid)
+          .get();
+        userQuerySnapshot.forEach((doc) => {
+          const userData = doc.data();
+
+          post.name = userData.name;
+          post.photoURL = userData.photoURL;
+        });
+      }
+      console.log(selectPost[0]);
+      const selectPosts = selectPost.slice(0, 1);
+      console.log(selectPosts);
+      commit("setPost", {
+        body: selectPost[0].body,
+        name: selectPost[0].name,
+        photoURL: selectPost[0].photoURL,
+        postId: selectPost[0].postId,
+        time: selectPost[0].time,
+        title: selectPost[0].title,
+        uid: selectPost[0].uid,
+      });
     } catch (error) {
       console.log(error);
     }
@@ -128,6 +159,20 @@ export const actions = {
         console.log(data);
         posts.push(data);
       });
+      for (let i = 0; i < posts.length; i++) {
+        const post = posts[i];
+        const userQuerySnapshot = await this.$fire.firestore
+          .collection("user")
+          .where("uid", "==", post.uid)
+          .get();
+        userQuerySnapshot.forEach((doc) => {
+          const userData = doc.data();
+
+          post.name = userData.name;
+          post.photoURL = userData.photoURL;
+        });
+      }
+
       commit("setData", posts);
     } catch (error) {
       console.log(error);
@@ -151,13 +196,15 @@ export const actions = {
   },
   async updatePost({ dispatch }, payload) {
     const collection = this.$fire.firestore.collection("posts");
-    const newId = collection.doc().id;
+    const userRef = await this.$fire.firestore
+      .collection("user")
+      .doc(payload.uid);
 
     try {
       await collection.doc(payload.postId).update({
         postId: payload.postId,
-        photoURL: payload.photoURL,
-        name: payload.name,
+        photoURL: userRef.photoURL,
+        name: userRef.name,
         uid: payload.uid,
         title: payload.title,
         body: payload.body,
@@ -193,7 +240,7 @@ export const actions = {
       // console.log(uid);
       // console.log(title);
       // console.log(body);
-      dispatch("getPosts", userRef);
+      dispatch("getPosts");
     } catch (error) {
       // console.log(title);
       console.log(error); //eslint-disable-line
@@ -228,16 +275,15 @@ export const actions = {
           .where("uid", "==", post.uid)
           .get();
         userQuerySnapshot.forEach((doc) => {
-          const data = doc.data();
-          console.log(data.name);
-          post.name = data.name;
-          post.photoURL = data.photoURL;
+          const userData = doc.data();
+
+          post.name = userData.name;
+          post.photoURL = userData.photoURL;
         });
       }
       console.log(posts);
-      return posts;
 
-      // commit("setData", posts);
+      commit("setData", posts);
     } catch (error) {
       console.log(error);
     }
