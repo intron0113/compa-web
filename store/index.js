@@ -65,7 +65,7 @@ export const actions = {
               this.$router.push("/auth/registerFinish");
             });
           const user = this.$fire.auth.currentUser;
-          this.$fire.firestore.collection("user").doc().set({
+          this.$fire.firestore.collection("user").doc(user.uid).set({
             uid: user.uid,
             name: payload.name,
             email: user.email,
@@ -85,7 +85,7 @@ export const actions = {
         this.$router.push("/posts");
       });
       const user = this.$fire.auth.currentUser;
-      this.$fire.firestore.collection("user").doc().set({
+      this.$fire.firestore.collection("user").doc(user.uid).set({
         uid: user.uid,
         name: user.displayName,
         email: user.email,
@@ -114,7 +114,7 @@ export const actions = {
         this.$router.push("/posts");
       });
       const user = this.$fire.auth.currentUser;
-      this.$fire.firestore.collection("user").doc().set({
+      this.$fire.firestore.collection("user").doc(user.uid).set({
         uid: user.uid,
         name: user.displayName,
         email: user.email,

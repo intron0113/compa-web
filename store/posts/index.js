@@ -176,12 +176,15 @@ export const actions = {
   async publishPost({ dispatch }, payload) {
     const collection = this.$fire.firestore.collection("posts");
     const newId = collection.doc().id;
+    const userRef = await this.$fire.firestore
+      .collection("user")
+      .doc(payload.uid);
 
     try {
       await collection.doc(newId).set({
         postId: newId,
-        photoURL: payload.photoURL,
-        name: payload.name,
+        photoURL: userRef,
+        name: userRef,
         uid: payload.uid,
         title: payload.title,
         body: payload.body,
@@ -190,7 +193,7 @@ export const actions = {
       // console.log(uid);
       // console.log(title);
       // console.log(body);
-      dispatch("getPosts");
+      dispatch("getPosts", userRef);
     } catch (error) {
       // console.log(title);
       console.log(error); //eslint-disable-line
@@ -206,12 +209,35 @@ export const actions = {
         .where("uid", "==", user.uid)
         .get();
       const posts = [];
+      // querySnapshot.forEach((doc) => {
+      //   const data = doc.data();
+      //   console.log(data);
+      //   posts.push(data);
+      // });
+      // commit("setData", posts);
       querySnapshot.forEach((doc) => {
         const data = doc.data();
         console.log(data);
         posts.push(data);
       });
-      commit("setData", posts);
+
+      for (let i = 0; i < posts.length; i++) {
+        const post = posts[i];
+        const userQuerySnapshot = await this.$fire.firestore
+          .collection("user")
+          .where("uid", "==", post.uid)
+          .get();
+        userQuerySnapshot.forEach((doc) => {
+          const data = doc.data();
+          console.log(data.name);
+          post.name = data.name;
+          post.photoURL = data.photoURL;
+        });
+      }
+      console.log(posts);
+      return posts;
+
+      // commit("setData", posts);
     } catch (error) {
       console.log(error);
     }
