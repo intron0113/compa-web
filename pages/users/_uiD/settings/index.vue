@@ -3,24 +3,52 @@
     <v-main background-colorr:secondary>
       <v-container class="py-8 px-6" fluid>
         <v-row>
+          <v-col cols="2" sm="1">
+            <v-btn icon large class="mr-1" v-on="on">
+              <v-avatar size="38px" item>
+                <v-icon dark x-large> mdi-account-circle </v-icon>
+              </v-avatar>
+            </v-btn>
+          </v-col>
+          <v-col cols="9" sm="11">
+            <h2>@ユーザー名/アカウント名</h2>
+          </v-col>
+        </v-row>
+        <v-row>
           <v-col cols="12" md="8">
-            <v-card>
-              <v-col>
-                <v-text-field v-model="login_email" label="名前" required />
-                <v-select :items="affiliation" label="所属" />
-                <v-select :items="job" label="職種" />
-                <v-select :items="prefectures" label="居住地" />
-                <div>自己紹介</div>
-                <textarea
-                  v-model="text"
-                  class="textarea"
-                  :style="{ height: `${getTextareaHeight}px` }"
-                  @compositionstart="composing = true"
-                  @compositionend="composing = false"
-                  @keydown="handleKeydown"
-                />
-              </v-col>
-            </v-card>
+            <v-col>
+              <div>アイコン</div>
+              <v-row class="mb-4">
+                <v-col cols="12" sm="10">
+                  <v-btn icon large class="mr-1" v-on="on">
+                    <v-avatar size="38px" item>
+                      <v-icon dark x-large> mdi-account-circle </v-icon>
+                    </v-avatar>
+                  </v-btn>
+                </v-col>
+                <v-col cols="12" sm="2">
+                  <v-btn color="primary"> 変更 </v-btn>
+                </v-col>
+              </v-row>
+              <div>ユーザー名変更</div>
+              <v-row class="mb-4">
+                <v-col cols="12" sm="10">
+                  <v-text-field label="ユーザー名" required />
+                </v-col>
+                <v-col cols="12" sm="2">
+                  <v-btn color="primary"> 変更 </v-btn>
+                </v-col>
+              </v-row>
+              <div>パスワード変更</div>
+              <v-row class="mb-4">
+                <v-col cols="12" sm="10">
+                  <v-text-field label="パスワード変更" required />
+                </v-col>
+                <v-col cols="12" sm="2">
+                  <v-btn color="primary"> 変更 </v-btn>
+                </v-col>
+              </v-row>
+            </v-col>
           </v-col>
           <v-col cols="12" md="4">
             <v-card elevation="5 py-3">
@@ -38,9 +66,13 @@
           </v-col>
           <v-row class="button">
             <v-col cols="12">
-              <v-btn to="/" color="primary" depressed elevation="2" x-large>
-                登録
+              <v-btn to="/" color="error" depressed elevation="2" x-large>
+                アカウント削除
               </v-btn>
+            </v-col>
+            <v-col cols="12">
+              <p>※一度アカウントを削除してしまうと二度と元に戻せません。</p>
+              <p>十分ご注意ください。</p>
             </v-col>
           </v-row>
         </v-row>
@@ -94,8 +126,6 @@ export default {
       "医療事務",
       "医師事務作業補助者",
       "医療保険事務",
-      "会社員",
-      "その他",
     ],
     prefectures: [
       "北海道",
