@@ -35,7 +35,7 @@
         </v-row>
       </v-card-text>
       <v-card-actions class="justify-center">
-        <v-btn> プロフィール編集 </v-btn>
+        <v-btn @click="openSettings"> 設定 </v-btn>
       </v-card-actions>
     </v-card>
   </v-app>
@@ -44,11 +44,15 @@
 export default {
   data() {
     return {
+      uid: this.$store.getters.user.uid,
       image: this.$store.getters.user.photoURL,
     };
   },
 
   methods: {
+    openSettings() {
+      this.$router.push(`/users/${this.uid}/settings`);
+    },
     aPageChange(pageNumber) {
       this.archiveLists = this.aLists.slice(
         this.aPageSize * (pageNumber - 1),
