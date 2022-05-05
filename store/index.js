@@ -47,7 +47,7 @@ export const actions = {
         payload.password
       );
       dispatch("checkLogin");
-      this.$router.push("/auth/registerFinish");
+      // this.$router.push("/auth/registerFinish");
       const storageRef = this.$fire.storage.ref();
       storageRef
         .child(`users/${state.user.uid}.png`)
@@ -59,20 +59,19 @@ export const actions = {
             .then((url) => {
               this.$fire.auth.currentUser.updateProfile({
                 displayName: payload.name,
-                photoURL: url,
+                // photoURL: url,
               });
-
-              this.$router.push("/auth/registerFinish");
+              const user = this.$fire.auth.currentUser;
+              this.$fire.firestore.collection("user").doc(user.uid).set({
+                uid: user.uid,
+                name: payload.name,
+                email: user.email,
+                photoURL: user.photoURL,
+              });
             });
-          const user = this.$fire.auth.currentUser;
-          this.$fire.firestore.collection("user").doc(user.uid).set({
-            uid: user.uid,
-            name: payload.name,
-            email: user.email,
-            photoURL: user.photoURL,
-          });
-          console.log(user);
         });
+      this.$router.push("/auth/registerFinish");
+      console.log(user);
     } catch (error) {
       console.log(error); //eslint-disable-line
     }
@@ -85,6 +84,10 @@ export const actions = {
         this.$router.push("/posts");
       });
       const user = this.$fire.auth.currentUser;
+
+      const storageRef = this.$fire.storage.ref();
+      storageRef.child(`users/${user.uid}.png`).put(user.photoURL);
+
       this.$fire.firestore.collection("user").doc(user.uid).set({
         uid: user.uid,
         name: user.displayName,

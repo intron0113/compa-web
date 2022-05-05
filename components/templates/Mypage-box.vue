@@ -42,6 +42,15 @@
 </template>
 <script>
 export default {
+  async asyncData({ store, route, error }) {
+    const id = route.params;
+    console.log(id);
+    try {
+      await store.dispatch("posts/userPosts", id);
+    } catch (e) {
+      error({ statusCode: 404 });
+    }
+  },
   data() {
     return {
       uid: this.$store.getters.user.uid,
