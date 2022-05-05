@@ -24,6 +24,12 @@
                     <v-avatar size="38px" item>
                       <v-icon dark x-large> mdi-account-circle </v-icon>
                     </v-avatar>
+
+                    <FormItemIcon
+                      :img="postData.thumbnail"
+                      type="file"
+                      @change="changeImg"
+                    />
                   </v-btn>
                 </v-col>
                 <v-col cols="12" sm="2">
@@ -85,6 +91,15 @@
 export default {
   layout: "after-login",
   data: () => ({
+    thumbnail: "",
+    postData: {
+      thumbnail: "",
+    },
+    name: "",
+    email: "",
+    password: "",
+    passwordCheck: "",
+
     post: "投稿記事",
     event: "新規イベント",
     drawer: null,
@@ -192,6 +207,16 @@ export default {
     },
   },
   methods: {
+    changeImg(e) {
+      this.thumbnail = e.target.files[0];
+      if (this.thumbnail) {
+        const reader = new FileReader();
+        reader.readAsDataURL(this.thumbnail);
+        reader.onload = () => {
+          this.postData.thumbnail = reader.result + "";
+        };
+      }
+    },
     handleKeydown() {
       if (this.composing) return; // IME対応(日本語変換中のEnterを止める)
       const rowCount = `${this.text}\n`.match(/\n/g).length;
