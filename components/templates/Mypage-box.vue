@@ -46,7 +46,9 @@ export default {
     const id = route.params;
     console.log(id);
     try {
-      await store.dispatch("posts/userPosts", id);
+      await store.dispatch("userData", {
+        uid: id.uid,
+      });
     } catch (e) {
       error({ statusCode: 404 });
     }

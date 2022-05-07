@@ -5,11 +5,20 @@ export const state = () => ({
     name: "",
     photoURL: "",
   },
+  selectUserData: {
+    name: "",
+    photoURL: "",
+
+    uid: "",
+  },
 });
 
 export const getters = {
   user: (state) => {
     return state.user;
+  },
+  selectUserData: (state) => {
+    return state.selectUserData;
   },
 };
 
@@ -138,10 +147,39 @@ export const actions = {
       console.log(error); //eslint-disable-line
     }
   },
+  async userData({ commit }, payload) {
+    try {
+      console.log(payload.uid);
+      const querySnapshot = await this.$fire.firestore
+        .collection("user")
+        .where("uid", "==", payload.uid)
+        .get();
+
+      const selectUserData = [];
+
+      querySnapshot.forEach((doc) => {
+        const data = doc.data();
+        console.log(data);
+        selectUserData.push(data);
+      });
+
+      console.log(selectUserData);
+      commit("setUserdata", {
+        uid: selectUserData.uid,
+        name: selectUserData.name,
+        photoURL: selectUserData.photoURL,
+      });
+    } catch (error) {
+      console.log(error);
+    }
+  },
 };
 
 export const mutations = {
   getData(state, user) {
     state.user = user;
+  },
+  setUserdata(state, user) {
+    state.selectUserData = user;
   },
 };
