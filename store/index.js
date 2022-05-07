@@ -6,10 +6,13 @@ export const state = () => ({
     photoURL: "",
   },
   selectUserData: {
+    uid: "",
     name: "",
     photoURL: "",
-
-    uid: "",
+    affiliation: "",
+    job: "",
+    prefectures: "",
+    profileText: "",
   },
 });
 
@@ -74,8 +77,11 @@ export const actions = {
               this.$fire.firestore.collection("user").doc(user.uid).set({
                 uid: user.uid,
                 name: payload.name,
-                email: user.email,
                 photoURL: user.photoURL,
+                affiliation: "",
+                job: "",
+                prefectures: "",
+                profileText: "",
               });
             });
         });
@@ -100,8 +106,11 @@ export const actions = {
       this.$fire.firestore.collection("user").doc(user.uid).set({
         uid: user.uid,
         name: user.displayName,
-        email: user.email,
         photoURL: user.photoURL,
+        affiliation: "",
+        job: "",
+        prefectures: "",
+        profileText: "",
       });
     } catch (error) {
       console.log(error); //eslint-disable-line
@@ -129,8 +138,11 @@ export const actions = {
       this.$fire.firestore.collection("user").doc(user.uid).set({
         uid: user.uid,
         name: user.displayName,
-        email: user.email,
         password: user.password,
+        affiliation: "",
+        job: "",
+        prefectures: "",
+        profileText: "",
       });
     } catch (error) {
       console.log(error); //eslint-disable-line
@@ -163,14 +175,36 @@ export const actions = {
         selectUserData.push(data);
       });
 
-      console.log(selectUserData);
-      commit("setUserdata", {
-        uid: selectUserData.uid,
-        name: selectUserData.name,
-        photoURL: selectUserData.photoURL,
+      console.log(selectUserData[0]);
+      commit("setUserData", {
+        uid: selectUserData[0].uid,
+        name: selectUserData[0].name,
+        photoURL: selectUserData[0].photoURL,
       });
     } catch (error) {
       console.log(error);
+    }
+  },
+  async updateUserData({ dispatch }, payload) {
+    const userRef = await this.$fire.firestore
+      .collection("user")
+      .doc(payload.uid);
+
+    try {
+      await userRef.update({
+        uid: payload.uid,
+        name: payload.name,
+        photoURL: payload.photoURL,
+        affiliation: payload.affiliation,
+        job: payload.job,
+        prefectures: payload.prefectures,
+        profileText: payload.profileText,
+      });
+      console.log(payload);
+    } catch (error) {
+      // console.log(title);
+      console.log(error); //eslint-disable-line
+      console.log(payload); //eslint-disable-line
     }
   },
 };
@@ -179,7 +213,10 @@ export const mutations = {
   getData(state, user) {
     state.user = user;
   },
-  setUserdata(state, user) {
-    state.selectUserData = user;
+  setUserData(state, data) {
+    state.selectUserData = data;
+  },
+  selectProfile(state, { post }) {
+    state.selectUserData = post;
   },
 };

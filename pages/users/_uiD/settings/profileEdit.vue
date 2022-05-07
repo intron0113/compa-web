@@ -6,13 +6,25 @@
           <v-col cols="12" md="8">
             <v-card>
               <v-col>
-                <v-text-field v-model="login_email" label="名前" required />
-                <v-select :items="affiliation" label="所属" />
-                <v-select :items="job" label="職種" />
-                <v-select :items="prefectures" label="居住地" />
+                <!-- <v-text-field v-model="login_email" label="名前" required /> -->
+                <v-select
+                  v-model="selectUserData.affiliation"
+                  :items="affiliation"
+                  label="所属"
+                />
+                <v-select
+                  v-model="selectUserData.job"
+                  :items="job"
+                  label="職種"
+                />
+                <v-select
+                  v-model="selectUserData.prefectures"
+                  :items="prefectures"
+                  label="居住地"
+                />
                 <div>自己紹介</div>
                 <textarea
-                  v-model="text"
+                  v-model="selectUserData.profileText"
                   class="textarea"
                   :style="{ height: `${getTextareaHeight}px` }"
                   @compositionstart="composing = true"
@@ -25,20 +37,41 @@
           <v-col cols="12" md="4">
             <v-card elevation="5 py-3">
               <v-card-actions class="justify-center px-6 py-3">
-                <v-btn to="/" block color="accent" depressed elevation="2">
-                  公開用
+                <v-btn
+                  to="/users/${selectUserData.uid}/settings"
+                  block
+                  color="accent"
+                  depressed
+                  elevation="2"
+                  @click="openAccount(selectUserData)"
+                >
+                  アカウント
                 </v-btn>
               </v-card-actions>
               <v-card-actions class="justify-center px-6 py-3">
-                <v-btn to="/" block color="accent" depressed elevation="2">
-                  個人用
+                <v-btn
+                  to="/users/${selectUserData.uid}/settings/profileEdit"
+                  block
+                  color="accent"
+                  depressed
+                  elevation="2"
+                  @click="openPublic(selectUserData)"
+                >
+                  公開用
                 </v-btn>
               </v-card-actions>
             </v-card>
           </v-col>
           <v-row class="button">
             <v-col cols="12">
-              <v-btn to="/" color="primary" depressed elevation="2" x-large>
+              <v-btn
+                to="/"
+                color="primary"
+                depressed
+                elevation="2"
+                x-large
+                @click="updateUserData(selectUserData)"
+              >
                 登録
               </v-btn>
             </v-col>
@@ -52,12 +85,25 @@
 <script>
 export default {
   layout: "after-login",
+  async asyncData({ store, route, error }) {
+    const id = route.params;
+    // const userId = this.store.getters.user.uid;
+    console.log(id);
+    // console.log(userId);
+    try {
+      await store.dispatch("userData", {
+        uid: id.uiD,
+      });
+    } catch (e) {
+      error({ statusCode: 404 });
+    }
+  },
   data: () => ({
     post: "投稿記事",
     event: "新規イベント",
     drawer: null,
     show: false,
-    affiliation: ["職員", "会社員", "学生", "主婦(夫)", "その他"],
+    affiliation: ["職員", "会社員", "学生", "主婦(夫)", "その他", ""],
     job: [
       "看護師",
       "薬剤師",
@@ -96,6 +142,7 @@ export default {
       "医療保険事務",
       "会社員",
       "その他",
+      "",
     ],
     prefectures: [
       "北海道",
@@ -145,10 +192,19 @@ export default {
       "宮崎県",
       "鹿児島県",
       "沖縄県",
+      "",
     ],
     text: "",
   }),
   computed: {
+    selectUserData: {
+      get() {
+        return Object.assign({}, this.$store.getters["selectUserData"]);
+      },
+      set(value) {
+        this.$store.commit("selectProfile", value);
+      },
+    },
     getTextareaHeight() {
       // テキストエリアの高さ制限
       let rowCount = `${this.text}\n`.match(/\n/g).length;
@@ -162,6 +218,25 @@ export default {
     },
   },
   methods: {
+    openAccount(selectUserData) {
+      this.$router.push(`/users/${selectUserData.uid}/settings/accunt`);
+    },
+    openPublic(selectUserData) {
+      this.$router.push(`/users/${selectUserData.uid}/settings/profileEdit`);
+    },
+    updateUserData(selectUserData) {
+      this.$store.dispatch("updateUserData", {
+        uid: selectUserData.uid,
+        name: selectUserData.name,
+        photoURL: selectUserData.photoURL,
+        affiliation: selectUserData.affiliation,
+        job: selectUserData.job,
+        prefectures: selectUserData.prefectures,
+        profileText: selectUserData.profileText,
+      });
+
+      this.$router.push(`/users/editComplete`);
+    },
     handleKeydown() {
       if (this.composing) return; // IME対応(日本語変換中のEnterを止める)
       const rowCount = `${this.text}\n`.match(/\n/g).length;

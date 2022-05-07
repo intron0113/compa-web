@@ -5,7 +5,37 @@
         <v-row>
           <v-col cols="12" sm="4">
             <v-col cols="12">
-              <Mypage-box />
+              <v-card>
+                <v-col cols="12">
+                  <v-row
+                    justify="space-around"
+                    align-content="center"
+                    style="height: 100px"
+                  >
+                    <IconUser
+                      :image="selectUserData.photoURL"
+                      style="width: 72px; height: 72px"
+                    />
+                  </v-row>
+                </v-col>
+                <v-card-text class="justify-center">
+                  <v-row>
+                    <v-col col="6">
+                      <a href="/intron0113/following_users" class="css-1it6av2"
+                        ><br />フォロー</a
+                      >
+                    </v-col>
+                    <v-col col="6">
+                      <a href="/intron0113/followers" class="css-1it6av2"
+                        ><br />フォロワー</a
+                      >
+                    </v-col>
+                  </v-row>
+                </v-card-text>
+                <v-card-actions class="justify-center">
+                  <v-btn @click="openSettings(selectUserData)"> 設定 </v-btn>
+                </v-card-actions>
+              </v-card>
             </v-col>
           </v-col>
           <v-col cols="12" sm="8">
@@ -78,11 +108,15 @@ export default {
     console.log(id);
     try {
       await store.dispatch("posts/userPosts", id);
+      await store.dispatch("userData", {
+        uid: id.uid,
+      });
     } catch (e) {
       error({ statusCode: 404 });
     }
   },
   data: () => ({
+    // uid: this.$store.getters.user.uid,
     tab: "archive",
     post: "投稿した記事",
     event: "参加イベント",
@@ -101,6 +135,9 @@ export default {
     userPosts() {
       return this.$store.getters["posts/userPosts"];
     },
+    selectUserData() {
+      return this.$store.getters["selectUserData"];
+    },
   },
   mounted() {
     this.length = Math.ceil(this.userPosts.length / this.pageSize);
@@ -111,6 +148,9 @@ export default {
     console.log(this.postLists);
   },
   methods: {
+    openSettings(selectUserData) {
+      this.$router.push(`/users/${selectUserData.uid}/settings/accunt`);
+    },
     pageChange(pageNumber) {
       this.postLists = this.userPosts.slice(
         this.pageSize * (pageNumber - 1),

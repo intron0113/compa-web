@@ -2,22 +2,15 @@
   <v-app>
     <v-card>
       <v-col cols="12">
-        <!-- <v-card-actions class="justify-center">
-                    <v-btn icon large class="mr-1" v-on="on">
-                      <v-avatar size="38px" item>
-                        <v-icon dark x-large>mdi-account-circle</v-icon>
-                      </v-avatar>
-                    </v-btn>
-                  </v-card-actions> -->
         <v-row
           justify="space-around"
           align-content="center"
           style="height: 100px"
         >
-          <!-- <v-avatar width="10vh" height="auto">
-            <img alt="PROFILE" style="object-fit: cover" />
-          </v-avatar> -->
-          <IconUser :image="image" style="width: 72px; height: 72px" />
+          <IconUser
+            :image="selectUserData.photoURL"
+            style="width: 72px; height: 72px"
+          />
         </v-row>
       </v-col>
       <v-card-text class="justify-center">
@@ -59,7 +52,11 @@ export default {
       image: this.$store.getters.user.photoURL,
     };
   },
-
+  computed: {
+    selectUserData() {
+      return this.$store.getters["selectUserData"];
+    },
+  },
   methods: {
     openSettings() {
       this.$router.push(`/users/${this.uid}/settings`);
