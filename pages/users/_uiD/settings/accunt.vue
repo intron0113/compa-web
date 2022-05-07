@@ -3,49 +3,41 @@
     <v-main background-colorr:secondary>
       <v-container class="py-8 px-6" fluid>
         <v-row>
-          <v-col cols="2" sm="1">
-            <v-btn icon large class="mr-1" v-on="on">
-              <v-avatar size="38px" item>
-                <v-icon dark x-large> mdi-account-circle </v-icon>
-              </v-avatar>
-            </v-btn>
-          </v-col>
-          <v-col cols="9" sm="11">
-            <h2>@ユーザー名/アカウント名</h2>
-          </v-col>
-        </v-row>
-        <v-row>
           <v-col cols="12" md="8">
             <v-col>
               <div>アイコン</div>
               <v-row class="mb-4">
                 <v-col cols="12" sm="10">
-                  <v-btn icon large class="mr-1" v-on="on">
-                    <v-avatar size="38px" item>
-                      <v-icon dark x-large> mdi-account-circle </v-icon>
-                    </v-avatar>
-
-                    <FormItemIcon
-                      :img="postData.thumbnail"
-                      type="file"
-                      @change="changeImg"
+                  <v-row
+                    justify="space-around"
+                    align-content="center"
+                    style="height: 100px"
+                  >
+                    <IconUser
+                      :image="selectUserData.photoURL"
+                      style="width: 72px; height: 72px"
                     />
-                  </v-btn>
+                  </v-row>
                 </v-col>
+                <!-- <FormItemIcon
+                  :img="postData.thumbnail"
+                  type="file"
+                  @change="changeImg"
+                /> -->
                 <v-col cols="12" sm="2">
                   <v-btn color="primary"> 変更 </v-btn>
                 </v-col>
               </v-row>
-              <div>ユーザー名変更</div>
+              <div>ユーザー名</div>
               <v-row class="mb-4">
                 <v-col cols="12" sm="10">
-                  <v-text-field label="ユーザー名" required />
+                  <v-text-field :label="selectUserData.name" required />
                 </v-col>
                 <v-col cols="12" sm="2">
                   <v-btn color="primary"> 変更 </v-btn>
                 </v-col>
               </v-row>
-              <div>パスワード変更</div>
+              <div>パスワード</div>
               <v-row class="mb-4">
                 <v-col cols="12" sm="10">
                   <v-text-field label="パスワード変更" required />
@@ -59,13 +51,27 @@
           <v-col cols="12" md="4">
             <v-card elevation="5 py-3">
               <v-card-actions class="justify-center px-6 py-3">
-                <v-btn to="/" block color="accent" depressed elevation="2">
-                  公開用
+                <v-btn
+                  to="/users/${selectUserData.uid}/settings"
+                  block
+                  color="accent"
+                  depressed
+                  elevation="2"
+                  @click="openAccount(selectUserData)"
+                >
+                  アカウント
                 </v-btn>
               </v-card-actions>
               <v-card-actions class="justify-center px-6 py-3">
-                <v-btn to="/" block color="accent" depressed elevation="2">
-                  個人用
+                <v-btn
+                  to="/users/${selectUserData.uid}/settings/profileEdit"
+                  block
+                  color="accent"
+                  depressed
+                  elevation="2"
+                  @click="openPublic(selectUserData)"
+                >
+                  公開用
                 </v-btn>
               </v-card-actions>
             </v-card>
@@ -90,6 +96,17 @@
 <script>
 export default {
   layout: "after-login",
+  async asyncData({ store, route, error }) {
+    const id = route.params;
+    console.log(id);
+    try {
+      await store.dispatch("userData", {
+        uid: id.uiD,
+      });
+    } catch (e) {
+      error({ statusCode: 404 });
+    }
+  },
   data: () => ({
     thumbnail: "",
     postData: {
@@ -194,6 +211,9 @@ export default {
     text: "",
   }),
   computed: {
+    selectUserData() {
+      return this.$store.getters["selectUserData"];
+    },
     getTextareaHeight() {
       // テキストエリアの高さ制限
       let rowCount = `${this.text}\n`.match(/\n/g).length;
@@ -207,6 +227,12 @@ export default {
     },
   },
   methods: {
+    openAccount(selectUserData) {
+      this.$router.push(`/users/${selectUserData.uid}/settings`);
+    },
+    openPublic(selectUserData) {
+      this.$router.push(`/users/${selectUserData.uid}/settings/profileEdit`);
+    },
     changeImg(e) {
       this.thumbnail = e.target.files[0];
       if (this.thumbnail) {
