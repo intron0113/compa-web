@@ -35,6 +35,11 @@
                 <v-card-actions class="justify-center">
                   <v-btn @click="openSettings(selectUserData)"> 設定 </v-btn>
                 </v-card-actions>
+                <div>{{ selectUserData.name }}</div>
+                <div>{{ selectUserData.affiliation }}</div>
+                <div>{{ selectUserData.job }}</div>
+                <div>{{ selectUserData.prefectures }}</div>
+                <div v-html="$md.render(selectUserData.profileText)" />
               </v-card>
             </v-col>
           </v-col>
@@ -149,7 +154,7 @@ export default {
   },
   methods: {
     openSettings(selectUserData) {
-      this.$router.push(`/users/${selectUserData.uid}/settings/accunt`);
+      this.$router.push(`/users/${selectUserData.uid}/settings`);
     },
     pageChange(pageNumber) {
       this.postLists = this.userPosts.slice(

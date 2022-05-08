@@ -28,65 +28,71 @@
                   <v-btn color="primary"> 変更 </v-btn>
                 </v-col>
               </v-row>
-              <div>ユーザー名</div>
-              <v-row class="mb-4">
-                <v-col cols="12" sm="10">
-                  <v-text-field :label="selectUserData.name" required />
-                </v-col>
-                <v-col cols="12" sm="2">
-                  <v-btn color="primary"> 変更 </v-btn>
-                </v-col>
-              </v-row>
-              <div>パスワード</div>
-              <v-row class="mb-4">
-                <v-col cols="12" sm="10">
-                  <v-text-field label="パスワード変更" required />
-                </v-col>
-                <v-col cols="12" sm="2">
-                  <v-btn color="primary"> 変更 </v-btn>
-                </v-col>
-              </v-row>
             </v-col>
+            <v-card>
+              <v-col>
+                <div>ユーザー名</div>
+                <!-- <v-row class="mb-4">
+                  <v-col cols="12" sm="10"> -->
+                <v-text-field v-model="selectUserData.name" outlined required />
+                <!-- </v-col>
+                </v-row> -->
+
+                <div>所属</div>
+                <v-select
+                  v-model="selectUserData.affiliation"
+                  outlined
+                  :items="affiliation"
+                />
+                <div>職種</div>
+                <v-select v-model="selectUserData.job" outlined :items="job" />
+                <div>居住地</div>
+                <v-select
+                  v-model="selectUserData.prefectures"
+                  outlined
+                  :items="prefectures"
+                />
+                <div>自己紹介</div>
+                <v-textarea
+                  v-model="selectUserData.profileText"
+                  outlined
+                  auto-grow
+                  counter
+                  no-resize
+                  rows="3"
+                  :rules="myrules"
+                />
+              </v-col>
+              <v-row class="button">
+                <v-col cols="12">
+                  <v-btn
+                    color="primary"
+                    depressed
+                    elevation="2"
+                    x-large
+                    @click="updateUserData(selectUserData)"
+                  >
+                    登録
+                  </v-btn>
+                </v-col>
+              </v-row>
+            </v-card>
           </v-col>
           <v-col cols="12" md="4">
             <v-card elevation="5 py-3">
-              <v-card-actions class="justify-center px-6 py-3">
-                <v-btn
-                  to="/users/${selectUserData.uid}/settings"
-                  block
-                  color="accent"
-                  depressed
-                  elevation="2"
-                  @click="openAccount(selectUserData)"
-                >
-                  アカウント
-                </v-btn>
-              </v-card-actions>
-              <v-card-actions class="justify-center px-6 py-3">
-                <v-btn
-                  to="/users/${selectUserData.uid}/settings/profileEdit"
-                  block
-                  color="accent"
-                  depressed
-                  elevation="2"
-                  @click="openPublic(selectUserData)"
-                >
-                  公開用
-                </v-btn>
-              </v-card-actions>
+              <v-row class="button">
+                <v-col cols="12">
+                  <v-btn to="/" color="error" depressed elevation="2" x-large>
+                    アカウント削除
+                  </v-btn>
+                </v-col>
+                <v-col cols="12">
+                  <p>※一度アカウントを削除してしまうと二度と元に戻せません。</p>
+                  <p>十分ご注意ください。</p>
+                </v-col>
+              </v-row>
             </v-card>
           </v-col>
-          <v-row class="button">
-            <v-col cols="12">
-              <v-btn to="/" color="error" depressed elevation="2" x-large>
-                アカウント削除
-              </v-btn>
-            </v-col>
-            <v-col cols="12">
-              <p>※一度アカウントを削除してしまうと二度と元に戻せません。</p>
-              <p>十分ご注意ください。</p>
-            </v-col>
-          </v-row>
         </v-row>
       </v-container>
     </v-main>
@@ -108,6 +114,7 @@ export default {
     }
   },
   data: () => ({
+    myrules: [(text) => text.length <= 150 || "最大文字数は150文字です"],
     thumbnail: "",
     postData: {
       thumbnail: "",
@@ -211,28 +218,33 @@ export default {
     text: "",
   }),
   computed: {
-    selectUserData() {
-      return this.$store.getters["selectUserData"];
-    },
-    getTextareaHeight() {
-      // テキストエリアの高さ制限
-      let rowCount = `${this.text}\n`.match(/\n/g).length;
-      if (rowCount > 3) rowCount = 3;
-      const LINEHEIGHT = 20 * 1.5; // １行あたりの高さ(font-size:20pxとline-height: 1.4を考慮)
-      const PADDING_TOP_AND_BOTTOM = 5 * 2; // padding上下の5pxを考慮
-      const BORDER_TOP_AND_BOTTOM = 1 * 2; // border上下の1pxを考慮
-      return (
-        LINEHEIGHT * rowCount + PADDING_TOP_AND_BOTTOM + BORDER_TOP_AND_BOTTOM
-      );
+    selectUserData: {
+      get() {
+        return Object.assign({}, this.$store.getters["selectUserData"]);
+      },
+      set(value) {
+        this.$store.commit("selectProfile", value);
+      },
     },
   },
   methods: {
-    openAccount(selectUserData) {
-      this.$router.push(`/users/${selectUserData.uid}/settings`);
+    updateUserData(selectUserData) {
+      const prfofileText = selectUserData.profileText.replace(/\n/g, "\\n");
+      console.log(prfofileText);
+
+      this.$store.dispatch("updateUserData", {
+        uid: selectUserData.uid,
+        name: selectUserData.name,
+        photoURL: selectUserData.photoURL,
+        affiliation: selectUserData.affiliation,
+        job: selectUserData.job,
+        prefectures: selectUserData.prefectures,
+        profileText: prfofileText,
+      });
+
+      this.$router.push(`/users/${selectUserData.uid}/settingComp`);
     },
-    openPublic(selectUserData) {
-      this.$router.push(`/users/${selectUserData.uid}/settings/profileEdit`);
-    },
+
     changeImg(e) {
       this.thumbnail = e.target.files[0];
       if (this.thumbnail) {

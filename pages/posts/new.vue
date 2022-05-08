@@ -11,7 +11,7 @@
             <v-card>
               <v-list two-line>
                 <template>
-                  <form>
+                  <form @submit.prevent>
                     <v-text-field
                       v-model="title"
                       label="記事タイトル"
