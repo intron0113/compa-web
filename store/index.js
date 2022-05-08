@@ -180,6 +180,10 @@ export const actions = {
         uid: selectUserData[0].uid,
         name: selectUserData[0].name,
         photoURL: selectUserData[0].photoURL,
+        affiliation: selectUserData[0].affiliation,
+        job: selectUserData[0].job,
+        prefectures: selectUserData[0].prefectures,
+        profileText: selectUserData[0].profileText.replace(/\\n/g, "\n"),
       });
     } catch (error) {
       console.log(error);

@@ -10,7 +10,7 @@
                 <v-select
                   v-model="selectUserData.affiliation"
                   :items="affiliation"
-                  label="所属"
+                  :label="selectUserData.affiliation"
                 />
                 <v-select
                   v-model="selectUserData.job"
@@ -48,7 +48,7 @@
                   アカウント
                 </v-btn>
               </v-card-actions>
-              <v-card-actions class="justify-center px-6 py-3">
+              <!-- <v-card-actions class="justify-center px-6 py-3">
                 <v-btn
                   to="/users/${selectUserData.uid}/settings/profileEdit"
                   block
@@ -59,7 +59,7 @@
                 >
                   公開用
                 </v-btn>
-              </v-card-actions>
+              </v-card-actions> -->
             </v-card>
           </v-col>
           <v-row class="button">
