@@ -25,7 +25,9 @@
                   @change="changeImg"
                 /> -->
                 <v-col cols="12" sm="2">
-                  <v-btn color="primary"> 変更 </v-btn>
+                  <v-btn color="primary" @click="imageUpload(selectUserData)">
+                    変更
+                  </v-btn>
                 </v-col>
               </v-row>
             </v-col>
@@ -245,6 +247,9 @@ export default {
       this.$router.push(`/users/${selectUserData.uid}/settingComp`);
     },
 
+    imageUpload(selectUserData) {
+      this.$router.push(`/users/${selectUserData.uid}/settings/imageUpload`);
+    },
     changeImg(e) {
       this.thumbnail = e.target.files[0];
       if (this.thumbnail) {

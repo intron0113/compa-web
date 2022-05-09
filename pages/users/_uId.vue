@@ -121,7 +121,6 @@ export default {
     }
   },
   data: () => ({
-    // uid: this.$store.getters.user.uid,
     tab: "archive",
     post: "投稿した記事",
     event: "参加イベント",
