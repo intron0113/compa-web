@@ -1,4 +1,5 @@
 export const state = () => ({
+  // loggedIn: false,
   user: {
     uid: "",
     email: "",
@@ -26,6 +27,33 @@ export const getters = {
 };
 
 export const actions = {
+  // async onAuth({ commit }) {
+  //   try {
+  //     const user = this.$fire.auth.currentUser;
+  //     await this.$fire.auth.onAuthStateChanged((user) => {
+  //       user = user ? user : {};
+  //       commit("getData", {
+  //         uid: user.uid,
+  //         name: user.displayName,
+  //         email: user.email,
+  //         photoURL: user.photoURL,
+  //       });
+
+  //       commit("loginStatusChange", user.uid ? true : false);
+  //     });
+  //   } catch (error) {
+  //     console.log(error);
+  //   }
+  // },
+  async logout({ commit }) {
+    try {
+      await this.$fire.auth.signOut();
+      commit("signOut");
+      this.$router.push("/");
+    } catch (error) {
+      console.log(error); //eslint-disable-line
+    }
+  },
   async login({ dispatch }, payload) {
     try {
       await this.$fire.auth.signInWithEmailAndPassword(
@@ -41,6 +69,7 @@ export const actions = {
   async checkLogin({ commit }) {
     try {
       const user = this.$fire.auth.currentUser;
+      // commit("loginStateChange", true);
       await commit("getData", {
         uid: user.uid,
         name: user.displayName,
@@ -214,6 +243,21 @@ export const actions = {
 };
 
 export const mutations = {
+  // loginStatusChange(state, status) {
+  //   // 認証状態を双方向に変化
+  //   state.loggedIn = status;
+  // },
+  add(state, { uid, email, displayName, photoURL }) {
+    state.user = {
+      ...state.user,
+      ...{
+        uid: uid,
+        email: email,
+        displayName: displayName,
+        photoURL: photoURL,
+      },
+    };
+  },
   getData(state, user) {
     state.user = user;
   },
@@ -222,5 +266,13 @@ export const mutations = {
   },
   selectProfile(state, { post }) {
     state.selectUserData = post;
+  },
+  signOut(state) {
+    state.user.email = "";
+    state.user.password = "";
+    state.user.uid = "";
+    state.user.name = "";
+    state.user.photoURL = "";
+    // state.user.login = false
   },
 };
