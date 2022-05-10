@@ -2,8 +2,8 @@
   <form class="form form-login" @submit.prevent>
     <div class="row input">
       <FormItemInput
-        class="col-sm-12"
         v-model="email"
+        class="col-sm-12"
         type="text"
         placeholder="メールアドレス"
       />

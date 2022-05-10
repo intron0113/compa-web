@@ -14,6 +14,7 @@
 <script>
 export default {
   layout: "plain",
+  middleware: "auth",
   data() {
     return {
       uid: this.$store.getters.user.uid,

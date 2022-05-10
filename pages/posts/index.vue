@@ -78,6 +78,7 @@
 <script>
 export default {
   layout: "after-login",
+  middleware: "auth",
   async asyncData({ store }) {
     await store.dispatch("posts/fetchPosts");
   },
@@ -95,6 +96,7 @@ export default {
       return this.$store.getters["posts/posts"];
     },
   },
+
   mounted() {
     this.length = Math.ceil(this.posts.length / this.pageSize);
     this.displayLists = this.posts.slice(

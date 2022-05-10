@@ -19,6 +19,7 @@
 <script>
 export default {
   layout: "plain",
+  middleware: "auth",
   async asyncData({ store, route, error }) {
     const id = route.params;
     console.log(id);

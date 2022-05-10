@@ -18,6 +18,7 @@
 <script>
 export default {
   layout: "plain",
+  middleware: "auth",
   methods: {
     deletePost() {
       this.$router.push("/users/deleteComplete");

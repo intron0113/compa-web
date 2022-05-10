@@ -37,9 +37,9 @@
                     </div>
 
                     <v-list-item-content>
-                      <v-list-item-subtitle>{{
-                        post.name
-                      }}</v-list-item-subtitle>
+                      <v-list-item-subtitle>
+                        {{ post.name }}
+                      </v-list-item-subtitle>
 
                       <v-list-item-subtitle>
                         投稿日 {{ postedDay(post.time) }}
@@ -54,7 +54,7 @@
                     v-if="post !== 10"
                     :key="`divider-${post}`"
                     inset
-                  ></v-divider>
+                  />
                 </template>
               </v-list>
             </v-card>
@@ -67,7 +67,7 @@
                   v-model="page"
                   :length="length"
                   @input="pageChange"
-                ></v-pagination>
+                />
               </v-content>
             </v-col>
           </v-row>
@@ -80,6 +80,7 @@
 <script>
 export default {
   layout: "after-login",
+  middleware: "auth",
   async asyncData({ store }) {
     await store.dispatch("posts/fetchPosts");
   },

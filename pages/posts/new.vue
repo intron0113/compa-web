@@ -40,6 +40,7 @@
 <script>
 export default {
   layout: "after-login",
+  middleware: "auth",
   // asyncData({ redirect, store }) {
   //   if (!store.getters["uid"]) {
   //     redirect("/");
