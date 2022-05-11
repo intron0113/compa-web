@@ -5,7 +5,9 @@
         class="col-lg-8 col-lg-offset-2 col-md-8 col-md-offset-2 col-sm-10 col-sm-offset-1"
       >
         <div>
-          <div class="text-center">画像アップロード</div>
+          <div class="text-center">
+            好きな画像をアイコンに設定してください。
+          </div>
         </div>
         <hr class="mb-10" />
         <div class="row" align="center">
@@ -13,20 +15,24 @@
             <v-card flat>
               <v-card-text class="pa-0">
                 <v-form ref="login_form" v-model="login_valid" lazy-validation>
-                  <v-btn>ファイルを選択</v-btn>
+                  <FormItemIcon
+                    :img="postData.thumbnail"
+                    type="file"
+                    @change="changeImg"
+                  />
                   <div class="mb-10">●●MBまで</div>
                   <v-btn
                     :disabled="!login_valid"
-                    color="error"
+                    color="blue darken-3"
                     class="my-4 white--text"
-                    @click="email_login"
+                    @click="imageUpload(selectUserData)"
                   >
                     実行
                   </v-btn>
                   <v-btn
-                    color="blue darken-3"
+                    color="error"
                     class="mx-4 white--text"
-                    @click="email_login"
+                    @click="cancel(selectUserData)"
                   >
                     キャンセル
                   </v-btn>
@@ -44,5 +50,52 @@
 export default {
   // レイアウト plainを指定
   layout: "plain",
+  middleware: "auth",
+  async asyncData({ store, route, error }) {
+    const id = route.params;
+    console.log(id);
+    try {
+      await store.dispatch("userData", {
+        uid: id.uiD,
+      });
+    } catch (e) {
+      error({ statusCode: 404 });
+    }
+  },
+  data() {
+    return {
+      thumbnail: "",
+      postData: {
+        thumbnail: "",
+      },
+    };
+  },
+  computed: {
+    selectUserData() {
+      return this.$store.getters["selectUserData"];
+    },
+  },
+  methods: {
+    changeImg(e) {
+      this.thumbnail = e.target.files[0];
+      if (this.thumbnail) {
+        const reader = new FileReader();
+        reader.readAsDataURL(this.thumbnail);
+        reader.onload = () => {
+          this.postData.thumbnail = reader.result + "";
+        };
+      }
+    },
+    imageUpload(selectUserData) {
+      this.$store.dispatch("imageUpload", {
+        uid: selectUserData.uid,
+        thumbnail: this.thumbnail,
+      });
+      this.$router.push(`/users/${selectUserData.uid}/settingComp`);
+    },
+    cancel(selectUserData) {
+      this.$router.push(`/users/${selectUserData.uid}/settings`);
+    },
+  },
 };
 </script>

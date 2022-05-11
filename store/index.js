@@ -218,7 +218,35 @@ export const actions = {
       console.log(error);
     }
   },
-  async updateUserData({ dispatch }, payload) {
+  async imageUpload({}, payload) {
+    const storageRef = this.$fire.storage.ref();
+    const userRef = await this.$fire.firestore
+      .collection("user")
+      .doc(payload.uid);
+    console.log(payload);
+    try {
+      await storageRef
+        .child(`users/${payload.uid}.png`)
+        .put(payload.thumbnail)
+        .then(() => {
+          storageRef
+            .child(`users/${payload.uid}.png`)
+            .getDownloadURL()
+            .then((url) => {
+              this.$fire.auth.currentUser.updateProfile({
+                photoURL: url,
+              });
+              userRef.update({
+                photoURL: url,
+              });
+              location.reload();
+            });
+        });
+    } catch (error) {
+      console.log(error); //eslint-disable-line
+    }
+  },
+  async updateUserData({}, payload) {
     const userRef = await this.$fire.firestore
       .collection("user")
       .doc(payload.uid);

@@ -2,7 +2,7 @@
   <v-app>
     <v-main background-colorr:secondary>
       <v-container class="py-8 px-6" fluid>
-        <v-row>
+        <v-row justify="end">
           <v-col cols="4" md="2">
             <v-card elevation="5 py-3">
               <v-card-actions class="justify-center px-6 py-3">
@@ -60,6 +60,89 @@
               </v-card-text>
             </v-card>
           </v-col>
+          <v-col cols="12" md="10">
+            <v-card class="pb-10">
+              <v-card-subtitle class> コメント欄 </v-card-subtitle>
+
+              <v-col cols="12">
+                <v-list two-line>
+                  <v-card v-for="comment in commentLists" :key="comment.index">
+                    <v-row>
+                      <v-col @click="openPost(comment, index)">
+                        <!-- <v-card @click="openPost(post, index)"> -->
+                        <v-row>
+                          <v-col class="mx-3" cols="12" lg="8">
+                            <img
+                              v-if="!!comment.photoURL"
+                              :src="comment.photoURL"
+                              alt="プロフィール画像"
+                              class="image icon icon-user"
+                            />
+                            <img
+                              v-else
+                              src="/atoms/icons/user.jpg"
+                              alt="プロフィール画像"
+                              class="image icon icon-user"
+                            />
+                            <v-list-item-content>
+                              <v-list-item-subtitle>
+                                {{ comment.name }}
+                              </v-list-item-subtitle>
+                              <v-list-item-subtitle>
+                                投稿日 {{ postedDay(comment.time) }}
+                              </v-list-item-subtitle>
+                              <v-list-item-title>
+                                {{ comment.commentBody }}
+                              </v-list-item-title>
+                            </v-list-item-content>
+                          </v-col>
+                        </v-row>
+                        <!-- </v-list-item> -->
+                        <!-- <v-list-item> -->
+                        <!-- </v-card> -->
+                      </v-col>
+                      <v-col class="mb-4" cols="12" lg="4">
+                        <v-btn class="mx-3" @click="deleteComment(comment)">
+                          削除
+                        </v-btn>
+                      </v-col>
+                    </v-row>
+                  </v-card>
+                </v-list>
+              </v-col>
+
+              <v-card-actions class="justify-center">
+                <v-btn color="accent" @click="toComment"> コメントする </v-btn>
+              </v-card-actions>
+              <!-- コメント投稿機能 -->
+              <v-col cols="12">
+                <v-card v-show="comment">
+                  <v-container>
+                    <h2>投稿</h2>
+                    <v-form ref="form" lazy-validation>
+                      <v-list-item>
+                        <IconUser :image="photoURL" />
+                      </v-list-item>
+                      <v-list-item-content>
+                        <v-list-item-title>{{ name }}</v-list-item-title>
+                      </v-list-item-content>
+
+                      <v-textarea v-model="commentBody" required />
+                      <v-btn
+                        block
+                        large
+                        color="accent"
+                        class="mt-4 font-weight-bold"
+                        @click="publishComment(selectPost)"
+                      >
+                        送信
+                      </v-btn>
+                    </v-form>
+                  </v-container>
+                </v-card>
+              </v-col>
+            </v-card>
+          </v-col>
         </v-row>
       </v-container>
     </v-main>
@@ -73,6 +156,7 @@ export default {
     const id = route.params;
     console.log(id);
     try {
+      await store.dispatch("comments/commentLists", id);
       await store.dispatch("posts/getPost", {
         postId: id.postID,
         uid: id.uid,
@@ -82,11 +166,26 @@ export default {
     }
   },
   data() {
-    return {};
+    return {
+      comment: false,
+      commentBody: "",
+    };
   },
   computed: {
+    commentLists() {
+      return this.$store.getters["comments/userComments"];
+    },
     selectPost() {
       return this.$store.getters["posts/selectPost"];
+    },
+    uid() {
+      return this.$store.getters.user.uid;
+    },
+    name() {
+      return this.$store.getters.user.name;
+    },
+    photoURL() {
+      return this.$store.getters.user.photoURL;
     },
   },
 
@@ -110,7 +209,31 @@ export default {
     toComment() {
       this.comment = !this.comment;
     },
+    publishComment(selectPost) {
+      this.$store.dispatch("comments/publishComment", {
+        photoURL: this.photoURL,
+        name: this.name,
+        uid: this.uid,
+        postId: selectPost.postId,
+        commentBody: this.commentBody,
+      });
 
+      this.commentBody = "";
+      this.$router.push("/users/editComplete");
+    },
+
+    deleteComment(comment) {
+      this.$store.dispatch("comments/deleteComment", {
+        commentId: comment.commentId,
+        postId: comment.postId,
+        photoURL: this.photoURL,
+        name: this.name,
+        // uid: this.uid,
+        // title: selectPost.title,
+        // body: selectPost.body,
+      });
+      this.$router.push("/users/deleteComplete");
+    },
     displayTitle: function (text) {
       return text.split(/\n/);
     },
