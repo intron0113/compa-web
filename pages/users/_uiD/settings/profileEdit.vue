@@ -85,6 +85,7 @@
 <script>
 export default {
   layout: "after-login",
+  middleware: "auth",
   async asyncData({ store, route, error }) {
     const id = route.params;
     // const userId = this.store.getters.user.uid;
