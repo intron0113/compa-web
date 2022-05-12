@@ -4,7 +4,7 @@
       <v-container class="py-8 px-6" fluid>
         <v-row justify="end">
           <v-col cols="4" md="2">
-            <v-card elevation="5 py-3">
+            <v-card v-if="watchUser == selectPost.uid" elevation="5 py-3">
               <v-card-actions class="justify-center px-6 py-3">
                 <v-btn
                   block
@@ -33,8 +33,10 @@
             <v-card class="mx-auto" outlined>
               <v-list-item>
                 <IconUser :image="selectPost.photoURL" />
-                <v-list-item-content>
-                  <v-list-item-title>{{ selectPost.name }}</v-list-item-title>
+                <v-list-item-content @click="userPage(selectPost)">
+                  <v-list-item-title>
+                    {{ selectPost.name }}
+                  </v-list-item-title>
 
                   <v-list-item-subtitle>
                     {{ postedDay(selectPost.time) }}に投稿
@@ -91,9 +93,11 @@
                               <v-list-item-subtitle>
                                 投稿日 {{ postedDay(comment.time) }}
                               </v-list-item-subtitle>
-                              <v-list-item-title>
-                                {{ comment.commentBody }}
-                              </v-list-item-title>
+
+                              <v-list-item-title
+                                style="white-space: pre-wrap"
+                                v-text="comment.commentBody"
+                              />
                             </v-list-item-content>
                           </v-col>
                         </v-row>
@@ -117,28 +121,31 @@
               <!-- コメント投稿機能 -->
               <v-col cols="12">
                 <v-card v-show="comment">
-                  <v-container>
-                    <h2>投稿</h2>
-                    <v-form ref="form" lazy-validation>
-                      <v-list-item>
-                        <IconUser :image="photoURL" />
-                      </v-list-item>
-                      <v-list-item-content>
-                        <v-list-item-title>{{ name }}</v-list-item-title>
-                      </v-list-item-content>
-
-                      <v-textarea v-model="commentBody" required />
-                      <v-btn
-                        block
-                        large
-                        color="accent"
-                        class="mt-4 font-weight-bold"
-                        @click="publishComment(selectPost)"
-                      >
-                        送信
-                      </v-btn>
-                    </v-form>
-                  </v-container>
+                  <v-row>
+                    <v-col cols="12" class="pa-6">
+                      <h2>コメント内容</h2>
+                      <v-form ref="form" lazy-validation>
+                        <v-textarea
+                          v-model="commentBody"
+                          outlined
+                          auto-grow
+                          counter
+                          no-resize
+                          rows="6"
+                          :rules="myrules"
+                        />
+                        <v-btn
+                          block
+                          large
+                          color="accent"
+                          class="mt-4 font-weight-bold"
+                          @click="publishComment(selectPost)"
+                        >
+                          送信
+                        </v-btn>
+                      </v-form>
+                    </v-col>
+                  </v-row>
                 </v-card>
               </v-col>
             </v-card>
@@ -169,9 +176,13 @@ export default {
     return {
       comment: false,
       commentBody: "",
+      myrules: [(text) => text.length <= 500 || "最大文字数は500文字です"],
     };
   },
   computed: {
+    watchUser() {
+      return this.$store.getters.user.uid;
+    },
     commentLists() {
       return this.$store.getters["comments/userComments"];
     },
@@ -210,12 +221,13 @@ export default {
       this.comment = !this.comment;
     },
     publishComment(selectPost) {
+      const commentB = this.commentBody.replace(/\n/g, "\\n");
       this.$store.dispatch("comments/publishComment", {
         photoURL: this.photoURL,
         name: this.name,
         uid: this.uid,
         postId: selectPost.postId,
-        commentBody: this.commentBody,
+        commentBody: commentB,
       });
 
       this.commentBody = "";
@@ -236,6 +248,9 @@ export default {
     },
     displayTitle: function (text) {
       return text.split(/\n/);
+    },
+    userPage(selectPost) {
+      this.$router.push(`/users/${selectPost.uid}`);
     },
   },
 };

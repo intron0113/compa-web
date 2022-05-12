@@ -69,6 +69,7 @@ export const actions = {
       const querySnapshot = await this.$fire.firestore
         .collection("comments")
         .where("postId", "==", uid.postID)
+        .orderBy("time")
         .get();
 
       const userComments = [];
@@ -88,9 +89,10 @@ export const actions = {
 
           comment.name = userData.name;
           comment.photoURL = userData.photoURL;
+          comment.commentBody = comment.commentBody.replace(/\\n/g, "\n");
         });
       }
-
+      console.log(userComments);
       commit("setUserComments", userComments);
 
       // selectPost.push(data);

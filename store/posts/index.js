@@ -69,6 +69,7 @@ export const actions = {
       const querySnapshot = await this.$fire.firestore
         .collection("posts")
         .where("uid", "==", uid.uid)
+        .orderBy("time", "desc")
         .get();
 
       const userPosts = [];
@@ -149,8 +150,9 @@ export const actions = {
       const user = this.$fire.auth.currentUser;
       // console.log(user.uid);
       const querySnapshot = await this.$fire.firestore
-        .collection("posts")
+        .collection("posts", "desc")
         // .where("uid", "==", user.uid)
+        .orderBy("time")
         .get();
 
       const posts = [];
