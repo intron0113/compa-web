@@ -159,7 +159,6 @@ export default {
   middleware: "auth",
   async asyncData({ store, route, error }) {
     const id = route.params;
-    console.log(id);
     try {
       await store.dispatch("follows/userFollows", {
         route_uid: id.uid,
