@@ -90,45 +90,50 @@
             <v-col cols="12">
               <v-card class="px-5">
                 <v-col cols="12">
-                  <v-suheader>{{ post }}</v-suheader>
+                  <v-suheader>{{ title }}</v-suheader>
                 </v-col>
 
                 <v-list two-line>
-                  <v-card v-for="post in postLists" :key="post.index">
+                  <v-card v-for="follow in fLists" :key="follow.index">
                     <v-row>
-                      <v-col @click="openPost(post, index)">
-                        <!-- <v-card @click="openPost(post, index)"> -->
-                        <v-row>
-                          <v-col class="mx-3" cols="12" lg="8">
-                            <v-list-item-content>
-                              <v-list-item-subtitle>
-                                投稿日 {{ postedDay(post.time) }}
-                              </v-list-item-subtitle>
-                              <v-list-item-title>
-                                {{ post.title }}
-                              </v-list-item-title>
-                            </v-list-item-content>
-                          </v-col>
-                        </v-row>
-                        <!-- </v-list-item> -->
-                        <!-- <v-list-item> -->
-                        <!-- </v-card> -->
-                      </v-col>
-                      <v-col class="mb-4" cols="12" lg="4">
-                        <v-btn
-                          v-if="watchUser == selectUserData.uid"
-                          class="mx-3 z-index:100"
-                          @click="editPost(post, index)"
-                        >
-                          編集
-                        </v-btn>
-                        <v-btn
-                          v-if="watchUser == selectUserData.uid"
-                          class="mx-3"
-                          @click="deletePost(post)"
-                        >
-                          削除
-                        </v-btn>
+                      <v-col class="mx-3" cols="12">
+                        <v-list-item @click="openUser(follow, index)">
+                          <img
+                            v-if="!!follow.photoURL"
+                            :src="follow.photoURL"
+                            alt="プロフィール画像"
+                            class="image icon icon-user"
+                          />
+                          <img
+                            v-else
+                            src="/atoms/icons/user.jpg"
+                            alt="プロフィール画像"
+                            class="image icon icon-user"
+                          />
+                          <v-list-item-content>
+                            <v-list-item-title>
+                              {{ follow.name }}
+                            </v-list-item-title>
+                          </v-list-item-content>
+                          <div v-if="watchUser !== follow.followed_uid">
+                            <v-btn
+                              v-if="follow.followId == null"
+                              color="green"
+                              class="mx-3 z-index:100"
+                              @click="follow(follow, index)"
+                            >
+                              フォロー
+                            </v-btn>
+                            <v-btn
+                              v-else
+                              color="red"
+                              class="mx-3 z-index:100"
+                              @click="unFollow(follow, index)"
+                            >
+                              フォロー解除
+                            </v-btn>
+                          </div>
+                        </v-list-item>
                       </v-col>
                     </v-row>
                   </v-card>
@@ -162,11 +167,13 @@ export default {
     console.log(id);
     try {
       await store.dispatch("follows/userFollows", {
-        route_uid: id.uid,
+        route_uid: id.uiD,
       });
-      await store.dispatch("posts/userPosts", id);
+      await store.dispatch("posts/userPosts", {
+        uid: id.uiD,
+      });
       await store.dispatch("userData", {
-        uid: id.uid,
+        uid: id.uiD,
       });
     } catch (e) {
       error({ statusCode: 404 });
@@ -174,7 +181,7 @@ export default {
   },
   data: () => ({
     tab: "archive",
-    post: "投稿した記事",
+    title: "フォロー",
     event: "参加イベント",
     drawer: null,
     show: false,
@@ -182,7 +189,7 @@ export default {
 
     length: 0,
 
-    postLists: [],
+    fLists: [],
 
     pageSize: 5,
     imgSrc: "",
@@ -215,12 +222,12 @@ export default {
     },
   },
   mounted() {
-    this.length = Math.ceil(this.userPosts.length / this.pageSize);
-    this.postLists = this.userPosts.slice(
+    this.length = Math.ceil(this.followLists.length / this.pageSize);
+    this.fLists = this.followLists.slice(
       this.pageSize * (this.page - 1),
       this.pageSize * this.page
     );
-    console.log(this.postLists);
+    console.log(this.fLists);
   },
   methods: {
     openSettings(selectUserData) {
@@ -236,7 +243,7 @@ export default {
       this.$router.push(`/users/${selectUserData.uid}/follower`);
     },
     pageChange(pageNumber) {
-      this.postLists = this.userPosts.slice(
+      this.fLists = this.userPosts.slice(
         this.pageSize * (pageNumber - 1),
         this.pageSize * pageNumber
       );
@@ -257,22 +264,18 @@ export default {
     postedDay(timestamp) {
       return timestamp.toDate().toLocaleString("ja-JP");
     },
-    follow(selectUserData) {
+    follow(follow) {
       this.$store.dispatch("follows/follow", {
         following_uid: this.watchUser,
-        following_photoURL: this.photoURL,
-        following_name: this.name,
-        followed_uid: selectUserData.uid,
-        followed_photoURL: selectUserData.photoURL,
-        followed_name: selectUserData.name,
+        followed_uid: follow.uid,
       });
       this.followStatus = false;
     },
-    unFollow(youFollowing) {
+    unFollow(follow) {
       this.$store.dispatch("follows/unFollow", {
-        followId: youFollowing.followId,
-        following_uid: youFollowing.following_uid,
-        followed_uid: youFollowing.followed_uid,
+        followId: follow.followId,
+        following_uid: follow.following_uid,
+        followed_uid: follow.followed_uid,
       });
       this.followStatus = true;
     },
@@ -285,5 +288,22 @@ export default {
 }
 .v-input__control {
   padding-top: 6px !important;
+}
+.icon-user {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 50%;
+  width: 32px;
+  min-width: 32px;
+  height: 32px;
+  overflow: hidden;
+  margin-right: 10px;
+
+  > .image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
 }
 </style>

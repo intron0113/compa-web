@@ -4,6 +4,8 @@ export const state = () => ({
   follows: [],
   userComments: [],
   youFollowing: [],
+  followLists: [],
+  followerLists: [],
 });
 
 export const getters = {
@@ -12,6 +14,12 @@ export const getters = {
   },
   youFollowing: (state) => {
     return state.youFollowing;
+  },
+  followLists: (state) => {
+    return state.followLists;
+  },
+  followerLists: (state) => {
+    return state.followerLists;
   },
 };
 
@@ -24,6 +32,12 @@ export const mutations = {
   },
   youFollowing(state, data) {
     state.youFollowing = data;
+  },
+  followLists(state, data) {
+    state.followLists = data;
+  },
+  followerLists(state, data) {
+    state.followerLists = data;
   },
 };
 
@@ -68,14 +82,16 @@ export const actions = {
   },
   async userFollows({ dispatch }, payload) {
     try {
-      console.log(payload.followed_uid);
+      console.log(payload);
       this.$fire.auth.onAuthStateChanged((user) => {
         if (user) {
           const { uid, email, displayName, photoURL } = user;
-          const { followed_uid } = payload;
+          const { route_uid } = payload;
           console.log(uid);
-          console.log(followed_uid);
-          dispatch("getUser", { followed_uid, uid });
+          console.log(route_uid);
+          dispatch("getUser", { route_uid, uid });
+          dispatch("getFollowList", { route_uid, uid });
+          dispatch("getFollowerList", { route_uid, uid });
         }
       });
     } catch (error) {
@@ -84,13 +100,42 @@ export const actions = {
   },
 
   async getUser({ commit }, payload) {
+    const querySnapshot = await this.$fire.firestore
+      .collection("follows")
+      .where("following_uid", "==", payload.uid)
+      .where("followed_uid", "==", payload.route_uid)
+      .get();
+
+    const userFollows = [];
+    querySnapshot.forEach((doc) => {
+      const data = doc.data();
+
+      userFollows.push(data);
+    });
+
+    if (userFollows.length == 0) {
+      userFollows.push({
+        followId: null,
+        followed_uid: null,
+        following_uid: null,
+      });
+    }
+
+    const { followId, followed_uid, following_uid } = userFollows[0];
+
+    commit("youFollowing", {
+      followId: followId,
+      followed_uid: followed_uid,
+      following_uid: following_uid,
+    });
+  },
+  async getFollowList({ commit }, payload) {
     try {
       console.log(payload);
 
       const querySnapshot = await this.$fire.firestore
         .collection("follows")
-        .where("following_uid", "==", payload.uid)
-        .where("followed_uid", "==", payload.followed_uid)
+        .where("following_uid", "==", payload.route_uid)
         .get();
 
       const userFollows = [];
@@ -99,28 +144,56 @@ export const actions = {
         console.log(data);
         userFollows.push(data);
       });
-      // for (let i = 0; i < userPosts.length; i++) {
-      //   const post = userPosts[i];
-      //   const userQuerySnapshot = await this.$fire.firestore
-      //     .collection("user")
-      //     .where("uid", "==", post.uid)
-      //     .get();
-      //   userQuerySnapshot.forEach((doc) => {
-      //     const userData = doc.data();
 
-      //     post.name = userData.name;
-      //     post.photoURL = userData.photoURL;
-      //   });
-      // }
-      const { followId, follow_status, followed_uid, following_uid } =
-        userFollows[0];
-      console.log(followId);
-      commit("youFollowing", {
-        followId: followId,
-        follow_status: follow_status,
-        followed_uid: followed_uid,
-        following_uid: following_uid,
+      for (let i = 0; i < userFollows.length; i++) {
+        const userFollow = userFollows[i];
+        const userQuerySnapshot = await this.$fire.firestore
+          .collection("user")
+          .where("uid", "==", userFollow.followed_uid)
+          .get();
+        userQuerySnapshot.forEach((doc) => {
+          const userData = doc.data();
+
+          userFollow.name = userData.name;
+          userFollow.photoURL = userData.photoURL;
+        });
+      }
+      console.log(userFollows);
+      commit("followLists", userFollows);
+    } catch (error) {
+      console.log(error);
+    }
+  },
+  async getFollowerList({ commit }, payload) {
+    try {
+      console.log(payload);
+
+      const querySnapshot = await this.$fire.firestore
+        .collection("follows")
+        .where("followed_uid", "==", payload.route_uid)
+        .get();
+
+      const userFollowers = [];
+      querySnapshot.forEach((doc) => {
+        const data = doc.data();
+        console.log(data);
+        userFollowers.push(data);
       });
+      for (let i = 0; i < userFollowers.length; i++) {
+        const userFollower = userFollowers[i];
+        const userQuerySnapshot = await this.$fire.firestore
+          .collection("user")
+          .where("uid", "==", userFollower.following_uid)
+          .get();
+        userQuerySnapshot.forEach((doc) => {
+          const userData = doc.data();
+
+          userFollower.name = userData.name;
+          userFollower.photoURL = userData.photoURL;
+        });
+      }
+
+      commit("followerLists", userFollowers);
     } catch (error) {
       console.log(error);
     }
@@ -159,7 +232,7 @@ export const actions = {
         followed_uid: payload.followed_uid,
         // followed_photoURL: followerUserRef,
         // followed_name: followerUserRef,
-        follow_status: true,
+        // follow_status: true,
       });
       // console.log(uid);
       // console.log(title);
