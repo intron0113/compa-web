@@ -90,45 +90,57 @@
             <v-col cols="12">
               <v-card class="px-5">
                 <v-col cols="12">
-                  <v-suheader>{{ post }}</v-suheader>
+                  <v-suheader>{{ title }}</v-suheader>
                 </v-col>
 
                 <v-list two-line>
-                  <v-card v-for="post in postLists" :key="post.index">
+                  <v-card v-for="follow in fLists" :key="follow.index">
+                    <!-- <v-card v-for="follow in followerLists" :key="follow.index"> -->
                     <v-row>
-                      <v-col @click="openPost(post, index)">
-                        <!-- <v-card @click="openPost(post, index)"> -->
-                        <v-row>
-                          <v-col class="mx-3" cols="12" lg="8">
-                            <v-list-item-content>
-                              <v-list-item-subtitle>
-                                投稿日 {{ postedDay(post.time) }}
-                              </v-list-item-subtitle>
-                              <v-list-item-title>
-                                {{ post.title }}
-                              </v-list-item-title>
-                            </v-list-item-content>
-                          </v-col>
-                        </v-row>
-                        <!-- </v-list-item> -->
-                        <!-- <v-list-item> -->
-                        <!-- </v-card> -->
+                      <v-col class="mx-3" cols="10">
+                        <v-list-item @click="openUser(follow, index)">
+                          <img
+                            v-if="!!follow.photoURL"
+                            :src="follow.photoURL"
+                            alt="プロフィール画像"
+                            class="image icon icon-user"
+                          />
+                          <img
+                            v-else
+                            src="/atoms/icons/user.jpg"
+                            alt="プロフィール画像"
+                            class="image icon icon-user"
+                          />
+                          <v-list-item-content>
+                            <v-list-item-title>
+                              {{ follow.name }}
+                            </v-list-item-title>
+                          </v-list-item-content>
+                        </v-list-item>
                       </v-col>
-                      <v-col class="mb-4" cols="12" lg="4">
-                        <v-btn
-                          v-if="watchUser == selectUserData.uid"
-                          class="mx-3 z-index:100"
-                          @click="editPost(post, index)"
-                        >
-                          編集
-                        </v-btn>
-                        <v-btn
-                          v-if="watchUser == selectUserData.uid"
-                          class="mx-3"
-                          @click="deletePost(post)"
-                        >
-                          削除
-                        </v-btn>
+                      <v-col cols="2">
+                        <div v-if="watchUser !== follow.following_uid">
+                          <v-btn
+                            v-if="
+                              loginUserFollowLists.includes(
+                                follow.following_uid
+                              ) == true
+                            "
+                            color="red"
+                            class="mx-3 z-index:100"
+                            @click="followerCut(follow, index)"
+                          >
+                            フォロー解除
+                          </v-btn>
+                          <v-btn
+                            v-else
+                            color="green"
+                            class="mx-3 z-index:100"
+                            @click="addFollow(follow, index)"
+                          >
+                            フォロー
+                          </v-btn>
+                        </div>
                       </v-col>
                     </v-row>
                   </v-card>
@@ -161,32 +173,36 @@ export default {
     const id = route.params;
     try {
       await store.dispatch("follows/userFollows", {
-        route_uid: id.uid,
+        route_uid: id.uiD,
       });
-      await store.dispatch("posts/userPosts", id);
+      await store.dispatch("posts/userPosts", {
+        uid: id.uiD,
+      });
       await store.dispatch("userData", {
-        uid: id.uid,
+        uid: id.uiD,
       });
     } catch (e) {
       error({ statusCode: 404 });
     }
   },
   data: () => ({
-    tab: "archive",
-    post: "投稿した記事",
-    event: "参加イベント",
-    drawer: null,
-    show: false,
+    title: "フォロワー",
     page: 1,
-
     length: 0,
-
-    postLists: [],
-
-    pageSize: 5,
-    imgSrc: "",
+    fLists: [],
+    pageSize: 60,
     followStatus: true,
   }),
+  async fetch() {
+    this.length = Math.ceil(this.followerLists.length / this.pageSize);
+    this.fLists = this.followerLists.slice(
+      this.pageSize * (this.page - 1),
+      this.pageSize * this.page
+    );
+    this.loginUserFollowLists = this.loginUserLists.map(
+      (obj) => obj.followed_uid
+    );
+  },
   computed: {
     watchUser() {
       return this.$store.getters.user.uid;
@@ -209,18 +225,33 @@ export default {
     followerLists() {
       return this.$store.getters["follows/followerLists"];
     },
+    loginUserLists() {
+      return this.$store.getters["follows/loginUserLists"];
+    },
     selectUserData() {
       return this.$store.getters["selectUserData"];
     },
   },
-  mounted() {
-    this.length = Math.ceil(this.userPosts.length / this.pageSize);
-    this.postLists = this.userPosts.slice(
+  beforeUpdate() {
+    this.length = Math.ceil(this.followerLists.length / this.pageSize);
+    this.fLists = this.followerLists.slice(
       this.pageSize * (this.page - 1),
       this.pageSize * this.page
     );
-    console.log(this.postLists);
+    this.loginUserFollowLists = this.loginUserLists.map(
+      (obj) => obj.followed_uid
+    );
   },
+  // mounted() {
+  //   this.length = Math.ceil(this.followerLists.length / this.pageSize);
+  //   this.fLists = this.followerLists.slice(
+  //     this.pageSize * (this.page - 1),
+  //     this.pageSize * this.page
+  //   );
+  //   this.loginUserFollowLists = this.loginUserLists.map(
+  //     (obj) => obj.followed_uid
+  //   );
+  // },
   methods: {
     openSettings(selectUserData) {
       this.$router.push(`/users/${selectUserData.uid}/settings`);
@@ -235,7 +266,7 @@ export default {
       this.$router.push(`/users/${selectUserData.uid}/follower`);
     },
     pageChange(pageNumber) {
-      this.postLists = this.userPosts.slice(
+      this.fLists = this.followerLists.slice(
         this.pageSize * (pageNumber - 1),
         this.pageSize * pageNumber
       );
@@ -246,12 +277,8 @@ export default {
     deletePost(post) {
       this.$router.push(`/users/${post.uid}/${post.postId}/delete`);
     },
-    openPost(post) {
-      // this.$store.dispatch("posts/getPost", {
-      //   postId: post.postId,
-      //   uid: post.uid,
-      // });
-      this.$router.push(`/users/${post.uid}/${post.postId}`);
+    openUser(follow) {
+      this.$router.push(`/users/${follow.following_uid}`);
     },
     postedDay(timestamp) {
       return timestamp.toDate().toLocaleString("ja-JP");
@@ -275,6 +302,22 @@ export default {
       });
       this.followStatus = true;
     },
+    addFollow(follow) {
+      this.$store.dispatch("follows/follow", {
+        following_uid: this.watchUser,
+        followed_uid: follow.following_uid,
+      });
+      this.followStatus = false;
+    },
+
+    followerCut(follow) {
+      this.$store.dispatch("follows/followerCut", {
+        // followId: follow.followId,
+        following_uid: this.watchUser,
+        followed_uid: follow.following_uid,
+      });
+      this.followStatus = true;
+    },
   },
 };
 </script>
@@ -284,5 +327,22 @@ export default {
 }
 .v-input__control {
   padding-top: 6px !important;
+}
+.icon-user {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 50%;
+  width: 32px;
+  min-width: 32px;
+  height: 32px;
+  overflow: hidden;
+  margin-right: 10px;
+
+  > .image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
 }
 </style>
