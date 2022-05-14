@@ -150,9 +150,9 @@ export const actions = {
       const user = this.$fire.auth.currentUser;
       // console.log(user.uid);
       const querySnapshot = await this.$fire.firestore
-        .collection("posts", "desc")
+        .collection("posts")
         // .where("uid", "==", user.uid)
-        .orderBy("time")
+        .orderBy("time", "desc")
         .get();
 
       const posts = [];

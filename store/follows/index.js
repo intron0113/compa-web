@@ -4,6 +4,7 @@ export const state = () => ({
   follows: [],
   userComments: [],
   youFollowing: [],
+  loginUserLists: [],
   followLists: [],
   followerLists: [],
 });
@@ -14,6 +15,9 @@ export const getters = {
   },
   youFollowing: (state) => {
     return state.youFollowing;
+  },
+  loginUserLists: (state) => {
+    return state.loginUserLists;
   },
   followLists: (state) => {
     return state.followLists;
@@ -32,6 +36,9 @@ export const mutations = {
   },
   youFollowing(state, data) {
     state.youFollowing = data;
+  },
+  loginUserLists(state, data) {
+    state.loginUserLists = data;
   },
   followLists(state, data) {
     state.followLists = data;
@@ -90,6 +97,7 @@ export const actions = {
           console.log(uid);
           console.log(route_uid);
           dispatch("getUser", { route_uid, uid });
+          dispatch("getLoginUserFollowList", { route_uid, uid });
           dispatch("getFollowList", { route_uid, uid });
           dispatch("getFollowerList", { route_uid, uid });
         }
@@ -128,6 +136,31 @@ export const actions = {
       followed_uid: followed_uid,
       following_uid: following_uid,
     });
+  },
+  async getLoginUserFollowList({ commit }, payload) {
+    const querySnapshot = await this.$fire.firestore
+      .collection("follows")
+      .where("following_uid", "==", payload.uid)
+      .get();
+
+    const userFollows = [];
+    querySnapshot.forEach((doc) => {
+      const data = doc.data();
+
+      userFollows.push(data);
+    });
+
+    if (userFollows.length == 0) {
+      userFollows.push({
+        followId: null,
+        followed_uid: null,
+        following_uid: null,
+      });
+    }
+
+    // const { followId, followed_uid, following_uid } = userFollows[0];
+
+    commit("loginUserLists", userFollows);
   },
   async getFollowList({ commit }, payload) {
     try {
@@ -194,6 +227,35 @@ export const actions = {
       }
 
       commit("followerLists", userFollowers);
+    } catch (error) {
+      console.log(error);
+    }
+  },
+
+  async followerCut({ dispatch }, payload) {
+    try {
+      const querySnapshot = await this.$fire.firestore
+        .collection("follows")
+        .where("following_uid", "==", payload.following_uid)
+        .where("followed_uid", "==", payload.followed_uid)
+        .get();
+
+      console.log(payload);
+
+      const userFollows = [];
+      querySnapshot.forEach((doc) => {
+        const data = doc.data();
+
+        userFollows.push(data);
+      });
+
+      const { followId, followed_uid, following_uid } = userFollows[0];
+
+      console.log(followId);
+
+      await this.$fire.firestore.collection("follows").doc(followId).delete();
+      dispatch("getFollows");
+      location.reload();
     } catch (error) {
       console.log(error);
     }

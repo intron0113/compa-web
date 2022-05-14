@@ -95,8 +95,9 @@
 
                 <v-list two-line>
                   <v-card v-for="follow in fLists" :key="follow.index">
+                    <!-- <v-card v-for="follow in followerLists" :key="follow.index"> -->
                     <v-row>
-                      <v-col class="mx-3" cols="12">
+                      <v-col class="mx-3" cols="10">
                         <v-list-item @click="openUser(follow, index)">
                           <img
                             v-if="!!follow.photoURL"
@@ -113,27 +114,34 @@
                           <v-list-item-content>
                             <v-list-item-title>
                               {{ follow.name }}
+                              <!-- {{ follow }} -->
                             </v-list-item-title>
                           </v-list-item-content>
-                          <div v-if="watchUser !== follow.followed_uid">
-                            <v-btn
-                              v-if="follow.followId == null"
-                              color="green"
-                              class="mx-3 z-index:100"
-                              @click="follow(follow, index)"
-                            >
-                              フォロー
-                            </v-btn>
-                            <v-btn
-                              v-else
-                              color="red"
-                              class="mx-3 z-index:100"
-                              @click="unFollow(follow, index)"
-                            >
-                              フォロー解除
-                            </v-btn>
-                          </div>
                         </v-list-item>
+                      </v-col>
+                      <v-col cols="2">
+                        <div v-if="watchUser !== follow.followed_uid">
+                          <v-btn
+                            v-if="
+                              loginUserFollowLists.includes(
+                                follow.followed_uid
+                              ) == true
+                            "
+                            color="red"
+                            class="mx-3 z-index:100"
+                            @click="followerCut(follow, index)"
+                          >
+                            フォロー解除
+                          </v-btn>
+                          <v-btn
+                            v-else
+                            color="green"
+                            class="mx-3 z-index:100"
+                            @click="addFollow(follow, index)"
+                          >
+                            フォロー
+                          </v-btn>
+                        </div>
                       </v-col>
                     </v-row>
                   </v-card>
@@ -164,7 +172,6 @@ export default {
   middleware: "auth",
   async asyncData({ store, route, error }) {
     const id = route.params;
-    console.log(id);
     try {
       await store.dispatch("follows/userFollows", {
         route_uid: id.uiD,
@@ -180,21 +187,23 @@ export default {
     }
   },
   data: () => ({
-    tab: "archive",
     title: "フォロー",
-    event: "参加イベント",
-    drawer: null,
-    show: false,
     page: 1,
-
     length: 0,
-
     fLists: [],
-
-    pageSize: 5,
-    imgSrc: "",
+    pageSize: 60,
     followStatus: true,
   }),
+  async fetch() {
+    this.length = Math.ceil(this.followLists.length / this.pageSize);
+    this.fLists = this.followLists.slice(
+      this.pageSize * (this.page - 1),
+      this.pageSize * this.page
+    );
+    this.loginUserFollowLists = this.loginUserLists.map(
+      (obj) => obj.followed_uid
+    );
+  },
   computed: {
     watchUser() {
       return this.$store.getters.user.uid;
@@ -217,18 +226,33 @@ export default {
     followerLists() {
       return this.$store.getters["follows/followerLists"];
     },
+    loginUserLists() {
+      return this.$store.getters["follows/loginUserLists"];
+    },
     selectUserData() {
       return this.$store.getters["selectUserData"];
     },
   },
-  mounted() {
+  beforeUpdate() {
     this.length = Math.ceil(this.followLists.length / this.pageSize);
     this.fLists = this.followLists.slice(
       this.pageSize * (this.page - 1),
       this.pageSize * this.page
     );
-    console.log(this.fLists);
+    this.loginUserFollowLists = this.loginUserLists.map(
+      (obj) => obj.followed_uid
+    );
   },
+  // mounted() {
+  //   this.length = Math.ceil(this.followerLists.length / this.pageSize);
+  //   this.fLists = this.followerLists.slice(
+  //     this.pageSize * (this.page - 1),
+  //     this.pageSize * this.page
+  //   );
+  //   this.loginUserFollowLists = this.loginUserLists.map(
+  //     (obj) => obj.followed_uid
+  //   );
+  // },
   methods: {
     openSettings(selectUserData) {
       this.$router.push(`/users/${selectUserData.uid}/settings`);
@@ -243,7 +267,7 @@ export default {
       this.$router.push(`/users/${selectUserData.uid}/follower`);
     },
     pageChange(pageNumber) {
-      this.fLists = this.userPosts.slice(
+      this.fLists = this.followLists.slice(
         this.pageSize * (pageNumber - 1),
         this.pageSize * pageNumber
       );
@@ -254,27 +278,43 @@ export default {
     deletePost(post) {
       this.$router.push(`/users/${post.uid}/${post.postId}/delete`);
     },
-    openPost(post) {
-      // this.$store.dispatch("posts/getPost", {
-      //   postId: post.postId,
-      //   uid: post.uid,
-      // });
-      this.$router.push(`/users/${post.uid}/${post.postId}`);
+    openUser(follow) {
+      this.$router.push(`/users/${follow.followed_uid}`);
     },
     postedDay(timestamp) {
       return timestamp.toDate().toLocaleString("ja-JP");
     },
-    follow(follow) {
+    follow(selectUserData) {
       this.$store.dispatch("follows/follow", {
         following_uid: this.watchUser,
-        followed_uid: follow.uid,
+        following_photoURL: this.photoURL,
+        following_name: this.name,
+        followed_uid: selectUserData.uid,
+        followed_photoURL: selectUserData.photoURL,
+        followed_name: selectUserData.name,
       });
       this.followStatus = false;
     },
-    unFollow(follow) {
+    unFollow(youFollowing) {
       this.$store.dispatch("follows/unFollow", {
-        followId: follow.followId,
-        following_uid: follow.following_uid,
+        followId: youFollowing.followId,
+        following_uid: youFollowing.following_uid,
+        followed_uid: youFollowing.followed_uid,
+      });
+      this.followStatus = true;
+    },
+    addFollow(follow) {
+      this.$store.dispatch("follows/follow", {
+        following_uid: this.watchUser,
+        followed_uid: follow.followed_uid,
+      });
+      this.followStatus = false;
+    },
+
+    followerCut(follow) {
+      this.$store.dispatch("follows/followerCut", {
+        // followId: follow.followId,
+        following_uid: this.watchUser,
         followed_uid: follow.followed_uid,
       });
       this.followStatus = true;
