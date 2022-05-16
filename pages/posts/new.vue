@@ -18,6 +18,7 @@
                       required
                       ï
                     />
+                    <TagInput />
                     <client-only>
                       <vue-simplemde
                         v-model="body"
