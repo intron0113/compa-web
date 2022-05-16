@@ -235,6 +235,7 @@ export const actions = {
         photoURL: userRef,
         name: userRef,
         uid: payload.uid,
+        tags: payload.tags,
         title: payload.title,
         body: payload.body,
         time: this.$fireModule.firestore.FieldValue.serverTimestamp(),

@@ -18,7 +18,8 @@
                       required
                       ï
                     />
-                    <TagInput />
+                    <TagInput v-model="tag_str" />
+
                     <client-only>
                       <vue-simplemde
                         v-model="body"
@@ -50,6 +51,7 @@ export default {
     return {
       title: "",
       body: "",
+      tag_str: "新規投稿",
       // text: '',
       markdownContent: "",
       // formData: {
@@ -117,6 +119,7 @@ export default {
         photoURL: this.photoURL,
         name: this.name,
         uid: this.uid,
+        tags: this.tag_str,
         title: this.title,
         body: this.body,
       });
