@@ -17,8 +17,8 @@
                       v-model="selectPost.title"
                       label="記事タイトル"
                       required
-                      ï
                     />
+                    <TagInput v-model="selectPost.tags" />
                     <client-only>
                       <vue-simplemde
                         v-model="selectPost.body"
@@ -154,6 +154,7 @@ export default {
         photoURL: this.photoURL,
         name: this.name,
         uid: this.uid,
+        tags: selectPost.tags,
         title: selectPost.title,
         body: selectPost.body,
       });

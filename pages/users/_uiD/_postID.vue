@@ -48,6 +48,9 @@
                   <v-list-item-title class="text-h5 mb-1">
                     {{ selectPost.title }}
                   </v-list-item-title>
+                  <v-list-item-subtitle v-if="selectPost.tags !== ''">
+                    <TagWatch v-model="selectPost.tags" />
+                  </v-list-item-subtitle>
                 </v-list-item-content>
               </v-list-item>
             </v-card>

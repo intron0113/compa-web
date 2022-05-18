@@ -137,6 +137,7 @@ export const actions = {
         name: selectPost[0].name,
         photoURL: selectPost[0].photoURL,
         postId: selectPost[0].postId,
+        tags: selectPost[0].tags,
         time: selectPost[0].time,
         title: selectPost[0].title,
         uid: selectPost[0].uid,
@@ -201,14 +202,15 @@ export const actions = {
     const userRef = await this.$fire.firestore
       .collection("user")
       .doc(payload.uid);
-
+    console.log(payload);
     try {
       await collection.doc(payload.postId).update({
         postId: payload.postId,
-        photoURL: userRef.photoURL,
-        name: userRef.name,
+        // photoURL: userRef.photoURL,
+        // name: userRef.name,
         uid: payload.uid,
         title: payload.title,
+        tags: payload.tags,
         body: payload.body,
         time: this.$fireModule.firestore.FieldValue.serverTimestamp(),
       });
