@@ -44,6 +44,16 @@
                     ></span>
                   </div>
                   <div class="v-text-field__slot">
+                    <!-- <v-text-field
+                      ref="input"
+                      filled
+                      label="入力欄"
+                      class="input"
+                      type="text"
+                      placeholder="ここに入力"
+                      @keyup.enter="enter($event.target)"
+                      @keypress="canEnter = true"
+                    /> -->
                     <input
                       id="input-18"
                       autocomplete="off"
@@ -53,9 +63,23 @@
                       placeholder="compa内検索"
                       type="text"
                       value=""
-                      @keyup.enter="say"
+                      @keyup.enter="say($event.target)"
                       @keypress="setCanMessageSubmit"
                     />
+                    <!-- <v-text-field
+                  id="input-18"
+                  ref="input"
+                  v-model="query"
+                  autocomplete="off"
+                  role="button"
+                  aria-haspopup="true"
+                  aria-expanded="false"
+                  placeholder="検索"
+                  type="text"
+                  value=""
+                  @keyup.enter="say($event.target)"
+                  @keypress="setCanMessageSubmit"
+                /> -->
                   </div>
                 </div>
               </div>
@@ -157,8 +181,10 @@
                 ></span>
               </div>
               <div class="v-text-field__slot">
-                <input
+                <v-text-field
                   id="input-18"
+                  ref="input"
+                  v-model="query"
                   autocomplete="off"
                   role="button"
                   aria-haspopup="true"
@@ -166,7 +192,7 @@
                   placeholder="検索"
                   type="text"
                   value=""
-                  @keyup.enter="say"
+                  @keyup.enter="say($event.target)"
                   @keypress="setCanMessageSubmit"
                 />
               </div>
@@ -229,6 +255,7 @@ export default {
       ],
       author: "Compa",
       justify: "space-between",
+      query: "",
     };
   },
 
@@ -263,15 +290,23 @@ export default {
     setCanMessageSubmit() {
       this.canMessageSubmit = true;
     },
-    say() {
+    say(target) {
       if (!this.canMessageSubmit) {
         return;
       }
 
       // -- submit message -- //
-
-      this.$router.push("/login/serch");
-      this.message = "";
+      this.$store.dispatch("search/getLists", {
+        searchWord: target.value,
+      });
+      this.$store.commit("search/setQWord", {
+        searchWord: target.value,
+      });
+      this.$router.push(`/posts/search/${target.value}`);
+      // this.$router.push(`/posts/${target.value}`);
+      // this.$router.push("/login/serch");
+      // this.message = "";
+      target.value = "";
       this.canMessageSubmit = false;
     },
   },

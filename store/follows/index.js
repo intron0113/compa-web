@@ -171,6 +171,8 @@ export const actions = {
         .where("following_uid", "==", payload.route_uid)
         .get();
 
+      console.log(querySnapshot);
+
       const userFollows = [];
       querySnapshot.forEach((doc) => {
         const data = doc.data();
