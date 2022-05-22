@@ -99,38 +99,6 @@
                     </v-list-item-content>
                   </v-list-item>
                 </v-card>
-                <!-- <v-card v-for="post in displayLists" :key="post.index">
-                  <v-list-item @click="openUser(post, index)">
-                    <img
-                      v-if="!!post.photoURL"
-                      :src="post.photoURL"
-                      alt="プロフィール画像"
-                      class="image icon icon-user"
-                    />
-                    <img
-                      v-else
-                      src="/atoms/icons/user.jpg"
-                      alt="プロフィール画像"
-                      class="image icon icon-user"
-                    />
-                    <v-list-item-content>
-                      <v-list-item-title>
-                        {{ post.name }}
-                      </v-list-item-title>
-
-                      <v-list-item-subtitle>
-                        {{ postedDay(post.time) }}に投稿
-                      </v-list-item-subtitle>
-                    </v-list-item-content>
-                  </v-list-item>
-                  <v-list-item three-line @click="openPost(post, index)">
-                    <v-list-item-content>
-                      <v-list-item-title class="text-h5 mb-1">
-                        {{ post.title }}
-                      </v-list-item-title>
-                    </v-list-item-content>
-                  </v-list-item>
-                </v-card> -->
               </v-list>
               <v-col cols="12">
                 <v-content>
