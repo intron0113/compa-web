@@ -37,7 +37,8 @@
     "sass-loader": "^10.1.1",
     "simple-m-editor": "^0.4.6",
     "vue": "^2.6.14",
-    "vue-simplemde": "^2.0.1"
+    "vue-simplemde": "^2.0.1",
+    "vuex-persistedstate": "^3.2.1"
   },
   "devDependencies": {
     "@nuxtjs/eslint-config": "^6.0.0",

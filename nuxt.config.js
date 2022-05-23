@@ -58,6 +58,7 @@ export default {
     "@/plugins/element-ui",
     "~/plugins/day.js",
     "@/plugins/moment",
+    { src: "~/plugins/persistedstate.js", ssr: false },
     {
       src: "@/plugins/plugin",
       mode: "client",
