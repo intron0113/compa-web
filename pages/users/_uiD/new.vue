@@ -47,6 +47,17 @@ export default {
   //   if (!store.getters["uid"]) {
   //     redirect("/");
   //   }
+  async asyncData({ store, route, error }) {
+    const id = route.params;
+    console.log(id);
+    try {
+      await store.dispatch("userData", {
+        uid: id.uiD,
+      });
+    } catch (e) {
+      error({ statusCode: 404 });
+    }
+  },
   data() {
     return {
       title: "",

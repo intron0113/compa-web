@@ -4,6 +4,7 @@
       <SocialRegister />
     </div>
     <div class="form col-sm-6 col-xs-12">
+      <toaster />
       <form class="form form-register-profile" @submit.prevent>
         <div class="v-row input">
           <FormItemInput
@@ -21,15 +22,15 @@
           />
 
           <FormItemInput
-            class="col-lg-6 col-sm-12"
             v-model="password"
+            class="col-sm-12"
             required
             placeholder="パスワード"
             type="password"
           />
           <FormItemInput
-            class="col-lg-6 col-sm-12"
             v-model="passwordCheck"
+            class="col-sm-12"
             required
             placeholder="パスワード（確認）"
             type="password"
@@ -39,13 +40,6 @@
             半角英字、数字、記号を組み合わせて 8 文字以上で入力してください
           </p>
         </div>
-
-        <FormItemIcon
-          :img="postData.thumbnail"
-          type="file"
-          @change="changeImg"
-        />
-        <p class="placeholder">好きな画像をアイコンに設定してください。</p>
         <div class="button">
           <FormItemButton type="submit" label="登録" @click="register" />
         </div>
@@ -69,24 +63,14 @@ export default {
     };
   },
   methods: {
-    changeImg(e) {
-      this.thumbnail = e.target.files[0];
-      if (this.thumbnail) {
-        const reader = new FileReader();
-        reader.readAsDataURL(this.thumbnail);
-        reader.onload = () => {
-          this.postData.thumbnail = reader.result + "";
-        };
-      }
-    },
     register() {
       if (this.password === this.passwordCheck) {
         this.$store.dispatch("register", {
           name: this.name,
           email: this.email,
           password: this.password,
-          thumbnail: this.thumbnail,
         });
+        return (this.isDisplay = true);
       }
     },
   },

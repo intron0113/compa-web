@@ -10,11 +10,13 @@
         <v-row>
           <v-col cols="6" sm="8" md="10">
             <v-toolbar-title
-              @click="$router.push('/')"
               style="width: 100%"
               class="ml-0 pl-4"
+              @click="$router.push('/')"
             >
-              <span class="white--text">{{ title }}</span>
+              <span class="white--text" style="cursor: pointer">{{
+                title
+              }}</span>
               <v-spacer />
             </v-toolbar-title>
           </v-col>
@@ -28,8 +30,9 @@
               depressed
               elevation="2"
               outlined
-              >新規登録</v-btn
             >
+              新規登録
+            </v-btn>
           </v-col>
           <!-- ログインアイコン -->
           <v-col cols="3" sm="2" md="1">
@@ -39,9 +42,6 @@
           </v-col>
         </v-row>
       </v-container>
-
-      <!-- </v-col>
-        </v-row> -->
     </v-app-bar>
     <v-content>
       <nuxt />
@@ -82,18 +82,12 @@ export default {
     return {
       search: false,
       drawer: null,
-      title: "Compa",
-      avatarMenuItems: [
-        { icon: "", text: "マイページ", href: "/my-page-top" },
-        { icon: "", text: "新規投稿", href: "/posting" },
-        { icon: "", text: "新規イベント", href: "/events" },
-        { icon: "mdi-logout", text: "ログアウト", href: "/logout" },
-      ],
+      title: "Co-mpa",
       footerMenuItems: [
         { icon: "", text: "利用規約", href: "userPolicy" },
         { icon: "", text: "プライバシーポリシー", href: "privacyPolicy" },
       ],
-      author: "Compa",
+      author: "Co-mpa",
       justify: "space-between",
     };
   },

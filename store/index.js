@@ -15,6 +15,11 @@ export const state = () => ({
     prefectures: "",
     profileText: "",
   },
+  toast: {
+    msg: null,
+    color: "error",
+    timeout: 4000,
+  },
 });
 
 export const getters = {
@@ -27,6 +32,13 @@ export const getters = {
 };
 
 export const actions = {
+  // 追加
+  // トーストデータをセットする
+  getToast({ commit }, toast) {
+    toast.color = toast.color || "error";
+    toast.timeout = toast.timeout || 4000;
+    commit("setToast", toast);
+  },
   // async onAuth({ commit }) {
   //   try {
   //     const user = this.$fire.auth.currentUser;
@@ -49,6 +61,7 @@ export const actions = {
     try {
       await this.$fire.auth.signOut();
       commit("signOut");
+      // window.localStorage.clear();
       this.$router.push("/");
     } catch (error) {
       console.log(error); //eslint-disable-line
@@ -63,7 +76,8 @@ export const actions = {
       dispatch("checkLogin");
       this.$router.push("/posts");
     } catch (error) {
-      console.log(error); //eslint-disable-line
+      // console.log(error); //eslint-disable-line
+      dispatch("getToast", { msg: "ユーザー情報が正しくありません" });
     }
   },
   async checkLogin({ commit }) {
@@ -115,9 +129,8 @@ export const actions = {
             });
         });
       this.$router.push("/auth/registerFinish");
-      console.log(user);
     } catch (error) {
-      console.log(error); //eslint-disable-line
+      dispatch("getToast", { msg: "ユーザー情報が正しくありません" });
     }
   },
   async registerGoogle({ dispatch }) {
@@ -142,7 +155,8 @@ export const actions = {
         profileText: "",
       });
     } catch (error) {
-      console.log(error); //eslint-disable-line
+      // console.log(error); //eslint-disable-line
+      dispatch("getToast", { msg: "ユーザー情報が正しくありません" });
     }
   },
   async loginGoogle({ dispatch }) {
@@ -153,7 +167,8 @@ export const actions = {
         this.$router.push("/posts");
       });
     } catch (error) {
-      console.log(error); //eslint-disable-line
+      // console.log(error); //eslint-disable-line
+      dispatch("getToast", { msg: "ユーザー情報が正しくありません" });
     }
   },
   async registerTwitter({ dispatch }) {
@@ -174,7 +189,8 @@ export const actions = {
         profileText: "",
       });
     } catch (error) {
-      console.log(error); //eslint-disable-line
+      // console.log(error); //eslint-disable-line
+      dispatch("getToast", { msg: "ユーザー情報が正しくありません" });
     }
   },
   async loginTwitter({ dispatch }) {
@@ -185,7 +201,8 @@ export const actions = {
         this.$router.push("/posts");
       });
     } catch (error) {
-      console.log(error); //eslint-disable-line
+      // console.log(error); //eslint-disable-line
+      dispatch("getToast", { msg: "ユーザー情報が正しくありません" });
     }
   },
   async userData({ commit }, payload) {
@@ -226,14 +243,16 @@ export const actions = {
     console.log(payload);
     try {
       await storageRef
-        .child(`users/${payload.uid}.png`)
+        .child(`users/${payload.uid}/${payload.uid}.png`)
         .put(payload.thumbnail)
         .then(() => {
           storageRef
-            .child(`users/${payload.uid}.png`)
+            .child(`users/${payload.uid}/${payload.uid}.png`)
             .getDownloadURL()
             .then((url) => {
+              console.log(url);
               this.$fire.auth.currentUser.updateProfile({
+                // uid: payload.uid,
                 photoURL: url,
               });
               userRef.update({
@@ -271,6 +290,10 @@ export const actions = {
 };
 
 export const mutations = {
+  // 追加
+  setToast(state, payload) {
+    state.toast = payload;
+  },
   // loginStatusChange(state, status) {
   //   // 認証状態を双方向に変化
   //   state.loggedIn = status;
