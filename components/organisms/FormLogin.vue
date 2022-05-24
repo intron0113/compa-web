@@ -1,17 +1,20 @@
 <template>
   <form class="form form-login" @submit.prevent>
     <div class="row input">
+      <toaster />
       <FormItemInput
         v-model="email"
         class="col-sm-12"
+        required
         type="text"
         placeholder="メールアドレス"
       />
       <FormItemInput
         v-model="password"
         type="password"
+        required
         placeholder="パスワード"
-        class="col-sm-12"
+        class="col-sm-12 mb-16"
       />
       <div class="button">
         <FormItemButton type="submit" label="ログイン" @click="login" />

@@ -1,8 +1,13 @@
 <template>
   <v-app light>
-    <div class="box3 primary">
-      <a href="/"><p>Co-mpa</p></a>
+    <div
+      class="box3 primary"
+      style="cursor: pointer"
+      @click="$router.push('/')"
+    >
+      <p>Co-mpa</p>
     </div>
+
     <v-content>
       <v-container>
         <nuxt />

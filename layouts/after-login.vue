@@ -14,7 +14,9 @@
               class="ml-0 pl-4"
               @click="$router.push('/posts')"
             >
-              <span class="white--text">{{ title }}</span>
+              <span class="white--text" style="cursor: pointer">{{
+                title
+              }}</span>
               <v-spacer />
             </v-toolbar-title>
           </v-col>
@@ -87,7 +89,7 @@
           </v-col>
           <!-- PC用記事投稿ボタン -->
           <v-col cols="2" class="d-none d-sm-block">
-            <v-btn depressed color="blue" to="/posts/new"> 投稿する </v-btn>
+            <v-btn depressed color="blue" @click="newPost"> 投稿 </v-btn>
           </v-col>
 
           <!-- モバイル用検索アイコン -->
@@ -209,24 +211,6 @@
             >&copy; {{ new Date().getFullYear() }} {{ author }}</span
           >
         </v-col>
-        <!-- <v-col>
-          <v-list dense color="primary">
-            <v-list-item
-              v-for="(item, index) in footerMenuItems"
-              :key="index"
-              @click="footerMenuItemClick(item.href)"
-            >
-              <v-list-item-action>
-                <v-icon>{{ item.icon }}</v-icon>
-              </v-list-item-action>
-              <v-list-item-content>
-                <v-list-item-title class="white--text">
-                  {{ item.text }}
-                </v-list-item-title>
-              </v-list-item-content>
-            </v-list-item>
-          </v-list>
-        </v-col> -->
       </v-row>
     </v-footer>
   </v-app>
@@ -234,15 +218,21 @@
 
 <script>
 export default {
+  async asyncData({ store, error }) {
+    try {
+      const uid = store.getters.user.uid;
+    } catch (e) {
+      error({ statusCode: 404 });
+    }
+  },
   data() {
     return {
-      uid: this.$store.getters.user.uid,
       search: false,
       drawer: null,
       title: "Compa",
       avatarMenuItems: [
         { icon: "", text: "マイページ", href: "/users" },
-        { icon: "", text: "新規投稿", href: "/posts/new" },
+        { icon: "", text: "新規投稿", href: `/users/new` },
         { icon: "mdi-logout", text: "ログアウト", href: "/auth/logout" },
       ],
       footerMenuItems: [
@@ -258,16 +248,20 @@ export default {
       query: "",
     };
   },
-
-  methods: {
-    openMypame(post) {
-      this.$router.push(`/users/${this.uid}`);
+  computed: {
+    uid() {
+      return this.$store.getters.user.uid;
     },
-    toggleDrawer() {
-      this.drawer = !this.drawer;
+  },
+  methods: {
+    newPost() {
+      this.$router.push(`/users/${this.uid}/new`);
     },
     avatarMenuItemClick(href) {
       switch (href) {
+        case "/users/new":
+          this.$router.push(`/users/${this.uid}/new`);
+          break;
         case "/users":
           this.$router.push(`/users/${this.uid}`);
           // window.alert("TODO implement logout");
@@ -277,13 +271,7 @@ export default {
           break;
       }
     },
-    footerMenuItemClick(href) {
-      switch (href) {
-        default:
-          this.$router.push(href);
-          break;
-      }
-    },
+
     changeSerach() {
       this.search = !this.search;
     },

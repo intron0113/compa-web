@@ -1,9 +1,15 @@
 <template>
-  <button v-bind="$attrs" class="button button-link" @click="$emit('click')">
-    <span class="label">
-      {{ label }}
-    </span>
-  </button>
+  <v-btn
+    large
+    v-bind="$attrs"
+    class="button button-link"
+    color="blue darken-3"
+    @click="$emit('click')"
+  >
+    <!-- <span class="label"> -->
+    {{ label }}
+    <!-- </span> -->
+  </v-btn>
 </template>
 
 <script>
