@@ -4,7 +4,7 @@
       <v-container class="py-8 px-6" fluid>
         <v-row>
           <v-col cols="12">
-            <v-header>新規投稿</v-header>
+            <h2>新規投稿</h2>
           </v-col>
 
           <div class="wrap" />
@@ -13,31 +13,33 @@
               <v-list two-line>
                 <template>
                   <form @submit.prevent>
-                    <v-text-field
-                      v-model="selectPost.title"
-                      label="記事タイトル"
-                      required
-                    />
-                    <TagInput v-model="selectPost.tags" />
-                    <client-only>
-                      <vue-simplemde
-                        v-model="selectPost.body"
-                        :configs="configs"
-                        @on-change="handleChange"
-                      />
-                    </client-only>
-                    <!-- <div
-                      class="relative flex items-top justify-center min-h-screen bg-gray-100 sm:items-center sm:pt-0"
-                    >
-                      <m-editor
-                        v-model="selectPost.body"
-                        @on-change="handleChange"
-                      />
-                      <div class="m-editor-preview" v-html="markdownContent" />
-                    </div> -->
-                    <v-btn class="mr-4" @click="updatePost(selectPost)">
-                      投稿
-                    </v-btn>
+                    <v-row class="pa-2" justify="center">
+                      <v-col cols="12">
+                        <v-text-field
+                          v-model="selectPost.title"
+                          outlined
+                          label="記事タイトル"
+                          required
+                        />
+                        <TagInput v-model="selectPost.tags" />
+                        <div class="post-texttitle">記事本文</div>
+                        <client-only>
+                          <vue-simplemde
+                            v-model="selectPost.body"
+                            :configs="configs"
+                            @on-change="handleChange"
+                          />
+                        </client-only>
+                      </v-col>
+                      <v-col cols="3">
+                        <FormItemButton
+                          block
+                          label="投稿"
+                          type="button"
+                          @click="updatePost(selectPost)"
+                        />
+                      </v-col>
+                    </v-row>
                   </form>
                 </template>
               </v-list>
@@ -98,11 +100,7 @@ export default {
       },
     };
   },
-  // mounted() {
-  //   return this.$store.getters["posts/selectPost"].then(
-  //     (response) => (this.formData = response.data)
-  //   );
-  // },
+
   computed: {
     selectPost: {
       get() {
@@ -112,18 +110,6 @@ export default {
         this.$store.dispatch("posts/fetchPost", value);
       },
     },
-
-    // selectPost() {
-    //   return this.$store.getters[
-    //     ("posts/selectPost",
-    //     {
-    //       formData: {
-    //         title: "selectPost.title",
-    //         body: "selectPost.body",
-    //       },
-    //     })
-    //   ];
-    // },
     uid() {
       return this.$store.getters.user.uid;
     },
@@ -138,16 +124,7 @@ export default {
     handleChange(data) {
       this.markdownContent = data.htmlContent;
     },
-    // async publish() {
-    //   const payload = {
-    //     user: this.uid,
-    //     ...this.formData,
-    //   };
-    //   await this.publishPost({ payload });
-    //   this.$router.push("/posts");
-    // },
-    // ...mapActions("users", ["updateUser"]),
-    // ...mapActions("posts", ["publishPost"]),
+
     updatePost(selectPost) {
       this.$store.dispatch("posts/updatePost", {
         postId: selectPost.postId,
@@ -168,5 +145,9 @@ export default {
 <style>
 .posts-page .el-table__row {
   cursor: pointer;
+}
+.post-texttitle {
+  font-size: 16px;
+  margin: 0 0 6px 6px;
 }
 </style>

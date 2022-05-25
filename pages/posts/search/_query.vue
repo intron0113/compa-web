@@ -3,10 +3,10 @@
     <v-main background-colorr:secondary>
       <v-container class="py-8 px-6" fluid>
         <v-row>
-          <v-col cols="6" md="7" class="d-none d-sm-block">
+          <!-- <v-col cols="6" md="7" class="d-none d-sm-block"> -->
+          <v-col cols="12">
             <div
               class="v-input mx-2 mx-md-4 v-input--hide-details v-input--dense theme--light v-text-field v-text-field--single-line v-text-field--solo v-text-field--is-booted v-text-field--enclosed v-text-field--placeholder rounded-lg"
-              style="max-width: 450px"
               data-v-7f162986=""
             >
               <div class="v-input__control">
@@ -48,7 +48,7 @@
             </div>
           </v-col>
           <v-col cols="12">
-            <v-suheader>{{ post }}</v-suheader>
+            <h2>{{ search }}</h2>
           </v-col>
           <!-- <v-col cols="12">
             <select>
@@ -58,10 +58,6 @@
           </v-col> -->
           <v-col cols="12">
             <v-card class="px-5">
-              <v-col clos="12">
-                <v-subheader>投稿記事</v-subheader>
-              </v-col>
-
               <v-list two-line>
                 <v-card
                   v-for="post in searchLists"
@@ -96,10 +92,22 @@
                       <v-list-item-title class="text-h5 mb-1">
                         {{ post.title }}
                       </v-list-item-title>
+                      <v-list-item-subtitle v-if="post.tags !== ''">
+                        <TagWatch v-model="post.tags" />
+                      </v-list-item-subtitle>
                     </v-list-item-content>
                   </v-list-item>
                 </v-card>
               </v-list>
+              <v-col v-if="searchLists.length == 0" cols="12">
+                <v-content>
+                  <v-list-item-content>
+                    <v-list-item-title class="mb-14">
+                      「{{ qWord }}」に一致する記事はありませんでした。
+                    </v-list-item-title>
+                  </v-list-item-content>
+                </v-content>
+              </v-col>
               <v-col cols="12">
                 <v-content>
                   <v-pagination
@@ -135,7 +143,7 @@ export default {
     };
   },
   data: () => ({
-    post: "投稿記事",
+    search: "検索結果",
     drawer: null,
     show: false,
     page: 1,

@@ -5,7 +5,7 @@
         class="col-lg-8 col-lg-offset-2 col-md-8 col-md-offset-2 col-sm-10 col-sm-offset-1"
       >
         <div>
-          <div class="text-center">
+          <div class="plain-title">
             好きな画像をアイコンに設定してください。
           </div>
         </div>
@@ -20,7 +20,7 @@
                     type="file"
                     @change="changeImg"
                   />
-                  <div class="mb-10">●●MBまで</div>
+
                   <v-btn
                     :disabled="!login_valid"
                     color="blue darken-3"
@@ -46,9 +46,7 @@
   </v-container>
 </template>
 <script>
-// トップページではヘッダーを表示しないレイアウトを使用
 export default {
-  // レイアウト plainを指定
   layout: "plain",
   middleware: "auth",
   async asyncData({ store, route, error }) {

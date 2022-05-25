@@ -4,7 +4,7 @@
       <v-container class="py-8 px-6" fluid>
         <v-row>
           <v-col cols="12">
-            <v-suheader>{{ post }}</v-suheader>
+            <h2>{{ post }}</h2>
           </v-col>
           <!-- <v-col cols="12">
             <select>
@@ -14,9 +14,9 @@
           </v-col> -->
           <v-col cols="12">
             <v-card class="px-5">
-              <v-col clos="12">
+              <!-- <v-col clos="12">
                 <v-subheader>投稿記事</v-subheader>
-              </v-col>
+              </v-col> -->
 
               <v-list two-line>
                 <v-card v-for="post in displayLists" :key="post.index">
@@ -48,11 +48,23 @@
                       <v-list-item-title class="text-h5 mb-1">
                         {{ post.title }}
                       </v-list-item-title>
+                      <v-list-item-subtitle v-if="post.tags !== ''">
+                        <TagWatch v-model="post.tags" />
+                      </v-list-item-subtitle>
                     </v-list-item-content>
                   </v-list-item>
                 </v-card>
               </v-list>
-              <v-col cols="12">
+              <v-col v-if="displayLists.length == 0" cols="12">
+                <v-content>
+                  <v-list-item-content>
+                    <v-list-item-title class="mb-14">
+                      投稿記事はまだありません。
+                    </v-list-item-title>
+                  </v-list-item-content>
+                </v-content>
+              </v-col>
+              <v-col v-if="displayLists.length !== 0" cols="12">
                 <v-content>
                   <v-pagination
                     v-model="page"

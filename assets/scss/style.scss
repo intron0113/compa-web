@@ -1,10 +1,4 @@
 html,
-h1,
-h2,
-h3,
-h4,
-h5,
-h6,
 p,
 label,
 input,
@@ -15,6 +9,15 @@ a,
 li {
   font-family: "Noto Sans JP", sans-serif;
   font-size: 14px;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-size: 1.5em;
 }
 
 svg,
@@ -64,4 +67,26 @@ textarea {
 }
 .text-center {
   text-align: center;
+}
+
+.plain-title {
+  font-size: 24px;
+  line-height: 150%;
+  text-align: center;
+  margin-bottom: 10px;
+}
+
+.plain-main {
+  text-align: center;
+  font-size: 14px;
+  line-height: 150%;
+  font-weight: 700;
+}
+
+.plain-sub {
+  text-align: center;
+  font-size: 14px;
+  line-height: 150%;
+  margin-top: 8px;
+  color: red;
 }

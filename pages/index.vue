@@ -42,7 +42,7 @@
 <scripti>
 import Kodawari from '../components/organisms/Kodawari.vue';
 export default {
-  middleware: 'loggedInIsRedirects'
+  middleware: "loggedInIsRedirects",
 };
 </scripti>
 

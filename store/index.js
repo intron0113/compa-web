@@ -104,30 +104,30 @@ export const actions = {
       dispatch("checkLogin");
       // this.$router.push("/auth/registerFinish");
       const storageRef = this.$fire.storage.ref();
-      storageRef
-        .child(`users/${state.user.uid}.png`)
-        .put(payload.thumbnail)
-        .then(() => {
-          storageRef
-            .child(`users/${state.user.uid}.png`)
-            .getDownloadURL()
-            .then((url) => {
-              this.$fire.auth.currentUser.updateProfile({
-                displayName: payload.name,
-                // photoURL: url,
-              });
-              const user = this.$fire.auth.currentUser;
-              this.$fire.firestore.collection("user").doc(user.uid).set({
-                uid: user.uid,
-                name: payload.name,
-                photoURL: user.photoURL,
-                affiliation: "",
-                job: "",
-                prefectures: "",
-                profileText: "",
-              });
-            });
-        });
+      // storageRef
+      //   .child(`users/${state.user.uid}.png`)
+      //   .put(payload.thumbnail)
+      // .then(() => {
+      // storageRef
+      //   .child(`users/${state.user.uid}.png`)
+      //   .getDownloadURL()
+      //   .then((url) => {
+      this.$fire.auth.currentUser.updateProfile({
+        displayName: payload.name,
+        // photoURL: url,
+      });
+      const user = this.$fire.auth.currentUser;
+      this.$fire.firestore.collection("user").doc(user.uid).set({
+        uid: user.uid,
+        name: payload.name,
+        photoURL: user.photoURL,
+        affiliation: "",
+        job: "",
+        prefectures: "",
+        profileText: "",
+      });
+      // });
+      // });
       this.$router.push("/auth/registerFinish");
     } catch (error) {
       dispatch("getToast", { msg: "ユーザー情報が正しくありません" });
@@ -258,8 +258,8 @@ export const actions = {
               userRef.update({
                 photoURL: url,
               });
-              location.reload();
             });
+          location.reload();
         });
     } catch (error) {
       console.log(error); //eslint-disable-line
@@ -279,6 +279,10 @@ export const actions = {
         job: payload.job,
         prefectures: payload.prefectures,
         profileText: payload.profileText,
+      });
+      this.$fire.auth.currentUser.updateProfile({
+        displayName: payload.name,
+        photoURL: payload.photoURL,
       });
       console.log(payload);
     } catch (error) {

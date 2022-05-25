@@ -84,7 +84,13 @@
             <v-card elevation="5 py-3">
               <v-row class="button">
                 <v-col cols="12">
-                  <v-btn to="/" color="error" depressed elevation="2" x-large>
+                  <v-btn
+                    color="error"
+                    depressed
+                    elevation="2"
+                    x-large
+                    @click="accuntDelete(selectUserData)"
+                  >
                     アカウント削除
                   </v-btn>
                 </v-col>
@@ -250,6 +256,9 @@ export default {
 
     imageUpload(selectUserData) {
       this.$router.push(`/users/${selectUserData.uid}/settings/imageUpload`);
+    },
+    accuntDelete(selectUserData) {
+      this.$router.push(`/users/${selectUserData.uid}/settings/accuntDelete`);
     },
     changeImg(e) {
       this.thumbnail = e.target.files[0];
