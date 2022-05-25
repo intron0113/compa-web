@@ -12,13 +12,14 @@ export default function ({ store, route, redirect }) {
       const { uid, email, displayName, photoURL } = user;
       console.log(user);
       store.commit("add", { uid, email, displayName, photoURL });
-      const loggedInUserNotAccess = [
-        "auth-registerFinish",
-        "auth-register",
-        "auth-login",
-      ];
+      const loggedInUserNotAccess = ["auth-registerFinish"];
       if (user && loggedInUserNotAccess.includes(route.name)) {
         return redirect("/posts");
+      }
+    } else {
+      if (route.name !== "index") {
+        redirect("/");
+        // console.log(route.name);
       }
     }
   });

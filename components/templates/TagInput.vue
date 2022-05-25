@@ -3,7 +3,6 @@
   <v-container class="width:100%">
     <v-row>
       <v-col>
-        <div>タグ</div>
         <div class="tag-container cf">
           <v-row class="ma-3">
             <v-col
@@ -47,7 +46,7 @@
               <v-text-field
                 ref="input"
                 filled
-                label="入力欄"
+                label="タグ入力欄"
                 class="input"
                 type="text"
                 placeholder="ここに入力"

@@ -3,7 +3,7 @@
     <div
       class="box3 primary"
       style="cursor: pointer"
-      @click="$router.push('/')"
+      @click="$router.push('/posts')"
     >
       <p>Co-mpa</p>
     </div>

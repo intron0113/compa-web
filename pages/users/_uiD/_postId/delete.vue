@@ -1,19 +1,32 @@
 <template>
-  <div class="page register-finish">
-    <div class="form">
-      <p class="title">記事を削除する</p>
-      <hr class="mb-10" />
-      <div class="text">
-        <p class="main">記事を削除しますか？</p>
-        <p class="sub">一度削除したデータは復旧できません</p>
-      </div>
-      <FormItemButton
-        label="削除"
-        type="button"
-        @click="deletePost(selectPost)"
-      />
-    </div>
-  </div>
+  <v-container>
+    <v-row justify="center">
+      <v-col
+        class="col-lg-8 col-lg-offset-2 col-md-8 col-md-offset-2 col-sm-10 col-sm-offset-1"
+      >
+        <div>
+          <div class="plain-title text-center">記事を削除する</div>
+        </div>
+        <hr class="mb-10" />
+        <div class="row">
+          <div class="col-sm-12 text-center">
+            <p class="plain-main">記事を削除しますか？</p>
+          </div>
+          <div class="col-sm-12 text-center">
+            <p class="plain-sub">一度削除したデータは復旧できません</p>
+          </div>
+        </div>
+      </v-col>
+      <v-col cols="3">
+        <FormItemButton
+          block
+          label="削除"
+          type="button"
+          @click="deletePost(selectPost)"
+        />
+      </v-col>
+    </v-row>
+  </v-container>
 </template>
 
 <script>
@@ -43,9 +56,6 @@ export default {
         postId: selectPost.postId,
         photoURL: this.photoURL,
         name: this.name,
-        // uid: this.uid,
-        // title: selectPost.title,
-        // body: selectPost.body,
       });
       this.$router.push("/users/deleteComplete");
     },
@@ -53,43 +63,4 @@ export default {
 };
 </script>
 
-<style lang="scss" scoped>
-.register-finish {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  height: 100vh;
-
-  > .form {
-    width: 400px;
-
-    > .title {
-      font-size: 24px;
-      line-height: 150%;
-      text-align: center;
-    }
-
-    > .text {
-      margin: 40px 0;
-
-      > .main {
-        text-align: center;
-        font-size: 14px;
-        line-height: 150%;
-        font-weight: 700;
-      }
-
-      > .sub {
-        text-align: center;
-        font-size: 12px;
-        line-height: 150%;
-        margin-top: 8px;
-      }
-    }
-
-    > .button-link {
-      margin-left: auto;
-    }
-  }
-}
-</style>
+<style lang="scss" scoped></style>

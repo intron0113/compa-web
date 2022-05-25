@@ -6,10 +6,13 @@
         <v-chip
           v-for="(tag, index) in tags"
           :key="index"
-          color="#17204d"
-          text-color="yellow"
+          class="ma-2"
+          color="gray"
+          text-color="gray"
+          label
+          outlined
         >
-          <v-icon left> mdi-label </v-icon>
+          <v-icon left> mdi-tag-outline </v-icon>
           {{ tag.text }}
         </v-chip>
       </v-col>
