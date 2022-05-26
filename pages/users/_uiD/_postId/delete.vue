@@ -1,9 +1,7 @@
 <template>
   <v-container>
     <v-row justify="center">
-      <v-col
-        class="col-lg-8 col-lg-offset-2 col-md-8 col-md-offset-2 col-sm-10 col-sm-offset-1"
-      >
+      <v-col cols="12">
         <div>
           <div class="plain-title text-center">記事を削除する</div>
         </div>
@@ -32,7 +30,7 @@
 <script>
 export default {
   layout: "plain",
-  middleware: "auth",
+  middleware: "private",
   async asyncData({ store, route, error }) {
     const id = route.params;
     console.log(id);
@@ -56,6 +54,9 @@ export default {
         postId: selectPost.postId,
         photoURL: this.photoURL,
         name: this.name,
+      });
+      this.$store.dispatch("comments/deletePostComments", {
+        postId: selectPost.postId,
       });
       this.$router.push("/users/deleteComplete");
     },

@@ -4,8 +4,8 @@
     <v-row>
       <v-col>
         <div class="tag-container cf">
-          <v-row class="ma-3">
-            <v-col
+          <v-row class="ma-2">
+            <!-- <v-col
               v-for="(tag, index) in tags"
               :key="index"
               cols="4"
@@ -41,10 +41,53 @@
                   </g>
                 </svg>
               </a>
+            </v-col> -->
+            <v-col>
+              <v-chip
+                v-for="(tag, index) in tags"
+                :key="index"
+                class="ma-2"
+                color="gray"
+                text-color="gray"
+                label
+                outlined
+                close
+                @click:close="remove(index)"
+              >
+                <!-- <v-icon left> mdi-tag-outline </v-icon> -->
+
+                {{ tag.text }}
+                <!-- </div> -->
+                <!-- <a
+                  href="#"
+                  class="tag-remove"
+                  @click.stop.prevent="remove(index)"
+                >
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    xmlns:xlink="http://www.w3.org/1999/xlink"
+                    viewBox="0 0 50 50"
+                    version="1.1"
+                    width="15px"
+                    height="15px"
+                  >
+                    <g id="surface1">
+                      <path
+                        style=""
+                        d="M 7.71875 6.28125 L 6.28125 7.71875 L 23.5625 25 L 6.28125 42.28125 L 7.71875 43.71875 L 25 26.4375 L 42.28125 43.71875 L 43.71875 42.28125 L 26.4375 25 L 43.71875 7.71875 L 42.28125 6.28125 L 25 23.5625 Z "
+                      />
+                    </g>
+                  </svg>
+                </a> -->
+              </v-chip>
             </v-col>
             <v-col cols="12">
               <v-text-field
                 ref="input"
+                v-model="Value"
+                counter
+                maxlength="15"
+                hint="15文字まで"
                 filled
                 label="タグ入力欄"
                 class="input"

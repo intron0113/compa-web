@@ -234,6 +234,59 @@ export const actions = {
     }
   },
 
+  async allDeleteFollows({ dispatch }, payload) {
+    console.log(payload);
+    try {
+      const collection = await this.$fire.firestore
+        .collection("follows")
+        .where("following_uid", "==", payload.uid)
+        .get();
+
+      const follows = [];
+      collection.forEach((doc) => {
+        const data = doc.data();
+        console.log(data);
+        follows.push(data);
+      });
+      console.log(follows);
+      for (let i = 0; i < follows.length; i++) {
+        const follow = follows[i];
+        await this.$fire.firestore
+          .collection("follows")
+          .doc(follow.followId)
+          .delete();
+      }
+      console.log(follows);
+
+      const followerCollection = await this.$fire.firestore
+        .collection("follows")
+        .where("followed_uid", "==", payload.uid)
+        .get();
+
+      const followers = [];
+      followerCollection.forEach((doc) => {
+        const data = doc.data();
+        console.log(data);
+        followers.push(data);
+      });
+      console.log(followers);
+      for (let i = 0; i < followers.length; i++) {
+        const follower = followers[i];
+        await this.$fire.firestore
+          .collection("follows")
+          .doc(follower.followId)
+          .delete();
+      }
+      console.log(followers);
+
+      dispatch("getFollows");
+    } catch (error) {
+      // console.log(title);
+      console.log(error); //eslint-disable-line
+      console.log(payload); //eslint-disable-line
+    }
+  },
+
   async followerCut({ dispatch }, payload) {
     try {
       const querySnapshot = await this.$fire.firestore

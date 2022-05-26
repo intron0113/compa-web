@@ -1,14 +1,22 @@
 <template>
-  <div class="page register-finish">
-    <div class="form">
-      <p class="title">プロフィール編集</p>
-      <hr class="mb-10" />
-      <div class="text">
-        <p class="main">完了しました</p>
-      </div>
-      <FormItemButton label="戻る" type="button" @click="myPage" />
-    </div>
-  </div>
+  <v-container>
+    <v-row justify="center">
+      <v-col cols="12">
+        <div>
+          <div class="plain-title text-center">プロフィール編集</div>
+        </div>
+        <hr class="mb-10" />
+        <div class="row">
+          <div class="col-sm-12 text-center">
+            <p class="plain-main">完了しました</p>
+          </div>
+        </div>
+      </v-col>
+      <v-col cols="3">
+        <FormItemButton block label="戻る" type="button" @click="myPage" />
+      </v-col>
+    </v-row>
+  </v-container>
 </template>
 
 <script>

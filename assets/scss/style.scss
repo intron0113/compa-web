@@ -90,3 +90,8 @@ textarea {
   margin-top: 8px;
   color: red;
 }
+
+.wrap-text {
+  word-break: break-all;
+  white-space: normal;
+}

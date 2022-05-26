@@ -182,6 +182,36 @@ export const actions = {
     }
   },
 
+  async allDeletePost({ dispatch }, payload) {
+    console.log(payload);
+    try {
+      const collection = await this.$fire.firestore
+        .collection("posts")
+        .where("uid", "==", payload.uid)
+        .get();
+
+      const posts = [];
+      collection.forEach((doc) => {
+        const data = doc.data();
+        console.log(data);
+        posts.push(data);
+      });
+      // console.log(collection);
+      for (let i = 0; i < posts.length; i++) {
+        const post = posts[i];
+        await this.$fire.firestore
+          .collection("posts")
+          .doc(post.postId)
+          .delete();
+      }
+      console.log(posts);
+      dispatch("getPosts");
+    } catch (error) {
+      // console.log(title);
+      console.log(error); //eslint-disable-line
+      console.log(payload); //eslint-disable-line
+    }
+  },
   async deletePost({ dispatch }, payload) {
     const collection = this.$fire.firestore.collection("posts");
 
@@ -190,6 +220,7 @@ export const actions = {
       // console.log(uid);
       // console.log(title);
       // console.log(body);
+      // dispatch("comments/deletePostComments", payload.postId);
       dispatch("getPosts");
     } catch (error) {
       // console.log(title);

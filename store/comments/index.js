@@ -8,6 +8,7 @@ export const state = () => ({
     name: "",
     photoURL: "",
     postId: "",
+    postUid: "",
     time: "",
     title: "",
     uid: "",
@@ -181,6 +182,72 @@ export const actions = {
     }
   },
 
+  async allDeleteComments({ dispatch }, payload) {
+    console.log(payload);
+    try {
+      const collection = await this.$fire.firestore
+        .collection("comments")
+        .where("postUid", "==", payload.uid)
+        .get();
+
+      const comments = [];
+      collection.forEach((doc) => {
+        const data = doc.data();
+        console.log(data);
+        comments.push(data);
+      });
+      // console.log(collection);
+      for (let i = 0; i < comments.length; i++) {
+        const comment = comments[i];
+        await this.$fire.firestore
+          .collection("comments")
+          .doc(comment.commentId)
+          .delete();
+      }
+      console.log(comments);
+      dispatch("getComments");
+    } catch (error) {
+      // console.log(title);
+      console.log(error); //eslint-disable-line
+      console.log(payload); //eslint-disable-line
+    }
+  },
+  async deletePostComments({ dispatch }, payload) {
+    // const collection = this.$fire.firestore.collection("comments");
+    console.log(payload);
+
+    try {
+      const collection = await this.$fire.firestore
+        .collection("comments")
+        .where("postId", "==", payload.postId)
+        .get();
+      // await collection.doc(payload.commentId).delete();
+      // console.log(uid);
+      // console.log(title);
+      // console.log(body);
+      const comments = [];
+      collection.forEach((doc) => {
+        const data = doc.data();
+        console.log(data);
+        comments.push(data);
+      });
+
+      for (let i = 0; i < comments.length; i++) {
+        const comment = comments[i];
+        await this.$fire.firestore
+          .collection("comments")
+          .doc(comment.commentId)
+          .delete();
+      }
+      console.log(comments);
+
+      dispatch("getComments");
+    } catch (error) {
+      // console.log(title);
+      console.log(error); //eslint-disable-line
+      console.log(payload); //eslint-disable-line
+    }
+  },
   async deleteComment({ dispatch }, payload) {
     const collection = this.$fire.firestore.collection("comments");
 
@@ -189,7 +256,8 @@ export const actions = {
       // console.log(uid);
       // console.log(title);
       // console.log(body);
-      dispatch("getComments");
+      await dispatch("getComments");
+      location.reload();
     } catch (error) {
       // console.log(title);
       console.log(error); //eslint-disable-line
@@ -236,13 +304,15 @@ export const actions = {
         name: userRef,
         photoURL: userRef,
         postId: payload.postId,
+        postUid: payload.postUid,
         commentBody: payload.commentBody,
         time: this.$fireModule.firestore.FieldValue.serverTimestamp(),
       });
       // console.log(uid);
       // console.log(title);
       // console.log(body);
-      dispatch("getComments");
+      await dispatch("getComments");
+      location.reload();
     } catch (error) {
       // console.log(title);
       console.log(error); //eslint-disable-line

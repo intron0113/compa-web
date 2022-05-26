@@ -3,7 +3,7 @@
     <v-main background-colorr:secondary>
       <v-container class="py-8 px-6" fluid>
         <v-row justify="end">
-          <v-col cols="4" md="2">
+          <v-col cols="12" md="2">
             <v-card v-if="watchUser == selectPost.uid" elevation="5 py-3">
               <v-card-actions class="justify-center px-6 py-3">
                 <v-btn
@@ -45,9 +45,9 @@
               </v-list-item>
               <v-list-item three-line>
                 <v-list-item-content>
-                  <v-list-item-title class="text-h5 mb-1">
+                  <v-list-item-subtitle class="text-h5 mb-1 wrap-text">
                     {{ selectPost.title }}
-                  </v-list-item-title>
+                  </v-list-item-subtitle>
                   <v-list-item-subtitle v-if="selectPost.tags !== ''">
                     <TagWatch v-model="selectPost.tags" />
                   </v-list-item-subtitle>
@@ -57,11 +57,10 @@
 
             <v-card class="mt-4">
               <v-card-text>
-                <!-- <div
+                <div
                   class="m-editor-preview"
                   v-html="$md.render(selectPost.body)"
-                /> -->
-                <div v-html="$md.render(selectPost.body)" />
+                />
               </v-card-text>
             </v-card>
           </v-col>
@@ -76,7 +75,7 @@
                       <v-col @click="openPost(comment, index)">
                         <!-- <v-card @click="openPost(post, index)"> -->
                         <v-row>
-                          <v-col class="mx-3" cols="12" lg="8">
+                          <v-col class="mx-3" cols="9" md="12">
                             <img
                               v-if="!!comment.photoURL"
                               :src="comment.photoURL"
@@ -97,7 +96,8 @@
                                 投稿日 {{ postedDay(comment.time) }}
                               </v-list-item-subtitle>
 
-                              <v-list-item-title
+                              <v-list-item-subtitle
+                                class="wrap-text"
                                 style="white-space: pre-wrap"
                                 v-text="comment.commentBody"
                               />
@@ -108,13 +108,33 @@
                         <!-- <v-list-item> -->
                         <!-- </v-card> -->
                       </v-col>
-                      <v-col class="mb-4" cols="12" lg="4">
-                        <v-btn class="mx-3" @click="deleteComment(comment)">
-                          削除
+                      <v-col class="mb-4" cols="3">
+                        <v-btn
+                          v-if="
+                            watchUser == comment.uid ||
+                            watchUser == comment.postUid
+                          "
+                          class="mx-3"
+                          fab
+                          dark
+                          x-small
+                          color="pink"
+                          @click="deleteComment(comment)"
+                        >
+                          <v-icon>mdi-delete</v-icon>
                         </v-btn>
                       </v-col>
                     </v-row>
                   </v-card>
+                  <v-col v-if="commentLists.length == 0" cols="12">
+                    <v-content>
+                      <v-list-item-content>
+                        <v-list-item-title class="mb-14">
+                          コメントはまだありません。
+                        </v-list-item-title>
+                      </v-list-item-content>
+                    </v-content>
+                  </v-col>
                 </v-list>
               </v-col>
 
@@ -126,7 +146,7 @@
                 <v-card v-show="comment">
                   <v-row>
                     <v-col cols="12" class="pa-6">
-                      <h2>コメント内容</h2>
+                      <div>コメント内容</div>
                       <v-form ref="form" lazy-validation>
                         <v-textarea
                           v-model="commentBody"
@@ -230,11 +250,12 @@ export default {
         name: this.name,
         uid: this.uid,
         postId: selectPost.postId,
+        postUid: selectPost.uid,
         commentBody: commentB,
       });
 
       this.commentBody = "";
-      this.$router.push("/users/editComplete");
+      // this.$router.push("/users/editComplete");
     },
 
     deleteComment(comment) {
@@ -247,7 +268,7 @@ export default {
         // title: selectPost.title,
         // body: selectPost.body,
       });
-      this.$router.push("/users/deleteComplete");
+      // this.$router.push("/users/deleteComplete");
     },
     displayTitle: function (text) {
       return text.split(/\n/);
@@ -278,5 +299,9 @@ export default {
     height: 100%;
     object-fit: cover;
   }
+}
+
+>>> .c-red {
+  color: red;
 }
 </style>
