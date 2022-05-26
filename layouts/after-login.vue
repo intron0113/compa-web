@@ -203,7 +203,9 @@
         </div>
       </v-container>
     </v-content>
+
     <nuxt />
+
     <v-footer color="primary">
       <v-row :justify="justify">
         <v-col>

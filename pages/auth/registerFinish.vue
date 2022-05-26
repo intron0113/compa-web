@@ -1,21 +1,31 @@
 <template>
-  <div class="page register-finish">
-    <div class="form">
-      <p class="title">登録完了</p>
-      <hr class="mb-10" />
-      <div class="text">
-        <p class="main">登録完了しました。</p>
-        <p class="sub">始めていきましょう。</p>
-      </div>
-      <FormItemButton
-        label="始める"
-        type="button"
-        @click="$router.push('/posts')"
-      />
-    </div>
-  </div>
+  <v-container>
+    <v-row justify="center">
+      <v-col cols="12">
+        <div>
+          <div class="plain-title text-center">登録完了</div>
+        </div>
+        <hr class="mb-10" />
+        <div class="row">
+          <div class="col-sm-12 text-center">
+            <p class="plain-main">登録完了しました。</p>
+          </div>
+          <div class="col-sm-12 text-center">
+            <p class="plain-main">はじめていきましょう</p>
+          </div>
+        </div>
+      </v-col>
+      <v-col cols="3">
+        <FormItemButton
+          block
+          label="はじめる"
+          type="button"
+          @click="$router.push('/posts')"
+        />
+      </v-col>
+    </v-row>
+  </v-container>
 </template>
-
 <script>
 export default {
   layout: "plain",

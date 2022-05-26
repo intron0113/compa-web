@@ -39,24 +39,17 @@ export const actions = {
     toast.timeout = toast.timeout || 4000;
     commit("setToast", toast);
   },
-  // async onAuth({ commit }) {
-  //   try {
-  //     const user = this.$fire.auth.currentUser;
-  //     await this.$fire.auth.onAuthStateChanged((user) => {
-  //       user = user ? user : {};
-  //       commit("getData", {
-  //         uid: user.uid,
-  //         name: user.displayName,
-  //         email: user.email,
-  //         photoURL: user.photoURL,
-  //       });
 
-  //       commit("loginStatusChange", user.uid ? true : false);
-  //     });
-  //   } catch (error) {
-  //     console.log(error);
-  //   }
-  // },
+  async deleteAccount({ dispatch }) {
+    try {
+      await this.$fire.auth.currentUser.delete();
+      // commit("signOut");
+      // window.localStorage.clear();
+      this.$router.push("/");
+    } catch (error) {
+      dispatch("getToast", { msg: "ユーザー情報が正しくありません" });
+    }
+  },
   async logout({ commit }) {
     try {
       await this.$fire.auth.signOut();
@@ -259,10 +252,29 @@ export const actions = {
                 photoURL: url,
               });
             });
-          location.reload();
         });
+      // location.reload();
     } catch (error) {
       console.log(error); //eslint-disable-line
+    }
+  },
+  async deleteImage({}, payload) {
+    const storageRef = this.$fire.storage.ref();
+    // const userRef = await this.$fire.firestore
+    //   .collection("user")
+    //   .doc(payload.uid);
+    // console.log(payload);
+
+    await storageRef.child(`users/${payload.uid}/${payload.uid}.png`).delete();
+  },
+
+  async deleteUserData({}, payload) {
+    try {
+      await this.$fire.firestore.collection("user").doc(payload.uid).delete();
+    } catch (error) {
+      // console.log(title);
+      console.log(error); //eslint-disable-line
+      console.log(payload); //eslint-disable-line
     }
   },
   async updateUserData({}, payload) {

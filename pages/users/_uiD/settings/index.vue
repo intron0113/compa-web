@@ -110,7 +110,7 @@
 <script>
 export default {
   layout: "after-login",
-  middleware: "auth",
+  middleware: "private",
   async asyncData({ store, route, error }) {
     const id = route.params;
     console.log(id);

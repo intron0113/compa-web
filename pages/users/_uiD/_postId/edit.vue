@@ -2,34 +2,40 @@
   <v-app>
     <v-main background-colorr:secondary>
       <v-container class="py-8 px-6" fluid>
-        <v-row>
-          <v-col cols="12">
-            <h2>新規投稿</h2>
+        <v-row justify="center">
+          <v-col cols="8" sm="12">
+            <h2>記事編集</h2>
           </v-col>
 
-          <div class="wrap" />
-          <v-col cols="12">
+          <!-- <div class="wrap" /> -->
+          <v-col cols="10" sm="12">
             <v-card>
               <v-list two-line>
                 <template>
                   <form @submit.prevent>
                     <v-row class="pa-2" justify="center">
                       <v-col cols="12">
-                        <v-text-field
-                          v-model="selectPost.title"
-                          outlined
-                          label="記事タイトル"
-                          required
-                        />
-                        <TagInput v-model="selectPost.tags" />
-                        <div class="post-texttitle">記事本文</div>
-                        <client-only>
-                          <vue-simplemde
-                            v-model="selectPost.body"
-                            :configs="configs"
-                            @on-change="handleChange"
-                          />
-                        </client-only>
+                        <v-row justify="center">
+                          <v-col cols="8" sm="12">
+                            <v-text-field
+                              v-model="selectPost.title"
+                              outlined
+                              label="記事タイトル"
+                              required
+                            />
+                            <TagInput v-model="selectPost.tags" />
+                          </v-col>
+                          <v-col cols="10" sm="12">
+                            <div class="post-texttitle">記事本文</div>
+                            <client-only>
+                              <vue-simplemde
+                                v-model="selectPost.body"
+                                :configs="configs"
+                                @on-change="handleChange"
+                              />
+                            </client-only>
+                          </v-col>
+                        </v-row>
                       </v-col>
                       <v-col cols="3">
                         <FormItemButton
@@ -53,7 +59,7 @@
 <script>
 export default {
   layout: "after-login",
-  middleware: "auth",
+  middleware: "private",
   async asyncData({ store, route, error }) {
     const id = route.params;
     console.log(id);
@@ -80,8 +86,8 @@ export default {
           "bold",
           "italic",
           "heading",
-          "heading-smaller",
-          "heading-bigger",
+          // "heading-smaller",
+          // "heading-bigger",
           "|",
           "code",
           "quote",
@@ -90,10 +96,10 @@ export default {
           "unordered-list",
           "ordered-list",
           "table",
-          "horizontal-rule",
-          "|",
-          "side-by-side",
-          "fullscreen",
+          // "horizontal-rule",
+          // "|",
+          // "side-by-side",
+          // "fullscreen",
           "|",
           "guide",
         ],

@@ -2,8 +2,8 @@
   <v-app>
     <v-main background-colorr:secondary>
       <v-container class="py-8 px-6" fluid>
-        <v-row>
-          <v-col cols="12">
+        <v-row justify="center">
+          <v-col cols="8" sm="12">
             <h2>{{ post }}</h2>
           </v-col>
           <!-- <v-col cols="12">
@@ -43,16 +43,21 @@
                       </v-list-item-subtitle>
                     </v-list-item-content>
                   </v-list-item>
-                  <v-list-item three-line @click="openPost(post, index)">
-                    <v-list-item-content>
-                      <v-list-item-title class="text-h5 mb-1">
-                        {{ post.title }}
-                      </v-list-item-title>
-                      <v-list-item-subtitle v-if="post.tags !== ''">
-                        <TagWatch v-model="post.tags" />
-                      </v-list-item-subtitle>
-                    </v-list-item-content>
-                  </v-list-item>
+                  <v-list>
+                    <v-list-item three-line @click="openPost(post, index)">
+                      <v-list-item-content>
+                        <!-- <v-list-item-subtitle class="text-h5 mb-1">
+                          {{ post.title }}
+                        </v-list-item-subtitle> -->
+                        <v-list-item-subtitle class="text-h5 mb-1 wrap-text">
+                          {{ post.title }}
+                        </v-list-item-subtitle>
+                        <v-list-item-subtitle v-if="post.tags !== ''">
+                          <TagWatch v-model="post.tags" />
+                        </v-list-item-subtitle>
+                      </v-list-item-content>
+                    </v-list-item>
+                  </v-list>
                 </v-card>
               </v-list>
               <v-col v-if="displayLists.length == 0" cols="12">

@@ -2,32 +2,53 @@
   <v-app>
     <v-main background-colorr:secondary>
       <v-container class="py-8 px-6" fluid>
-        <v-row>
-          <v-col cols="12">
-            <v-header>新規投稿</v-header>
+        <v-row justify="center">
+          <v-col cols="8" sm="12">
+            <h2>新規投稿</h2>
           </v-col>
 
-          <v-col cols="12">
+          <v-col cols="10" sm="12">
             <v-card>
               <v-list two-line>
                 <template>
                   <form @submit.prevent>
-                    <v-text-field
-                      v-model="title"
-                      label="記事タイトル"
-                      required
-                      ï
-                    />
-                    <TagInput v-model="tag_str" />
-
-                    <client-only>
-                      <vue-simplemde
-                        v-model="body"
-                        :configs="configs"
-                        @on-change="handleChange"
-                      />
-                    </client-only>
-                    <v-btn class="mr-4" @click="publishPost"> 投稿 </v-btn>
+                    <v-row class="pa-2" justify="center">
+                      <v-col cols="12" md="12">
+                        <v-row justify="center">
+                          <!-- <v-col> -->
+                          <v-col cols="8" sm="12">
+                            <v-text-field
+                              v-model="title"
+                              outlined
+                              label="記事タイトル"
+                              required
+                              ï
+                            />
+                            <TagInput v-model="tag_str" />
+                          </v-col>
+                          <v-col cols="10" sm="12">
+                            <div class="post-texttitle">記事本文</div>
+                            <client-only>
+                              <vue-simplemde
+                                v-model="body"
+                                :configs="configs"
+                                @on-change="handleChange"
+                              />
+                            </client-only>
+                          </v-col>
+                          <!-- </v-col> -->
+                        </v-row>
+                      </v-col>
+                      <v-col cols="3">
+                        <FormItemButton
+                          block
+                          label="投稿"
+                          type="button"
+                          @click="publishPost"
+                        />
+                      </v-col>
+                    </v-row>
+                    <!-- <v-btn class="mr-4" @click="publishPost"> 投稿 </v-btn> -->
                   </form>
                 </template>
               </v-list>
@@ -80,8 +101,8 @@ export default {
           "bold",
           "italic",
           "heading",
-          "heading-smaller",
-          "heading-bigger",
+          // "heading-smaller",
+          // "heading-bigger",
           "|",
           "code",
           "quote",
@@ -90,10 +111,10 @@ export default {
           "unordered-list",
           "ordered-list",
           "table",
-          "horizontal-rule",
-          "|",
-          "side-by-side",
-          "fullscreen",
+          // "horizontal-rule",
+          // "|",
+          // "side-by-side",
+          // "fullscreen",
           "|",
           "guide",
         ],

@@ -2,7 +2,7 @@
   <v-app>
     <v-main background-colorr:secondary>
       <v-container class="py-8 px-6" fluid>
-        <v-row>
+        <v-row justify="center">
           <!-- <v-col cols="6" md="7" class="d-none d-sm-block"> -->
           <v-col cols="12">
             <div

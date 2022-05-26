@@ -70,7 +70,6 @@ export default {
           email: this.email,
           password: this.password,
         });
-        return (this.isDisplay = true);
       }
     },
   },
