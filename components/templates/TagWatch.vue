@@ -1,5 +1,4 @@
 <template>
-  <!-- <v-app> -->
   <v-container class="width:100%">
     <v-row>
       <v-col>
@@ -18,14 +17,12 @@
       </v-col>
     </v-row>
   </v-container>
-  <!-- </v-app> -->
 </template>
 <script>
 export default {
   props: {
     value: {
       type: String,
-      // type: Array,
       required: true,
     },
   },

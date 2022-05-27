@@ -3,43 +3,90 @@
     <v-main background-colorr:secondary>
       <v-container class="py-8 px-6" fluid>
         <v-row>
-          <v-col cols="12" sm="4">
-            <v-col cols="12">
+          <v-col cols="12" sm="5">
+            <v-list>
               <v-card>
-                <v-col cols="12">
-                  <v-row
-                    justify="space-around"
-                    align-content="center"
-                    style="height: 100px"
-                  >
-                    <IconUser
-                      :image="selectUserData.photoURL"
-                      style="width: 72px; height: 72px"
-                    />
-                  </v-row>
-                </v-col>
+                <v-list-item>
+                  <v-col cols="12">
+                    <v-row
+                      justify="space-around"
+                      align-content="center"
+                      style="height: 100px"
+                    >
+                      <IconUser
+                        :image="selectUserData.photoURL"
+                        style="width: 72px; height: 72px"
+                      />
+                    </v-row>
+                  </v-col>
+                </v-list-item>
+                <v-row class="justify-center">
+                  <v-col cols="12">
+                    <v-list>
+                      <v-list-item>
+                        <v-list-item-content>
+                          <v-list-item-subtitle class="text-center wrap-text">
+                            {{ selectUserData.name }}
+                          </v-list-item-subtitle>
+                        </v-list-item-content>
+                      </v-list-item>
+                    </v-list>
+                  </v-col>
+                </v-row>
+
                 <v-card-text class="justify-center">
-                  <v-row>
-                    <v-col col="12">
-                      <div>{{ selectUserData.name }}</div>
-                    </v-col>
-                  </v-row>
-                </v-card-text>
-                <v-card-text class="justify-center">
-                  <v-row>
-                    <v-col col="4" @click="userPostPage(selectUserData)">
-                      <div>投稿</div>
-                      {{ userPosts.length }}
-                    </v-col>
-                    <v-col col="4" @click="followPage(selectUserData)">
-                      <div>フォロー</div>
-                      {{ followLists.length }}
-                    </v-col>
-                    <v-col col="4" @click="followerPage(selectUserData)">
-                      <div>フォロワー</div>
-                      {{ followerLists.length }}
-                    </v-col>
-                  </v-row>
+                  <v-list>
+                    <v-row>
+                      <v-col cols="4">
+                        <v-list-item @click="userPostPage(selectUserData)">
+                          <v-list-item-content>
+                            <v-list-item-subtitle
+                              class="text-caption text-center wrap-text"
+                            >
+                              <div>投稿</div>
+                              {{ userPosts.length }}
+                            </v-list-item-subtitle>
+                          </v-list-item-content>
+                        </v-list-item>
+                      </v-col>
+                      <v-col cols="4">
+                        <v-list-item @click="followPage(selectUserData)">
+                          <v-list-item-content>
+                            <v-list-item-subtitle
+                              class="text-caption text-center wrap-text"
+                            >
+                              <div>フォロー</div>
+                              {{ followLists.length }}
+                            </v-list-item-subtitle>
+                          </v-list-item-content>
+                        </v-list-item>
+                      </v-col>
+                      <v-col cols="4">
+                        <v-list-item @click="followerPage(selectUserData)">
+                          <v-list-item-content>
+                            <v-list-item-subtitle
+                              class="text-caption text-center wrap-text"
+                            >
+                              <div>フォロワー</div>
+                              {{ followerLists.length }}
+                            </v-list-item-subtitle>
+                          </v-list-item-content>
+                        </v-list-item>
+                      </v-col>
+                      <!-- <v-col col="4" @click="userPostPage(selectUserData)">
+                        <div>投稿</div>
+                        {{ userPosts.length }}
+                      </v-col>
+                      <v-col col="4" @click="followPage(selectUserData)">
+                        <div>フォロー</div>
+                        {{ followLists.length }}
+                      </v-col>
+                      <v-col col="4" @click="followerPage(selectUserData)">
+                        <div>フォロワー</div>
+                        {{ followerLists.length }}
+                      </v-col> -->
+                    </v-row>
+                  </v-list>
                 </v-card-text>
 
                 <v-card-actions
@@ -79,14 +126,38 @@
                   </v-btn>
                 </v-card-actions>
 
-                <div>{{ selectUserData.affiliation }}</div>
-                <div>{{ selectUserData.job }}</div>
-                <div>{{ selectUserData.prefectures }}</div>
-                <div v-html="$md.render(selectUserData.profileText)" />
+                <v-list>
+                  <v-row class="ma-1">
+                    <v-col col="10">
+                      <v-list-item-content>
+                        <v-list-item-subtitle class="wrap-text">
+                          {{ selectUserData.affiliation }}
+                        </v-list-item-subtitle>
+                      </v-list-item-content>
+                      <v-list-item-content>
+                        <v-list-item-subtitle class="wrap-text">
+                          {{ selectUserData.job }}
+                        </v-list-item-subtitle>
+                      </v-list-item-content>
+                      <v-list-item-content>
+                        <v-list-item-subtitle class="wrap-text">
+                          {{ selectUserData.prefectures }}
+                        </v-list-item-subtitle>
+                      </v-list-item-content>
+                      <v-list-item-content>
+                        <v-list-item-subtitle class="wrap-text">
+                          <div
+                            v-html="$md.render(selectUserData.profileText)"
+                          />
+                        </v-list-item-subtitle>
+                      </v-list-item-content>
+                    </v-col>
+                  </v-row>
+                </v-list>
               </v-card>
-            </v-col>
+            </v-list>
           </v-col>
-          <v-col cols="12" sm="8">
+          <v-col cols="12" sm="7">
             <v-col cols="12">
               <v-card class="px-5">
                 <v-col cols="12">
@@ -146,7 +217,15 @@
                     </v-row>
                   </v-card>
                 </v-list>
-
+                <v-col v-if="fLists.length == 0" cols="12">
+                  <v-content>
+                    <v-list-item-content>
+                      <v-list-item-title class="mb-14">
+                        フォローしていません。
+                      </v-list-item-title>
+                    </v-list-item-content>
+                  </v-content>
+                </v-col>
                 <v-col cols="12">
                   <v-content>
                     <v-pagination
