@@ -1,18 +1,27 @@
 <template>
-  <div class="page register-finish">
-    <div class="form">
-      <p class="title">記事を削除する</p>
-      <hr class="mb-10" />
-      <div class="text">
-        <p class="main">削除完了しました</p>
-      </div>
-      <FormItemButton
-        label="戻る"
-        type="button"
-        @click="$router.push('/posts')"
-      />
-    </div>
-  </div>
+  <v-container>
+    <v-row justify="center">
+      <v-col cols="12">
+        <div>
+          <div class="plain-title text-center">記事を削除する</div>
+        </div>
+        <hr class="mb-10" />
+        <div class="row">
+          <div class="col-sm-12 text-center">
+            <p class="plain-main">削除完了しました</p>
+          </div>
+        </div>
+      </v-col>
+      <v-col cols="3">
+        <FormItemButton
+          block
+          label="戻る"
+          type="button"
+          @click="$router.push('/posts')"
+        />
+      </v-col>
+    </v-row>
+  </v-container>
 </template>
 
 <script>

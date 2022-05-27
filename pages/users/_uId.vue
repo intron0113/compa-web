@@ -2,44 +2,91 @@
   <v-app>
     <v-main background-colorr:secondary>
       <v-container class="py-8 px-6" fluid>
-        <v-row>
-          <v-col cols="12" sm="4">
-            <v-col cols="12">
+        <v-row class="justify-center">
+          <v-col cols="12" sm="5">
+            <v-list>
               <v-card>
-                <v-col cols="12">
-                  <v-row
-                    justify="space-around"
-                    align-content="center"
-                    style="height: 100px"
-                  >
-                    <IconUser
-                      :image="selectUserData.photoURL"
-                      style="width: 72px; height: 72px"
-                    />
-                  </v-row>
-                </v-col>
+                <v-list-item>
+                  <v-col cols="12">
+                    <v-row
+                      justify="space-around"
+                      align-content="center"
+                      style="height: 100px"
+                    >
+                      <IconUser
+                        :image="selectUserData.photoURL"
+                        style="width: 72px; height: 72px"
+                      />
+                    </v-row>
+                  </v-col>
+                </v-list-item>
+                <v-row class="justify-center">
+                  <v-col cols="12">
+                    <v-list>
+                      <v-list-item>
+                        <v-list-item-content>
+                          <v-list-item-subtitle class="text-center wrap-text">
+                            {{ selectUserData.name }}
+                          </v-list-item-subtitle>
+                        </v-list-item-content>
+                      </v-list-item>
+                    </v-list>
+                  </v-col>
+                </v-row>
+
                 <v-card-text class="justify-center">
-                  <v-row>
-                    <v-col col="12">
-                      <div>{{ selectUserData.name }}</div>
-                    </v-col>
-                  </v-row>
-                </v-card-text>
-                <v-card-text class="justify-center">
-                  <v-row>
-                    <v-col col="4" @click="userPostPage(selectUserData)">
-                      <div>投稿</div>
-                      {{ userPosts.length }}
-                    </v-col>
-                    <v-col col="4" @click="followPage(selectUserData)">
-                      <div>フォロー</div>
-                      {{ followLists.length }}
-                    </v-col>
-                    <v-col col="4" @click="followerPage(selectUserData)">
-                      <div>フォロワー</div>
-                      {{ followerLists.length }}
-                    </v-col>
-                  </v-row>
+                  <v-list>
+                    <v-row>
+                      <v-col cols="4">
+                        <v-list-item @click="userPostPage(selectUserData)">
+                          <v-list-item-content>
+                            <v-list-item-subtitle
+                              class="text-caption text-center wrap-text"
+                            >
+                              <div>投稿</div>
+                              {{ userPosts.length }}
+                            </v-list-item-subtitle>
+                          </v-list-item-content>
+                        </v-list-item>
+                      </v-col>
+                      <v-col cols="4">
+                        <v-list-item @click="followPage(selectUserData)">
+                          <v-list-item-content>
+                            <v-list-item-subtitle
+                              class="text-caption text-center wrap-text"
+                            >
+                              <div>フォロー</div>
+                              {{ followLists.length }}
+                            </v-list-item-subtitle>
+                          </v-list-item-content>
+                        </v-list-item>
+                      </v-col>
+                      <v-col cols="4">
+                        <v-list-item @click="followerPage(selectUserData)">
+                          <v-list-item-content>
+                            <v-list-item-subtitle
+                              class="text-caption text-center wrap-text"
+                            >
+                              <div>フォロワー</div>
+                              {{ followerLists.length }}
+                            </v-list-item-subtitle>
+                          </v-list-item-content>
+                        </v-list-item>
+                      </v-col>
+                      <!-- <v-col col="4" @click="userPostPage(selectUserData)">
+                        <div>投稿</div>
+                        {{ userPosts.length }}
+                      </v-col>
+                      <v-col col="4" @click="followPage(selectUserData)">
+                        <div>フォロー</div>
+                        {{ followLists.length }}
+                      </v-col>
+                      <v-col col="4" @click="followerPage(selectUserData)">
+                        <div>フォロワー</div>
+                        {{ followerLists.length }}
+                      </v-col> -->
+                    </v-row>
+                  </v-list>
                 </v-card-text>
 
                 <v-card-actions
@@ -79,14 +126,38 @@
                   </v-btn>
                 </v-card-actions>
 
-                <div>{{ selectUserData.affiliation }}</div>
-                <div>{{ selectUserData.job }}</div>
-                <div>{{ selectUserData.prefectures }}</div>
-                <div v-html="$md.render(selectUserData.profileText)" />
+                <v-list>
+                  <v-row class="ma-1">
+                    <v-col col="10">
+                      <v-list-item-content>
+                        <v-list-item-subtitle class="wrap-text">
+                          {{ selectUserData.affiliation }}
+                        </v-list-item-subtitle>
+                      </v-list-item-content>
+                      <v-list-item-content>
+                        <v-list-item-subtitle class="wrap-text">
+                          {{ selectUserData.job }}
+                        </v-list-item-subtitle>
+                      </v-list-item-content>
+                      <v-list-item-content>
+                        <v-list-item-subtitle class="wrap-text">
+                          {{ selectUserData.prefectures }}
+                        </v-list-item-subtitle>
+                      </v-list-item-content>
+                      <v-list-item-content>
+                        <v-list-item-subtitle class="wrap-text">
+                          <div
+                            v-html="$md.render(selectUserData.profileText)"
+                          />
+                        </v-list-item-subtitle>
+                      </v-list-item-content>
+                    </v-col>
+                  </v-row>
+                </v-list>
               </v-card>
-            </v-col>
+            </v-list>
           </v-col>
-          <v-col cols="12" sm="8">
+          <v-col cols="12" sm="7">
             <v-col cols="12">
               <v-card class="px-5">
                 <v-col cols="12">
@@ -96,43 +167,72 @@
                 <v-list two-line>
                   <v-card v-for="post in postLists" :key="post.index">
                     <v-row>
-                      <v-col @click="openPost(post, index)">
-                        <!-- <v-card @click="openPost(post, index)"> -->
-                        <v-row>
-                          <v-col class="mx-3" cols="12" lg="8">
-                            <v-list-item-content>
-                              <v-list-item-subtitle>
-                                投稿日 {{ postedDay(post.time) }}
-                              </v-list-item-subtitle>
-                              <v-list-item-title>
-                                {{ post.title }}
-                              </v-list-item-title>
-                            </v-list-item-content>
-                          </v-col>
-                        </v-row>
-                        <!-- </v-list-item> -->
-                        <!-- <v-list-item> -->
-                        <!-- </v-card> -->
+                      <v-col>
+                        <v-list-item @click="openPost(post, index)">
+                          <v-row>
+                            <v-col class="mx-3" cols="10" lg="12">
+                              <v-list-item-content>
+                                <v-list-item-subtitle>
+                                  投稿日 {{ postedDay(post.time) }}
+                                </v-list-item-subtitle>
+                                <v-list-item-subtitle class="wrap-text">
+                                  {{ post.title }}
+                                </v-list-item-subtitle>
+                              </v-list-item-content>
+                            </v-col>
+                          </v-row>
+                        </v-list-item>
                       </v-col>
                       <v-col class="mb-4" cols="12" lg="4">
-                        <v-btn
+                        <!-- <v-btn
                           v-if="watchUser == selectUserData.uid"
                           class="mx-3 z-index:100"
                           @click="editPost(post, index)"
                         >
                           編集
+                        </v-btn> -->
+                        <v-btn
+                          v-if="watchUser == selectUserData.uid"
+                          class="mx-3"
+                          fab
+                          dark
+                          x-small
+                          color="blue"
+                          @click="editPost(post, index)"
+                        >
+                          <v-icon>mdi-pencil</v-icon>
                         </v-btn>
                         <v-btn
+                          v-if="watchUser == selectUserData.uid"
+                          class="mx-3"
+                          fab
+                          dark
+                          x-small
+                          color="pink"
+                          @click="deletePost(post)"
+                        >
+                          <v-icon>mdi-delete</v-icon>
+                        </v-btn>
+                        <!-- <v-btn
                           v-if="watchUser == selectUserData.uid"
                           class="mx-3"
                           @click="deletePost(post)"
                         >
                           削除
-                        </v-btn>
+                        </v-btn> -->
                       </v-col>
                     </v-row>
                   </v-card>
                 </v-list>
+                <v-col v-if="postLists.length == 0" cols="12">
+                  <v-content>
+                    <v-list-item-content>
+                      <v-list-item-title class="mb-14">
+                        投稿記事はまだありません。
+                      </v-list-item-title>
+                    </v-list-item-content>
+                  </v-content>
+                </v-col>
 
                 <v-col cols="12">
                   <v-content>
@@ -174,8 +274,8 @@ export default {
   },
   data: () => ({
     tab: "archive",
-    post: "投稿した記事",
-    event: "参加イベント",
+    post: "投稿記事",
+    // event: "参加イベント",
     drawer: null,
     show: false,
     page: 1,
@@ -285,5 +385,10 @@ export default {
 }
 .v-input__control {
   padding-top: 6px !important;
+}
+
+.wrap-text {
+  word-break: break-all;
+  white-space: normal;
 }
 </style>

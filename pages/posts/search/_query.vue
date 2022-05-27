@@ -4,7 +4,7 @@
       <v-container class="py-8 px-6" fluid>
         <v-row justify="center">
           <!-- <v-col cols="6" md="7" class="d-none d-sm-block"> -->
-          <v-col cols="12">
+          <v-col cols="8" sm="12">
             <div
               class="v-input mx-2 mx-md-4 v-input--hide-details v-input--dense theme--light v-text-field v-text-field--single-line v-text-field--solo v-text-field--is-booted v-text-field--enclosed v-text-field--placeholder rounded-lg"
               data-v-7f162986=""
@@ -47,7 +47,7 @@
               </div>
             </div>
           </v-col>
-          <v-col cols="12">
+          <v-col cols="8" sm="12">
             <h2>{{ search }}</h2>
           </v-col>
           <!-- <v-col cols="12">
@@ -89,9 +89,9 @@
                   </v-list-item>
                   <v-list-item three-line @click="openPost(post, index)">
                     <v-list-item-content>
-                      <v-list-item-title class="text-h5 mb-1">
+                      <v-list-item-subtitle class="text-h5 mb-1 wrap-text">
                         {{ post.title }}
-                      </v-list-item-title>
+                      </v-list-item-subtitle>
                       <v-list-item-subtitle v-if="post.tags !== ''">
                         <TagWatch v-model="post.tags" />
                       </v-list-item-subtitle>
@@ -102,9 +102,9 @@
               <v-col v-if="searchLists.length == 0" cols="12">
                 <v-content>
                   <v-list-item-content>
-                    <v-list-item-title class="mb-14">
+                    <v-list-item-subtitle class="mb-14 wrap-text">
                       「{{ qWord }}」に一致する記事はありませんでした。
-                    </v-list-item-title>
+                    </v-list-item-subtitle>
                   </v-list-item-content>
                 </v-content>
               </v-col>

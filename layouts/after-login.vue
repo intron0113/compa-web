@@ -233,8 +233,12 @@ export default {
       drawer: null,
       title: "Compa",
       avatarMenuItems: [
-        { icon: "", text: "マイページ", href: "/users" },
-        { icon: "", text: "新規投稿", href: `/users/new` },
+        { icon: "mdi-account-circle", text: "マイページ", href: "/users" },
+        {
+          icon: "mdi-pencil-box-multiple-outline",
+          text: "新規投稿",
+          href: `/users/new`,
+        },
         { icon: "mdi-logout", text: "ログアウト", href: "/auth/logout" },
       ],
       footerMenuItems: [
