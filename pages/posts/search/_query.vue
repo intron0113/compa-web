@@ -1,7 +1,7 @@
 <template>
   <v-app>
-    <v-main background-colorr:secondary>
-      <v-container class="py-8 px-6" fluid>
+    <v-main background-colorr:secondary class="py-8 px-6">
+      <div class="con">
         <v-row justify="center">
           <!-- <v-col cols="6" md="7" class="d-none d-sm-block"> -->
           <v-col cols="8" sm="12">
@@ -121,7 +121,7 @@
             </v-card>
           </v-col>
         </v-row>
-      </v-container>
+      </div>
     </v-main>
   </v-app>
 </template>

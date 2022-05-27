@@ -1,45 +1,45 @@
 <template>
-  <v-container class="width:100%">
-    <v-row>
-      <v-col>
-        <div class="tag-container cf">
-          <v-row class="ma-2">
-            <v-col>
-              <v-chip
-                v-for="(tag, index) in tags"
-                :key="index"
-                class="ma-2"
-                color="gray"
-                text-color="gray"
-                label
-                outlined
-                close
-                @click:close="remove(index)"
-              >
-                {{ tag.text }}
-              </v-chip>
-            </v-col>
-            <v-col cols="12">
-              <v-text-field
-                ref="input"
-                v-model="Value"
-                counter
-                maxlength="15"
-                hint="15文字まで"
-                filled
-                label="タグ入力欄"
-                class="input"
-                type="text"
-                placeholder="ここに入力"
-                @keyup.enter="enter($event.target)"
-                @keypress="canEnter = true"
-              />
-            </v-col>
-          </v-row>
-        </div>
-      </v-col>
-    </v-row>
-  </v-container>
+  <!-- <v-container class="width:100%"> -->
+  <v-row class="width:100%">
+    <v-col>
+      <div class="tag-container cf">
+        <v-row class="ma-2">
+          <v-col>
+            <v-chip
+              v-for="(tag, index) in tags"
+              :key="index"
+              class="ma-2"
+              color="gray"
+              text-color="gray"
+              label
+              outlined
+              close
+              @click:close="remove(index)"
+            >
+              {{ tag.text }}
+            </v-chip>
+          </v-col>
+          <v-col cols="12">
+            <v-text-field
+              ref="input"
+              v-model="Value"
+              counter
+              maxlength="15"
+              hint="15文字まで"
+              filled
+              label="タグ入力欄"
+              class="input"
+              type="text"
+              placeholder="ここに入力"
+              @keyup.enter="enter($event.target)"
+              @keypress="canEnter = true"
+            />
+          </v-col>
+        </v-row>
+      </div>
+    </v-col>
+  </v-row>
+  <!-- </v-container> -->
 </template>
 <script>
 export default {

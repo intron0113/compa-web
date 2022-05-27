@@ -1,22 +1,22 @@
 <template>
-  <v-container class="width:100%">
-    <v-row>
-      <v-col>
-        <v-chip
-          v-for="(tag, index) in tags"
-          :key="index"
-          class="ma-2"
-          color="gray"
-          text-color="gray"
-          label
-          outlined
-        >
-          <v-icon left> mdi-tag-outline </v-icon>
-          {{ tag.text }}
-        </v-chip>
-      </v-col>
-    </v-row>
-  </v-container>
+  <!-- <v-container class="width:100%"> -->
+  <v-row class="width:100%">
+    <v-col>
+      <v-chip
+        v-for="(tag, index) in tags"
+        :key="index"
+        class="ma-2"
+        color="gray"
+        text-color="gray"
+        label
+        outlined
+      >
+        <v-icon left> mdi-tag-outline </v-icon>
+        {{ tag.text }}
+      </v-chip>
+    </v-col>
+  </v-row>
+  <!-- </v-container> -->
 </template>
 <script>
 export default {
