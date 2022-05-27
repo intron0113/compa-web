@@ -40,7 +40,7 @@
 </template>
 
 <scripti>
-import Kodawari from '../components/organisms/Kodawari.vue';
+// import Kodawari from '../components/organisms/Kodawari.vue';
 export default {
   middleware: "loggedInIsRedirects",
 };
