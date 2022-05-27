@@ -6,7 +6,7 @@
       clipped-right
       app
     >
-      <v-container>
+      <div class="con">
         <v-row>
           <v-col cols="6" sm="8" md="10">
             <v-toolbar-title
@@ -41,7 +41,7 @@
             </v-btn>
           </v-col>
         </v-row>
-      </v-container>
+      </div>
     </v-app-bar>
     <v-content>
       <nuxt />

@@ -1,7 +1,7 @@
 <template>
   <v-app>
-    <v-main background-colorr:secondary>
-      <v-container class="py-8 px-6" fluid>
+    <v-main background-colorr:secondary class="py-8 px-6">
+      <div class="con">
         <v-row justify="end">
           <v-col cols="12" md="2">
             <v-card v-if="watchUser == selectPost.uid" elevation="5 py-3">
@@ -174,7 +174,7 @@
             </v-card>
           </v-col>
         </v-row>
-      </v-container>
+      </div>
     </v-main>
   </v-app>
 </template>

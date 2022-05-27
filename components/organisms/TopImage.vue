@@ -1,18 +1,18 @@
 <template>
   <section class="topimage">
-    <div class="topimage-back"></div>
-    <div class="container">
-      <div class="topimage-text">
-        <h1>アウトプットしよう</h1>
-        <p>医療従事者の為の学習アウトプットサービスです。</p>
-        <p>学習した事を外に出力していきましょう！！</p>
-        <div class="btn-1">
-          <nuxt-link tag="div" to="auth/register" class="btn"
-            >新規登録
-          </nuxt-link>
-        </div>
+    <div class="topimage-back" />
+    <!-- <div class="container"> -->
+    <div class="topimage-text">
+      <h1>アウトプットしよう</h1>
+      <p>医療従事者の為の学習アウトプットサービスです。</p>
+      <p>学習した事を外に出力していきましょう！！</p>
+      <div class="btn-1">
+        <nuxt-link tag="div" to="auth/register" class="btn">
+          新規登録
+        </nuxt-link>
       </div>
     </div>
+    <!-- </div> -->
   </section>
 </template>
 <script>

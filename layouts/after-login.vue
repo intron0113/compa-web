@@ -6,7 +6,7 @@
       clipped-right
       app
     >
-      <v-container>
+      <div class="con">
         <v-row>
           <v-col cols="8" sm="3" md="2">
             <v-toolbar-title
@@ -147,61 +147,61 @@
             </v-menu>
           </v-col>
         </v-row>
-      </v-container>
+      </div>
 
       <!-- </v-col>
         </v-row> -->
     </v-app-bar>
     <v-content>
-      <v-container>
-        <!-- モバイル検索 -->
+      <!-- <v-container> -->
+      <!-- モバイル検索 -->
+      <div
+        class="serachMobile v-input mx-2 mx-md-4 v-input--hide-details v-input--dense theme--light v-text-field v-text-field--single-line v-text-field--solo v-text-field--is-booted v-text-field--enclosed v-text-field--placeholder rounded-lg d-block d-sm-none"
+        style="max-width: 90%"
+        data-v-7f162986=""
+      >
         <div
-          class="serachMobile v-input mx-2 mx-md-4 v-input--hide-details v-input--dense theme--light v-text-field v-text-field--single-line v-text-field--solo v-text-field--is-booted v-text-field--enclosed v-text-field--placeholder rounded-lg d-block d-sm-none"
-          style="max-width: 90%"
-          data-v-7f162986=""
+          v-show="search"
+          class="v-input__control display: flex flex-direction"
         >
-          <div
-            v-show="search"
-            class="v-input__control display: flex flex-direction"
-          >
-            <div class="v-input__slot">
-              <div class="v-input__prepend-inner">
-                <span
+          <div class="v-input__slot">
+            <div class="v-input__prepend-inner">
+              <span
+                aria-hidden="true"
+                class="v-icon notranslate ml-1 mr-2 theme--light"
+                data-v-7f162986=""
+                ><svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  viewBox="0 0 24 24"
+                  role="img"
                   aria-hidden="true"
-                  class="v-icon notranslate ml-1 mr-2 theme--light"
-                  data-v-7f162986=""
-                  ><svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    viewBox="0 0 24 24"
-                    role="img"
-                    aria-hidden="true"
-                    class="v-icon__svg"
-                  >
-                    <path
-                      d="M9.5,3A6.5,6.5 0 0,1 16,9.5C16,11.11 15.41,12.59 14.44,13.73L14.71,14H15.5L20.5,19L19,20.5L14,15.5V14.71L13.73,14.44C12.59,15.41 11.11,16 9.5,16A6.5,6.5 0 0,1 3,9.5A6.5,6.5 0 0,1 9.5,3M9.5,5C7,5 5,7 5,9.5C5,12 7,14 9.5,14C12,14 14,12 14,9.5C14,7 12,5 9.5,5Z"
-                    /></svg
-                ></span>
-              </div>
-              <div class="v-text-field__slot">
-                <v-text-field
-                  id="input-18"
-                  ref="input"
-                  v-model="query"
-                  autocomplete="off"
-                  role="button"
-                  aria-haspopup="true"
-                  aria-expanded="false"
-                  placeholder="検索"
-                  type="text"
-                  value=""
-                  @keyup.enter="say($event.target)"
-                  @keypress="setCanMessageSubmit"
-                />
-              </div>
+                  class="v-icon__svg"
+                >
+                  <path
+                    d="M9.5,3A6.5,6.5 0 0,1 16,9.5C16,11.11 15.41,12.59 14.44,13.73L14.71,14H15.5L20.5,19L19,20.5L14,15.5V14.71L13.73,14.44C12.59,15.41 11.11,16 9.5,16A6.5,6.5 0 0,1 3,9.5A6.5,6.5 0 0,1 9.5,3M9.5,5C7,5 5,7 5,9.5C5,12 7,14 9.5,14C12,14 14,12 14,9.5C14,7 12,5 9.5,5Z"
+                  /></svg
+              ></span>
+            </div>
+            <div class="v-text-field__slot">
+              <v-text-field
+                id="input-18"
+                ref="input"
+                v-model="query"
+                autocomplete="off"
+                role="button"
+                aria-haspopup="true"
+                aria-expanded="false"
+                placeholder="検索"
+                type="text"
+                value=""
+                @keyup.enter="say($event.target)"
+                @keypress="setCanMessageSubmit"
+              />
             </div>
           </div>
         </div>
-      </v-container>
+      </div>
+      <!-- </v-container> -->
     </v-content>
 
     <nuxt />
@@ -331,4 +331,14 @@ export default {
     line-height: 120%;
   }
 }
+// .con {
+//   width: 96%;
+//   max-width: 980px;
+//   padding: 30px 0;
+//   margin: 0 auto;
+//   /* min-height: calc(100vh - 61px); */
+//   display: flex;
+//   justify-content: center;
+//   align-items: flex-start;
+// }
 </style>
