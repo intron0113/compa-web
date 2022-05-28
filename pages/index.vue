@@ -3,7 +3,7 @@
     <section>
       <TopImage />
       <div class="discription">
-        <h2>Whtats's Co-mpa?</h2>
+        <h2>Whtat's Co-mpa?</h2>
         <p class="discription__comment">
           Co-mpaはco-medical posting aplication の略になります。
           <br />
