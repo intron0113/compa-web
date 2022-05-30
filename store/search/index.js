@@ -32,15 +32,12 @@ export const mutations = {
 
 export const actions = {
   async getLists({ commit }, payload) {
-    console.log(payload);
     // let searchResult = await index.search("");
     let searchResult = await index.search(payload.searchWord);
-    console.log(searchResult.hits);
 
     // const userFollows = [];
     // searchResult.hits.forEach((doc) => {
     //   const data = doc.data();
-    //   console.log(data);
     //   userFollows.push(data);
     // });
 
@@ -57,7 +54,6 @@ export const actions = {
         userFollow.photoURL = userData.photoURL;
       });
     }
-    console.log(searchResult.hits);
 
     return commit("setLists", searchResult.hits);
   },

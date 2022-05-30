@@ -56,8 +56,8 @@ export const actions = {
       commit("signOut");
       // window.localStorage.clear();
       this.$router.push("/");
-    } catch (error) {
-      console.log(error); //eslint-disable-line
+    } catch {
+      dispatch("getToast", { msg: "ユーザー情報が正しくありません" });
     }
   },
   async login({ dispatch }, payload) {
@@ -68,8 +68,7 @@ export const actions = {
       );
       dispatch("checkLogin");
       this.$router.push("/posts");
-    } catch (error) {
-      // console.log(error); //eslint-disable-line
+    } catch {
       dispatch("getToast", { msg: "ユーザー情報が正しくありません" });
     }
   },
@@ -83,9 +82,8 @@ export const actions = {
         email: user.email,
         photoURL: user.photoURL,
       });
-      console.log(user);
     } catch (error) {
-      console.log(error); //eslint-disable-line
+      dispatch("getToast", { msg: "ユーザー情報が正しくありません" });
     }
   },
   async register({ dispatch, state }, payload) {
@@ -126,32 +124,31 @@ export const actions = {
       dispatch("getToast", { msg: "ユーザー情報が正しくありません" });
     }
   },
-  async registerGoogle({ dispatch }) {
-    try {
-      const provider = new this.$fireModule.auth.GoogleAuthProvider();
-      await this.$fire.auth.signInWithPopup(provider).then(() => {
-        dispatch("checkLogin");
-        this.$router.push("/posts");
-      });
-      const user = this.$fire.auth.currentUser;
+  // async registerGoogle({ dispatch }) {
+  //   try {
+  //     const provider = new this.$fireModule.auth.GoogleAuthProvider();
+  //     await this.$fire.auth.signInWithPopup(provider).then(() => {
+  //       dispatch("checkLogin");
+  //       this.$router.push("/posts");
+  //     });
+  //     const user = this.$fire.auth.currentUser;
 
-      const storageRef = this.$fire.storage.ref();
-      storageRef.child(`users/${user.uid}.png`).put(user.photoURL);
+  //     const storageRef = this.$fire.storage.ref();
+  //     storageRef.child(`users/${user.uid}.png`).put(user.photoURL);
 
-      this.$fire.firestore.collection("user").doc(user.uid).set({
-        uid: user.uid,
-        name: user.displayName,
-        photoURL: user.photoURL,
-        affiliation: "",
-        job: "",
-        prefectures: "",
-        profileText: "",
-      });
-    } catch (error) {
-      // console.log(error); //eslint-disable-line
-      dispatch("getToast", { msg: "ユーザー情報が正しくありません" });
-    }
-  },
+  //     this.$fire.firestore.collection("user").doc(user.uid).set({
+  //       uid: user.uid,
+  //       name: user.displayName,
+  //       photoURL: user.photoURL,
+  //       affiliation: "",
+  //       job: "",
+  //       prefectures: "",
+  //       profileText: "",
+  //     });
+  //   } catch (error) {
+  //     dispatch("getToast", { msg: "ユーザー情報が正しくありません" });
+  //   }
+  // },
   async loginGoogle({ dispatch }) {
     try {
       const provider = new this.$fireModule.auth.GoogleAuthProvider();
@@ -159,33 +156,58 @@ export const actions = {
         dispatch("checkLogin");
         this.$router.push("/posts");
       });
-    } catch (error) {
-      // console.log(error); //eslint-disable-line
-      dispatch("getToast", { msg: "ユーザー情報が正しくありません" });
-    }
-  },
-  async registerTwitter({ dispatch }) {
-    try {
-      const provider = new this.$fireModule.auth.TwitterAuthProvider();
-      await this.$fire.auth.signInWithPopup(provider).then(() => {
-        dispatch("checkLogin");
-        this.$router.push("/posts");
-      });
       const user = this.$fire.auth.currentUser;
-      this.$fire.firestore.collection("user").doc(user.uid).set({
-        uid: user.uid,
-        name: user.displayName,
-        password: user.password,
-        affiliation: "",
-        job: "",
-        prefectures: "",
-        profileText: "",
+      const querySnapshot = await this.$fire.firestore
+        .collection("user")
+        .where("uid", "==", user.uid)
+        .get();
+
+      const selectUserData = [];
+
+      querySnapshot.forEach((doc) => {
+        const data = doc.data();
+        selectUserData.push(data);
       });
+
+      if (typeof selectUserData[0] == "undefined") {
+        const storageRef = this.$fire.storage.ref();
+        storageRef.child(`users/${user.uid}.png`).put(user.photoURL);
+
+        this.$fire.firestore.collection("user").doc(user.uid).set({
+          uid: user.uid,
+          name: user.displayName,
+          photoURL: user.photoURL,
+          affiliation: "",
+          job: "",
+          prefectures: "",
+          profileText: "",
+        });
+      }
     } catch (error) {
-      // console.log(error); //eslint-disable-line
       dispatch("getToast", { msg: "ユーザー情報が正しくありません" });
     }
   },
+  // async registerTwitter({ dispatch }) {
+  //   try {
+  //     const provider = new this.$fireModule.auth.TwitterAuthProvider();
+  //     await this.$fire.auth.signInWithPopup(provider).then(() => {
+  //       dispatch("checkLogin");
+  //       this.$router.push("/posts");
+  //     });
+  //     const user = this.$fire.auth.currentUser;
+  //     this.$fire.firestore.collection("user").doc(user.uid).set({
+  //       uid: user.uid,
+  //       name: user.displayName,
+  //       password: user.password,
+  //       affiliation: "",
+  //       job: "",
+  //       prefectures: "",
+  //       profileText: "",
+  //     });
+  //   } catch (error) {
+  //     dispatch("getToast", { msg: "ユーザー情報が正しくありません" });
+  //   }
+  // },
   async loginTwitter({ dispatch }) {
     try {
       const provider = new this.$fireModule.auth.TwitterAuthProvider();
@@ -193,14 +215,40 @@ export const actions = {
         dispatch("checkLogin");
         this.$router.push("/posts");
       });
+
+      const user = this.$fire.auth.currentUser;
+      const querySnapshot = await this.$fire.firestore
+        .collection("user")
+        .where("uid", "==", user.uid)
+        .get();
+
+      const selectUserData = [];
+
+      querySnapshot.forEach((doc) => {
+        const data = doc.data();
+        selectUserData.push(data);
+      });
+
+      if (typeof selectUserData[0] == "undefined") {
+        const storageRef = this.$fire.storage.ref();
+        storageRef.child(`users/${user.uid}.png`).put(user.photoURL);
+
+        this.$fire.firestore.collection("user").doc(user.uid).set({
+          uid: user.uid,
+          name: user.displayName,
+          photoURL: user.photoURL,
+          affiliation: "",
+          job: "",
+          prefectures: "",
+          profileText: "",
+        });
+      }
     } catch (error) {
-      // console.log(error); //eslint-disable-line
       dispatch("getToast", { msg: "ユーザー情報が正しくありません" });
     }
   },
   async userData({ commit }, payload) {
     try {
-      console.log(payload.uid);
       const querySnapshot = await this.$fire.firestore
         .collection("user")
         .where("uid", "==", payload.uid)
@@ -210,11 +258,9 @@ export const actions = {
 
       querySnapshot.forEach((doc) => {
         const data = doc.data();
-        console.log(data);
         selectUserData.push(data);
       });
 
-      console.log(selectUserData[0]);
       commit("setUserData", {
         uid: selectUserData[0].uid,
         name: selectUserData[0].name,
@@ -225,7 +271,7 @@ export const actions = {
         profileText: selectUserData[0].profileText.replace(/\\n/g, "\n"),
       });
     } catch (error) {
-      console.log(error);
+      dispatch("getToast", { msg: "ユーザー情報が正しくありません" });
     }
   },
   async imageUpload({}, payload) {
@@ -233,7 +279,6 @@ export const actions = {
     const userRef = await this.$fire.firestore
       .collection("user")
       .doc(payload.uid);
-    console.log(payload);
     try {
       await storageRef
         .child(`users/${payload.uid}/${payload.uid}.png`)
@@ -243,7 +288,6 @@ export const actions = {
             .child(`users/${payload.uid}/${payload.uid}.png`)
             .getDownloadURL()
             .then((url) => {
-              console.log(url);
               this.$fire.auth.currentUser.updateProfile({
                 // uid: payload.uid,
                 photoURL: url,
@@ -255,7 +299,7 @@ export const actions = {
         });
       // location.reload();
     } catch (error) {
-      console.log(error); //eslint-disable-line
+      dispatch("getToast", { msg: "ユーザー情報が正しくありません" });
     }
   },
   async deleteImage({}, payload) {
@@ -263,7 +307,6 @@ export const actions = {
     // const userRef = await this.$fire.firestore
     //   .collection("user")
     //   .doc(payload.uid);
-    // console.log(payload);
 
     await storageRef.child(`users/${payload.uid}/${payload.uid}.png`).delete();
   },
@@ -272,9 +315,7 @@ export const actions = {
     try {
       await this.$fire.firestore.collection("user").doc(payload.uid).delete();
     } catch (error) {
-      // console.log(title);
-      console.log(error); //eslint-disable-line
-      console.log(payload); //eslint-disable-line
+      dispatch("getToast", { msg: "ユーザー情報が正しくありません" });
     }
   },
   async updateUserData({}, payload) {
@@ -296,11 +337,8 @@ export const actions = {
         displayName: payload.name,
         photoURL: payload.photoURL,
       });
-      console.log(payload);
     } catch (error) {
-      // console.log(title);
-      console.log(error); //eslint-disable-line
-      console.log(payload); //eslint-disable-line
+      dispatch("getToast", { msg: "ユーザー情報が正しくありません" });
     }
   },
 };
