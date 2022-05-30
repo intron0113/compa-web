@@ -13,6 +13,11 @@ export const state = () => ({
     title: "",
     uid: "",
   },
+  toast: {
+    msg: null,
+    color: "error",
+    timeout: 4000,
+  },
 });
 
 export const getters = {
@@ -32,6 +37,10 @@ export const getters = {
 };
 
 export const mutations = {
+  // 追加
+  setToast(state, payload) {
+    state.toast = payload;
+  },
   addPost(state, { post }) {
     state.posts = post;
   },
@@ -55,6 +64,12 @@ export const mutations = {
 };
 
 export const actions = {
+  // トーストデータをセットする
+  getToast({ commit }, toast) {
+    toast.color = toast.color || "error";
+    toast.timeout = toast.timeout || 4000;
+    commit("setToast", toast);
+  },
   async fetchMembers({ commit }, payload) {
     return commit("setPost", payload);
   },
@@ -66,7 +81,6 @@ export const actions = {
 
   async commentLists({ commit }, uid) {
     try {
-      console.log(uid.postID);
       const querySnapshot = await this.$fire.firestore
         .collection("comments")
         .where("postId", "==", uid.postID)
@@ -76,7 +90,6 @@ export const actions = {
       const userComments = [];
       querySnapshot.forEach((doc) => {
         const data = doc.data();
-        console.log(data);
         userComments.push(data);
       });
       for (let i = 0; i < userComments.length; i++) {
@@ -93,18 +106,13 @@ export const actions = {
           comment.commentBody = comment.commentBody.replace(/\\n/g, "\n");
         });
       }
-      console.log(userComments);
       commit("setUserComments", userComments);
-
-      // selectPost.push(data);
-      // console.log(selectPost);
     } catch (error) {
-      console.log(error);
+      dispatch("getToast", { msg: "正しく処理ができませんでした。" });
     }
   },
   async getPost({ commit }, payload) {
     try {
-      console.log(payload.postId);
       const querySnapshot = await this.$fire.firestore
         .collection("posts")
         .where("postId", "==", payload.postId)
@@ -114,7 +122,6 @@ export const actions = {
 
       querySnapshot.forEach((doc) => {
         const data = doc.data();
-        console.log(data);
         selectPost.push(data);
       });
 
@@ -131,9 +138,7 @@ export const actions = {
           post.photoURL = userData.photoURL;
         });
       }
-      console.log(selectPost[0]);
       const selectPosts = selectPost.slice(0, 1);
-      console.log(selectPosts);
       commit("setPost", {
         body: selectPost[0].body,
         name: selectPost[0].name,
@@ -144,13 +149,12 @@ export const actions = {
         uid: selectPost[0].uid,
       });
     } catch (error) {
-      console.log(error);
+      dispatch("getToast", { msg: "正しく処理ができませんでした。" });
     }
   },
   async fetchPosts({ commit }) {
     try {
       const user = this.$fire.auth.currentUser;
-      // console.log(user.uid);
       const querySnapshot = await this.$fire.firestore
         .collection("posts")
         // .where("uid", "==", user.uid)
@@ -159,7 +163,6 @@ export const actions = {
       const posts = [];
       querySnapshot.forEach((doc) => {
         const data = doc.data();
-        console.log(data);
         posts.push(data);
       });
       for (let i = 0; i < posts.length; i++) {
@@ -178,12 +181,11 @@ export const actions = {
 
       commit("setData", posts);
     } catch (error) {
-      console.log(error);
+      dispatch("getToast", { msg: "正しく処理ができませんでした。" });
     }
   },
 
   async allDeleteComments({ dispatch }, payload) {
-    console.log(payload);
     try {
       const collection = await this.$fire.firestore
         .collection("comments")
@@ -193,10 +195,8 @@ export const actions = {
       const comments = [];
       collection.forEach((doc) => {
         const data = doc.data();
-        console.log(data);
         comments.push(data);
       });
-      // console.log(collection);
       for (let i = 0; i < comments.length; i++) {
         const comment = comments[i];
         await this.$fire.firestore
@@ -204,31 +204,20 @@ export const actions = {
           .doc(comment.commentId)
           .delete();
       }
-      console.log(comments);
       dispatch("getComments");
     } catch (error) {
-      // console.log(title);
-      console.log(error); //eslint-disable-line
-      console.log(payload); //eslint-disable-line
+      dispatch("getToast", { msg: "正しく処理ができませんでした。" });
     }
   },
   async deletePostComments({ dispatch }, payload) {
-    // const collection = this.$fire.firestore.collection("comments");
-    console.log(payload);
-
     try {
       const collection = await this.$fire.firestore
         .collection("comments")
         .where("postId", "==", payload.postId)
         .get();
-      // await collection.doc(payload.commentId).delete();
-      // console.log(uid);
-      // console.log(title);
-      // console.log(body);
       const comments = [];
       collection.forEach((doc) => {
         const data = doc.data();
-        console.log(data);
         comments.push(data);
       });
 
@@ -239,13 +228,10 @@ export const actions = {
           .doc(comment.commentId)
           .delete();
       }
-      console.log(comments);
 
       dispatch("getComments");
     } catch (error) {
-      // console.log(title);
-      console.log(error); //eslint-disable-line
-      console.log(payload); //eslint-disable-line
+      dispatch("getToast", { msg: "正しく処理ができませんでした。" });
     }
   },
   async deleteComment({ dispatch }, payload) {
@@ -253,15 +239,9 @@ export const actions = {
 
     try {
       await collection.doc(payload.commentId).delete();
-      // console.log(uid);
-      // console.log(title);
-      // console.log(body);
-      await dispatch("getComments");
       location.reload();
     } catch (error) {
-      // console.log(title);
-      console.log(error); //eslint-disable-line
-      console.log(payload); //eslint-disable-line
+      dispatch("getToast", { msg: "正しく処理ができませんでした。" });
     }
   },
   async updatePost({ dispatch }, payload) {
@@ -280,14 +260,9 @@ export const actions = {
         body: payload.body,
         time: this.$fireModule.firestore.FieldValue.serverTimestamp(),
       });
-      // console.log(uid);
-      // console.log(title);
-      // console.log(body);
       dispatch("getPosts");
     } catch (error) {
-      // console.log(title);
-      console.log(error); //eslint-disable-line
-      console.log(payload); //eslint-disable-line
+      dispatch("getToast", { msg: "正しく処理ができませんでした。" });
     }
   },
   async publishComment({ dispatch }, payload) {
@@ -308,35 +283,22 @@ export const actions = {
         commentBody: payload.commentBody,
         time: this.$fireModule.firestore.FieldValue.serverTimestamp(),
       });
-      // console.log(uid);
-      // console.log(title);
-      // console.log(body);
       await dispatch("getComments");
       location.reload();
     } catch (error) {
-      // console.log(title);
-      console.log(error); //eslint-disable-line
-      console.log(payload); //eslint-disable-line
+      dispatch("getToast", { msg: "正しく処理ができませんでした。" });
     }
   },
   async getComments({ commit }) {
     try {
       const user = this.$fire.auth.currentUser;
-      console.log(user.uid);
       const querySnapshot = await this.$fire.firestore
         .collection("comments")
         .where("uid", "==", user.uid)
         .get();
       const comments = [];
-      // querySnapshot.forEach((doc) => {
-      //   const data = doc.data();
-      //   console.log(data);
-      //   posts.push(data);
-      // });
-      // commit("setData", posts);
       querySnapshot.forEach((doc) => {
         const data = doc.data();
-        console.log(data);
         comments.push(data);
       });
 
@@ -353,25 +315,10 @@ export const actions = {
           comment.photoURL = userData.photoURL;
         });
       }
-      console.log(comments);
 
       commit("setData", comments);
     } catch (error) {
-      console.log(error);
+      dispatch("getToast", { msg: "正しく処理ができませんでした。" });
     }
   },
-  // async addLikeToPost({ commit }, { user, post }) {
-  //   post.likes.push({
-  //     created_at: moment().format(),
-  //     user_id: user.id,
-  //     post_id: post.id,
-  //   });
-  //   const newPost = await this.$axios.$put(`/posts/${post.id}.json`, post);
-  //   commit("updatePost", { post: newPost });
-  // },
-  // async removeLikeToPost({ commit }, { user, post }) {
-  //   post.likes = post.likes.filter((like) => like.user_id !== user.id) || [];
-  //   const newPost = await this.$axios.$put(`/posts/${post.id}.json`, post);
-  //   commit("updatePost", { post: newPost });
-  // },
 };

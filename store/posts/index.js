@@ -12,6 +12,11 @@ export const state = () => ({
     title: "",
     uid: "",
   },
+  toast: {
+    msg: null,
+    color: "error",
+    timeout: 4000,
+  },
 });
 
 export const getters = {
@@ -51,9 +56,22 @@ export const mutations = {
   setUserPosts(state, data) {
     state.userPosts = data;
   },
+  setToast(state, payload) {
+    state.toast = payload;
+  },
+  // loginStatusChange(state, status) {
+  //   // 認証状態を双方向に変化
+  //   state.loggedIn = status;
+  // },
 };
 
 export const actions = {
+  // トーストデータをセットする
+  getToast({ commit }, toast) {
+    toast.color = toast.color || "error";
+    toast.timeout = toast.timeout || 4000;
+    commit("setToast", toast);
+  },
   async fetchMembers({ commit }, payload) {
     return commit("setPost", payload);
   },
@@ -65,7 +83,6 @@ export const actions = {
 
   async userPosts({ commit }, uid) {
     try {
-      console.log(uid.uid);
       const querySnapshot = await this.$fire.firestore
         .collection("posts")
         .where("uid", "==", uid.uid)
@@ -75,7 +92,6 @@ export const actions = {
       const userPosts = [];
       querySnapshot.forEach((doc) => {
         const data = doc.data();
-        console.log(data);
         userPosts.push(data);
       });
       for (let i = 0; i < userPosts.length; i++) {
@@ -95,14 +111,12 @@ export const actions = {
       commit("setUserPosts", userPosts);
 
       // selectPost.push(data);
-      // console.log(selectPost);
     } catch (error) {
-      console.log(error);
+      dispatch("getToast", { msg: "正しく処理できませんでした" });
     }
   },
   async getPost({ commit }, payload) {
     try {
-      console.log(payload.postId);
       const querySnapshot = await this.$fire.firestore
         .collection("posts")
         .where("postId", "==", payload.postId)
@@ -112,7 +126,6 @@ export const actions = {
 
       querySnapshot.forEach((doc) => {
         const data = doc.data();
-        console.log(data);
         selectPost.push(data);
       });
 
@@ -129,9 +142,7 @@ export const actions = {
           post.photoURL = userData.photoURL;
         });
       }
-      console.log(selectPost[0]);
       const selectPosts = selectPost.slice(0, 1);
-      console.log(selectPosts);
       commit("setPost", {
         body: selectPost[0].body,
         name: selectPost[0].name,
@@ -143,23 +154,20 @@ export const actions = {
         uid: selectPost[0].uid,
       });
     } catch (error) {
-      console.log(error);
+      dispatch("getToast", { msg: "正しく処理できませんでした" });
     }
   },
   async fetchPosts({ commit }) {
     try {
       const user = this.$fire.auth.currentUser;
-      // console.log(user.uid);
       const querySnapshot = await this.$fire.firestore
         .collection("posts")
-        // .where("uid", "==", user.uid)
         .orderBy("time", "desc")
         .get();
 
       const posts = [];
       querySnapshot.forEach((doc) => {
         const data = doc.data();
-        console.log(data);
         posts.push(data);
       });
       for (let i = 0; i < posts.length; i++) {
@@ -178,12 +186,11 @@ export const actions = {
 
       commit("setData", posts);
     } catch (error) {
-      console.log(error);
+      dispatch("getToast", { msg: "正しく処理できませんでした" });
     }
   },
 
   async allDeletePost({ dispatch }, payload) {
-    console.log(payload);
     try {
       const collection = await this.$fire.firestore
         .collection("posts")
@@ -193,10 +200,8 @@ export const actions = {
       const posts = [];
       collection.forEach((doc) => {
         const data = doc.data();
-        console.log(data);
         posts.push(data);
       });
-      // console.log(collection);
       for (let i = 0; i < posts.length; i++) {
         const post = posts[i];
         await this.$fire.firestore
@@ -204,12 +209,9 @@ export const actions = {
           .doc(post.postId)
           .delete();
       }
-      console.log(posts);
       dispatch("getPosts");
     } catch (error) {
-      // console.log(title);
-      console.log(error); //eslint-disable-line
-      console.log(payload); //eslint-disable-line
+      dispatch("getToast", { msg: "正しく処理できませんでした" });
     }
   },
   async deletePost({ dispatch }, payload) {
@@ -217,15 +219,9 @@ export const actions = {
 
     try {
       await collection.doc(payload.postId).delete();
-      // console.log(uid);
-      // console.log(title);
-      // console.log(body);
-      // dispatch("comments/deletePostComments", payload.postId);
       dispatch("getPosts");
     } catch (error) {
-      // console.log(title);
-      console.log(error); //eslint-disable-line
-      console.log(payload); //eslint-disable-line
+      dispatch("getToast", { msg: "正しく処理できませんでした" });
     }
   },
   async updatePost({ dispatch }, payload) {
@@ -233,26 +229,18 @@ export const actions = {
     const userRef = await this.$fire.firestore
       .collection("user")
       .doc(payload.uid);
-    console.log(payload);
     try {
       await collection.doc(payload.postId).update({
         postId: payload.postId,
-        // photoURL: userRef.photoURL,
-        // name: userRef.name,
         uid: payload.uid,
         title: payload.title,
         tags: payload.tags,
         body: payload.body,
         time: this.$fireModule.firestore.FieldValue.serverTimestamp(),
       });
-      // console.log(uid);
-      // console.log(title);
-      // console.log(body);
       dispatch("getPosts");
     } catch (error) {
-      // console.log(title);
-      console.log(error); //eslint-disable-line
-      console.log(payload); //eslint-disable-line
+      dispatch("getToast", { msg: "正しく処理できませんでした" });
     }
   },
   async publishPost({ dispatch }, payload) {
@@ -273,34 +261,21 @@ export const actions = {
         body: payload.body,
         time: this.$fireModule.firestore.FieldValue.serverTimestamp(),
       });
-      // console.log(uid);
-      // console.log(title);
-      // console.log(body);
       dispatch("getPosts");
     } catch (error) {
-      // console.log(title);
-      console.log(error); //eslint-disable-line
-      console.log(payload); //eslint-disable-line
+      dispatch("getToast", { msg: "正しく処理できませんでした" });
     }
   },
   async getPosts({ commit }) {
     try {
       const user = this.$fire.auth.currentUser;
-      console.log(user.uid);
       const querySnapshot = await this.$fire.firestore
         .collection("posts")
         .where("uid", "==", user.uid)
         .get();
       const posts = [];
-      // querySnapshot.forEach((doc) => {
-      //   const data = doc.data();
-      //   console.log(data);
-      //   posts.push(data);
-      // });
-      // commit("setData", posts);
       querySnapshot.forEach((doc) => {
         const data = doc.data();
-        console.log(data);
         posts.push(data);
       });
 
@@ -317,25 +292,10 @@ export const actions = {
           post.photoURL = userData.photoURL;
         });
       }
-      console.log(posts);
 
       commit("setData", posts);
     } catch (error) {
-      console.log(error);
+      dispatch("getToast", { msg: "正しく処理できませんでした" });
     }
   },
-  // async addLikeToPost({ commit }, { user, post }) {
-  //   post.likes.push({
-  //     created_at: moment().format(),
-  //     user_id: user.id,
-  //     post_id: post.id,
-  //   });
-  //   const newPost = await this.$axios.$put(`/posts/${post.id}.json`, post);
-  //   commit("updatePost", { post: newPost });
-  // },
-  // async removeLikeToPost({ commit }, { user, post }) {
-  //   post.likes = post.likes.filter((like) => like.user_id !== user.id) || [];
-  //   const newPost = await this.$axios.$put(`/posts/${post.id}.json`, post);
-  //   commit("updatePost", { post: newPost });
-  // },
 };

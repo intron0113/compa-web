@@ -57,10 +57,10 @@
 export default {
   methods: {
     registerGoogle() {
-      this.$store.dispatch("registerGoogle");
+      this.$store.dispatch("loginGoogle");
     },
     registerTwitter() {
-      this.$store.dispatch("registerTwitter");
+      this.$store.dispatch("loginTwitter");
     },
   },
 };

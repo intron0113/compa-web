@@ -7,6 +7,11 @@ export const state = () => ({
   loginUserLists: [],
   followLists: [],
   followerLists: [],
+  toast: {
+    msg: null,
+    color: "error",
+    timeout: 4000,
+  },
 });
 
 export const getters = {
@@ -28,6 +33,10 @@ export const getters = {
 };
 
 export const mutations = {
+  // 追加
+  setToast(state, payload) {
+    state.toast = payload;
+  },
   setUserComments(state, data) {
     state.userComments = data;
   },
@@ -49,9 +58,14 @@ export const mutations = {
 };
 
 export const actions = {
+  // トーストデータをセットする
+  getToast({ commit }, toast) {
+    toast.color = toast.color || "error";
+    toast.timeout = toast.timeout || 4000;
+    commit("setToast", toast);
+  },
   async commentLists({ commit }, uid) {
     try {
-      console.log(uid.postID);
       const querySnapshot = await this.$fire.firestore
         .collection("comments")
         .where("postId", "==", uid.postID)
@@ -61,7 +75,6 @@ export const actions = {
       const userComments = [];
       querySnapshot.forEach((doc) => {
         const data = doc.data();
-        console.log(data);
         userComments.push(data);
       });
       for (let i = 0; i < userComments.length; i++) {
@@ -78,24 +91,17 @@ export const actions = {
           comment.commentBody = comment.commentBody.replace(/\\n/g, "\n");
         });
       }
-      console.log(userComments);
       commit("setUserComments", userComments);
-
-      // selectPost.push(data);
-      // console.log(selectPost);
     } catch (error) {
-      console.log(error);
+      dispatch("getToast", { msg: "正しく処理ができませんでした。" });
     }
   },
   async userFollows({ dispatch }, payload) {
     try {
-      console.log(payload);
       this.$fire.auth.onAuthStateChanged((user) => {
         if (user) {
           const { uid, email, displayName, photoURL } = user;
           const { route_uid } = payload;
-          console.log(uid);
-          console.log(route_uid);
           dispatch("getUser", { route_uid, uid });
           dispatch("getLoginUserFollowList", { route_uid, uid });
           dispatch("getFollowList", { route_uid, uid });
@@ -103,7 +109,7 @@ export const actions = {
         }
       });
     } catch (error) {
-      console.log(error);
+      dispatch("getToast", { msg: "正しく処理ができませんでした。" });
     }
   },
 
@@ -164,19 +170,14 @@ export const actions = {
   },
   async getFollowList({ commit }, payload) {
     try {
-      console.log(payload);
-
       const querySnapshot = await this.$fire.firestore
         .collection("follows")
         .where("following_uid", "==", payload.route_uid)
         .get();
 
-      console.log(querySnapshot);
-
       const userFollows = [];
       querySnapshot.forEach((doc) => {
         const data = doc.data();
-        console.log(data);
         userFollows.push(data);
       });
 
@@ -193,16 +194,13 @@ export const actions = {
           userFollow.photoURL = userData.photoURL;
         });
       }
-      console.log(userFollows);
       commit("followLists", userFollows);
     } catch (error) {
-      console.log(error);
+      dispatch("getToast", { msg: "正しく処理ができませんでした。" });
     }
   },
   async getFollowerList({ commit }, payload) {
     try {
-      console.log(payload);
-
       const querySnapshot = await this.$fire.firestore
         .collection("follows")
         .where("followed_uid", "==", payload.route_uid)
@@ -211,7 +209,6 @@ export const actions = {
       const userFollowers = [];
       querySnapshot.forEach((doc) => {
         const data = doc.data();
-        console.log(data);
         userFollowers.push(data);
       });
       for (let i = 0; i < userFollowers.length; i++) {
@@ -230,12 +227,11 @@ export const actions = {
 
       commit("followerLists", userFollowers);
     } catch (error) {
-      console.log(error);
+      dispatch("getToast", { msg: "正しく処理ができませんでした。" });
     }
   },
 
   async allDeleteFollows({ dispatch }, payload) {
-    console.log(payload);
     try {
       const collection = await this.$fire.firestore
         .collection("follows")
@@ -245,10 +241,8 @@ export const actions = {
       const follows = [];
       collection.forEach((doc) => {
         const data = doc.data();
-        console.log(data);
         follows.push(data);
       });
-      console.log(follows);
       for (let i = 0; i < follows.length; i++) {
         const follow = follows[i];
         await this.$fire.firestore
@@ -256,7 +250,6 @@ export const actions = {
           .doc(follow.followId)
           .delete();
       }
-      console.log(follows);
 
       const followerCollection = await this.$fire.firestore
         .collection("follows")
@@ -266,10 +259,8 @@ export const actions = {
       const followers = [];
       followerCollection.forEach((doc) => {
         const data = doc.data();
-        console.log(data);
         followers.push(data);
       });
-      console.log(followers);
       for (let i = 0; i < followers.length; i++) {
         const follower = followers[i];
         await this.$fire.firestore
@@ -277,13 +268,10 @@ export const actions = {
           .doc(follower.followId)
           .delete();
       }
-      console.log(followers);
 
       dispatch("getFollows");
     } catch (error) {
-      // console.log(title);
-      console.log(error); //eslint-disable-line
-      console.log(payload); //eslint-disable-line
+      dispatch("getToast", { msg: "正しく処理ができませんでした。" });
     }
   },
 
@@ -295,8 +283,6 @@ export const actions = {
         .where("followed_uid", "==", payload.followed_uid)
         .get();
 
-      console.log(payload);
-
       const userFollows = [];
       querySnapshot.forEach((doc) => {
         const data = doc.data();
@@ -306,13 +292,11 @@ export const actions = {
 
       const { followId, followed_uid, following_uid } = userFollows[0];
 
-      console.log(followId);
-
       await this.$fire.firestore.collection("follows").doc(followId).delete();
       dispatch("getFollows");
       location.reload();
     } catch (error) {
-      console.log(error);
+      dispatch("getToast", { msg: "正しく処理ができませんでした。" });
     }
   },
 
@@ -324,9 +308,7 @@ export const actions = {
       dispatch("getFollows");
       location.reload();
     } catch (error) {
-      // console.log(title);
-      console.log(error); //eslint-disable-line
-      console.log(payload); //eslint-disable-line
+      dispatch("getToast", { msg: "正しく処理ができませんでした。" });
     }
   },
 
@@ -351,56 +333,27 @@ export const actions = {
         // followed_name: followerUserRef,
         // follow_status: true,
       });
-      // console.log(uid);
-      // console.log(title);
-      // console.log(body);
       dispatch("getFollows");
       location.reload();
     } catch (error) {
-      // console.log(title);
-      console.log(error); //eslint-disable-line
-      console.log(payload); //eslint-disable-line
+      dispatch("getToast", { msg: "正しく処理ができませんでした。" });
     }
   },
   async getFollows({ commit }) {
     try {
       const user = this.$fire.auth.currentUser;
-      // console.log(payload);
       const querySnapshot = await this.$fire.firestore
         .collection("follows")
-        // .where("following_uid", "==", user.uid)
         .get();
       const follows = [];
-      // querySnapshot.forEach((doc) => {
-      //   const data = doc.data();
-      //   console.log(data);
-      //   posts.push(data);
-      // });
-      // commit("setData", posts);
       querySnapshot.forEach((doc) => {
         const data = doc.data();
-        console.log(data);
         follows.push(data);
       });
 
-      // for (let i = 0; i < follows.length; i++) {
-      //   const follow = follows[i];
-      //   const userQuerySnapshot = await this.$fire.firestore
-      //     .collection("user")
-      //     .where("uid", "==", follow.uid)
-      //     .get();
-      //   userQuerySnapshot.forEach((doc) => {
-      //     const userData = doc.data();
-
-      //     follow.name = userData.name;
-      //     follow.photoURL = userData.photoURL;
-      //   });
-      // }
-      console.log(follows);
-
       commit("setData", follows);
     } catch (error) {
-      console.log(error);
+      dispatch("getToast", { msg: "正しく処理ができませんでした。" });
     }
   },
 };

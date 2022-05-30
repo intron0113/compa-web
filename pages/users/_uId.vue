@@ -161,7 +161,7 @@
             <v-col cols="12">
               <v-card class="px-5">
                 <v-col cols="12">
-                  <v-suheader>{{ post }}</v-suheader>
+                  <div>{{ post }}</div>
                 </v-col>
 
                 <v-list two-line>
@@ -259,7 +259,6 @@ export default {
   middleware: "auth",
   async asyncData({ store, route, error }) {
     const id = route.params;
-    console.log(id);
     try {
       await store.dispatch("follows/userFollows", {
         route_uid: id.uid,
@@ -320,7 +319,6 @@ export default {
       this.pageSize * (this.page - 1),
       this.pageSize * this.page
     );
-    console.log(this.postLists);
   },
   methods: {
     openSettings(selectUserData) {

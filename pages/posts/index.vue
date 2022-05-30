@@ -115,7 +115,6 @@ export default {
       this.pageSize * (this.page - 1),
       this.pageSize * this.page
     );
-    console.log(this.displayLists);
   },
   methods: {
     pageChange(pageNumber) {
