@@ -62,7 +62,7 @@
                       role="button"
                       aria-haspopup="true"
                       aria-expanded="false"
-                      placeholder="compa内検索"
+                      placeholder="Co-mpa内検索"
                       type="text"
                       value=""
                       @keyup.enter="say($event.target)"
@@ -119,6 +119,7 @@
               transition="scroll-y-transition"
               :close-on-click="true"
               :close-on-content-click="true"
+              style="z-index: 999"
             >
               <template #activator="{ on }">
                 <v-btn icon large class="mr-1" v-on="on">
@@ -231,7 +232,7 @@ export default {
     return {
       search: false,
       drawer: null,
-      title: "Compa",
+      title: "Co-mpa",
       avatarMenuItems: [
         { icon: "mdi-account-circle", text: "マイページ", href: "/users" },
         {
@@ -249,7 +250,7 @@ export default {
           href: "/login/privacy-policy",
         },
       ],
-      author: "Compa",
+      author: "Co-mpa",
       justify: "space-between",
       query: "",
     };

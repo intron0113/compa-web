@@ -20,7 +20,7 @@
             </v-chip>
           </v-col>
           <v-col cols="12">
-            <v-text-field
+            <!-- <v-text-field
               ref="input"
               v-model="Value"
               counter
@@ -31,9 +31,52 @@
               class="input"
               type="text"
               placeholder="ここに入力"
-              @keyup.enter="enter($event.target)"
+              @oninput="enter($event.target)"
               @keypress="canEnter = true"
             />
+
+            <div class="v-text-field__slot">
+              
+              <input
+                id="input-18"
+                autocomplete="off"
+                role="button"
+                aria-haspopup="true"
+                aria-expanded="false"
+                placeholder="Co-mpa内検索"
+                type="text"
+                value=""
+                @keyup.enter="say($event.target)"
+                @keypress="setCanMessageSubmit"
+              />
+              
+            </div> -->
+            <div
+              class="v-input mx-2 mx-md-4 v-input--hide-details v-input--dense theme--light v-text-field v-text-field--single-line v-text-field--solo v-text-field--is-booted v-text-field--enclosed v-text-field--placeholder rounded-lg"
+              data-v-7f162986=""
+            >
+              <div class="v-input__control">
+                <div class="v-input__slot">
+                  <div class="v-input__prepend-inner">
+                    <v-icon left> mdi-tag-outline </v-icon>
+                  </div>
+                  <div class="v-text-field__slot">
+                    <input
+                      id="input-18"
+                      autocomplete="off"
+                      role="button"
+                      aria-haspopup="true"
+                      aria-expanded="false"
+                      placeholder="タグ入力"
+                      type="text"
+                      value=""
+                      @keyup.enter="say($event.target)"
+                      @keypress="setCanMessageSubmit"
+                    />
+                  </div>
+                </div>
+              </div>
+            </div>
           </v-col>
         </v-row>
       </div>
@@ -51,12 +94,14 @@ export default {
   },
   data() {
     return {
-      tags: [],
       prevValue: "",
+      tags: [],
       canEnter: false,
+      // canEnter: true,
       draggingItem: null,
     };
   },
+
   watch: {
     value: function (newVal, oldVal) {
       if (this.tags.join(",") != newVal) {
@@ -75,6 +120,30 @@ export default {
     }
   },
   methods: {
+    setCanMessageSubmit() {
+      this.canMessageSubmit = true;
+    },
+    say(target) {
+      if (!this.canMessageSubmit) {
+        return;
+      }
+
+      // -- submit message -- //
+      // this.$store.dispatch("search/getLists", {
+      //   searchWord: target.value,
+      // });
+      // this.$store.commit("search/setQWord", {
+      //   searchWord: target.value,
+      // });
+      // this.$router.push(`/posts/search/${target.value}`);
+      // this.$router.push(`/posts/${target.value}`);
+      // this.$router.push("/login/serch");
+      // this.message = "";
+      this.add(target.value.trim().replace(/,/, ""));
+      target.value = "";
+
+      this.canMessageSubmit = false;
+    },
     propToData() {
       this.tags.length = 0;
       this.prevValue = this.value.split(/,/);
@@ -84,10 +153,12 @@ export default {
       //日本語の確定で EnterキーのKeyupが発生するのを抑止
       if (!this.canEnter) return;
 
-      if (typeof target.value === "string" && target.value.trim() != "") {
-        this.add(target.value.trim().replace(/,/, ""));
-        target.value = "";
-      }
+      // if (typeof target.value === "string" && target.value.trim() != "") {
+      //   this.add(target.value.trim().replace(/,/, ""));
+      //   target.value = "";
+      // }
+      this.add(target.value.trim().replace(/,/, ""));
+      target.value = "";
       this.canEnter = false;
     },
     remove(index) {
