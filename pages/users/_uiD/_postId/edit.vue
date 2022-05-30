@@ -23,7 +23,6 @@
                               label="記事タイトル"
                               required
                             />
-                            <TagInput v-model="selectPost.tags" />
                           </v-col>
                           <v-col cols="10" sm="12">
                             <div class="post-texttitle">記事本文</div>
@@ -34,6 +33,9 @@
                                 @on-change="handleChange"
                               />
                             </client-only>
+                          </v-col>
+                          <v-col cols="8" sm="12">
+                            <TagInput v-model="selectPost.tags" />
                           </v-col>
                         </v-row>
                       </v-col>

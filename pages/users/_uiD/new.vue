@@ -24,7 +24,6 @@
                               required
                               ï
                             />
-                            <TagInput v-model="tag_str" />
                           </v-col>
                           <v-col cols="10" sm="12">
                             <div class="post-texttitle">記事本文</div>
@@ -35,6 +34,9 @@
                                 @on-change="handleChange"
                               />
                             </client-only>
+                          </v-col>
+                          <v-col cols="8" sm="12">
+                            <TagInput v-model="tag_str" />
                           </v-col>
                           <!-- </v-col> -->
                         </v-row>

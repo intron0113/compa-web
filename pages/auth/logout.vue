@@ -3,7 +3,7 @@
     <v-row justify="center">
       <v-col cols="12">
         <div>
-          <div class="plain-title text-center">Compa からログアウト</div>
+          <div class="plain-title text-center">Co-mpa からログアウト</div>
         </div>
         <hr class="mb-10" />
         <div class="row">

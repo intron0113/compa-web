@@ -36,7 +36,7 @@
                       role="button"
                       aria-haspopup="true"
                       aria-expanded="false"
-                      placeholder="compa内検索"
+                      placeholder="Co-mpa内検索"
                       type="text"
                       value=""
                       @keyup.enter="say($event.target)"
