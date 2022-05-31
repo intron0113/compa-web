@@ -64,7 +64,6 @@ export default {
   middleware: "private",
   async asyncData({ store, route, error }) {
     const id = route.params;
-    console.log(id);
     try {
       await store.dispatch("posts/getPost", {
         postId: id.postId,

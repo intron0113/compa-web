@@ -43,9 +43,9 @@
         </v-row>
       </div>
     </v-app-bar>
-    <v-content>
+    <v-main>
       <nuxt />
-    </v-content>
+    </v-main>
     <v-footer color="primary">
       <v-row :justify="justify">
         <v-col>
