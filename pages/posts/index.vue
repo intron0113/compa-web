@@ -19,7 +19,7 @@
               </v-col> -->
 
               <v-list two-line>
-                <v-card v-for="post in displayLists" :key="post.index">
+                <v-card v-for="post in displayLists" :key="post.uid">
                   <v-list-item @click="openUser(post, index)">
                     <img
                       v-if="!!post.photoURL"

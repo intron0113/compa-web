@@ -72,7 +72,6 @@ export default {
   //   }
   async asyncData({ store, route, error }) {
     const id = route.params;
-    console.log(id);
     try {
       await store.dispatch("userData", {
         uid: id.uiD,

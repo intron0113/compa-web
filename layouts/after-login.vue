@@ -153,7 +153,7 @@
       <!-- </v-col>
         </v-row> -->
     </v-app-bar>
-    <v-content>
+    <v-main>
       <!-- <v-container> -->
       <!-- モバイル検索 -->
       <div
@@ -199,13 +199,25 @@
                 @keypress="setCanMessageSubmit"
               />
             </div>
+
+            <v-btn
+              class="mx-3"
+              fab
+              dark
+              x-small
+              color="pink"
+              @click="changeSerach"
+            >
+              <v-icon>mdi-close</v-icon>
+            </v-btn>
           </div>
         </div>
       </div>
       <!-- </v-container> -->
-    </v-content>
-
-    <nuxt />
+    </v-main>
+    <v-main>
+      <nuxt />
+    </v-main>
 
     <v-footer color="primary">
       <v-row :justify="justify">
