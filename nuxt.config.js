@@ -147,6 +147,7 @@ export default {
           error: colors.red.accent3,
         },
         dark: {
+          // primary: "#000080",
           primary: "#202f55",
           accent: colors.grey.darken3,
           secondary: "#ffffff",
