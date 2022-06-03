@@ -158,86 +158,86 @@
             </v-list>
           </v-col>
           <v-col cols="12" sm="7">
-            <v-col cols="12">
-              <v-card class="px-5">
-                <v-col cols="12">
-                  <v-suheader>{{ title }}</v-suheader>
-                </v-col>
+            <!-- <v-col cols="12"> -->
+            <v-card class="px-5">
+              <v-col cols="12">
+                <v-suheader>{{ title }}</v-suheader>
+              </v-col>
 
-                <v-list two-line>
-                  <v-card v-for="follow in fLists" :key="follow.index">
-                    <!-- <v-card v-for="follow in followerLists" :key="follow.index"> -->
-                    <v-row>
-                      <v-col class="mx-3" cols="10">
-                        <v-list-item @click="openUser(follow, index)">
-                          <img
-                            v-if="!!follow.photoURL"
-                            :src="follow.photoURL"
-                            alt="プロフィール画像"
-                            class="image icon icon-user"
-                          />
-                          <img
-                            v-else
-                            src="/atoms/icons/user.jpg"
-                            alt="プロフィール画像"
-                            class="image icon icon-user"
-                          />
-                          <v-list-item-content>
-                            <v-list-item-title>
-                              {{ follow.name }}
-                              <!-- {{ follow }} -->
-                            </v-list-item-title>
-                          </v-list-item-content>
-                        </v-list-item>
-                      </v-col>
-                      <v-col cols="2">
-                        <div v-if="watchUser !== follow.followed_uid">
-                          <v-btn
-                            v-if="
-                              loginUserFollowLists.includes(
-                                follow.followed_uid
-                              ) == true
-                            "
-                            color="red"
-                            class="mx-3 z-index:100"
-                            @click="followerCut(follow, index)"
-                          >
-                            フォロー解除
-                          </v-btn>
-                          <v-btn
-                            v-else
-                            color="green"
-                            class="mx-3 z-index:100"
-                            @click="addFollow(follow, index)"
-                          >
-                            フォロー
-                          </v-btn>
-                        </div>
-                      </v-col>
-                    </v-row>
-                  </v-card>
-                </v-list>
-                <v-col v-if="fLists.length == 0" cols="12">
-                  <v-content>
-                    <v-list-item-content>
-                      <v-list-item-title class="mb-14">
-                        フォローしていません。
-                      </v-list-item-title>
-                    </v-list-item-content>
-                  </v-content>
-                </v-col>
-                <v-col cols="12">
-                  <v-content>
-                    <v-pagination
-                      v-model="page"
-                      :length="length"
-                      class="pagination-more-width:400px"
-                      @input="pageChange"
-                    />
-                  </v-content>
-                </v-col>
-              </v-card>
-            </v-col>
+              <v-list two-line>
+                <v-card v-for="follow in fLists" :key="follow.index">
+                  <!-- <v-card v-for="follow in followerLists" :key="follow.index"> -->
+                  <v-row>
+                    <v-col class="mx-3" cols="10">
+                      <v-list-item @click="openUser(follow, index)">
+                        <img
+                          v-if="!!follow.photoURL"
+                          :src="follow.photoURL"
+                          alt="プロフィール画像"
+                          class="image icon icon-user"
+                        />
+                        <img
+                          v-else
+                          src="/atoms/icons/user.jpg"
+                          alt="プロフィール画像"
+                          class="image icon icon-user"
+                        />
+                        <v-list-item-content>
+                          <v-list-item-title>
+                            {{ follow.name }}
+                            <!-- {{ follow }} -->
+                          </v-list-item-title>
+                        </v-list-item-content>
+                      </v-list-item>
+                    </v-col>
+                    <v-col cols="2">
+                      <div v-if="watchUser !== follow.followed_uid">
+                        <v-btn
+                          v-if="
+                            loginUserFollowLists.includes(
+                              follow.followed_uid
+                            ) == true
+                          "
+                          color="red"
+                          class="mx-3 z-index:100"
+                          @click="followerCut(follow, index)"
+                        >
+                          フォロー解除
+                        </v-btn>
+                        <v-btn
+                          v-else
+                          color="green"
+                          class="mx-3 z-index:100"
+                          @click="addFollow(follow, index)"
+                        >
+                          フォロー
+                        </v-btn>
+                      </div>
+                    </v-col>
+                  </v-row>
+                </v-card>
+              </v-list>
+              <v-col v-if="fLists.length == 0" cols="12">
+                <v-content>
+                  <v-list-item-content>
+                    <v-list-item-title class="mb-14">
+                      フォローしていません。
+                    </v-list-item-title>
+                  </v-list-item-content>
+                </v-content>
+              </v-col>
+              <v-col cols="12">
+                <v-content>
+                  <v-pagination
+                    v-model="page"
+                    :length="length"
+                    class="pagination-more-width:400px"
+                    @input="pageChange"
+                  />
+                </v-content>
+              </v-col>
+            </v-card>
+            <!-- </v-col> -->
           </v-col>
         </v-row>
       </div>

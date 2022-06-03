@@ -158,94 +158,78 @@
             </v-list>
           </v-col>
           <v-col cols="12" sm="7">
-            <v-col cols="12">
-              <v-card class="px-5">
-                <v-col cols="12">
-                  <div>{{ post }}</div>
-                </v-col>
+            <v-card class="px-5">
+              <v-col cols="12">
+                <div>{{ post }}</div>
+              </v-col>
 
-                <v-list two-line>
-                  <v-card v-for="post in postLists" :key="post.index">
-                    <v-row>
-                      <v-col>
-                        <v-list-item @click="openPost(post, index)">
-                          <v-row>
-                            <v-col class="mx-3" cols="10" lg="12">
-                              <v-list-item-content>
-                                <v-list-item-subtitle>
-                                  投稿日 {{ postedDay(post.time) }}
-                                </v-list-item-subtitle>
-                                <v-list-item-subtitle class="wrap-text">
-                                  {{ post.title }}
-                                </v-list-item-subtitle>
-                              </v-list-item-content>
-                            </v-col>
-                          </v-row>
-                        </v-list-item>
-                      </v-col>
-                      <v-col class="mb-4" cols="12" lg="4">
-                        <!-- <v-btn
-                          v-if="watchUser == selectUserData.uid"
-                          class="mx-3 z-index:100"
-                          @click="editPost(post, index)"
-                        >
-                          編集
-                        </v-btn> -->
-                        <v-btn
-                          v-if="watchUser == selectUserData.uid"
-                          class="mx-3"
-                          fab
-                          dark
-                          x-small
-                          color="blue"
-                          @click="editPost(post, index)"
-                        >
-                          <v-icon>mdi-pencil</v-icon>
-                        </v-btn>
-                        <v-btn
-                          v-if="watchUser == selectUserData.uid"
-                          class="mx-3"
-                          fab
-                          dark
-                          x-small
-                          color="pink"
-                          @click="deletePost(post)"
-                        >
-                          <v-icon>mdi-delete</v-icon>
-                        </v-btn>
-                        <!-- <v-btn
-                          v-if="watchUser == selectUserData.uid"
-                          class="mx-3"
-                          @click="deletePost(post)"
-                        >
-                          削除
-                        </v-btn> -->
-                      </v-col>
-                    </v-row>
-                  </v-card>
-                </v-list>
-                <v-col v-if="postLists.length == 0" cols="12">
-                  <v-content>
-                    <v-list-item-content>
-                      <v-list-item-title class="mb-14">
-                        投稿記事はまだありません。
-                      </v-list-item-title>
-                    </v-list-item-content>
-                  </v-content>
-                </v-col>
+              <v-list two-line>
+                <v-card v-for="post in postLists" :key="post.index">
+                  <v-row>
+                    <v-col>
+                      <v-list-item @click="openPost(post, index)">
+                        <v-row>
+                          <v-col class="mx-3" cols="10" lg="12">
+                            <v-list-item-content>
+                              <v-list-item-subtitle>
+                                投稿日 {{ postedDay(post.time) }}
+                              </v-list-item-subtitle>
+                              <v-list-item-subtitle class="wrap-text">
+                                {{ post.title }}
+                              </v-list-item-subtitle>
+                            </v-list-item-content>
+                          </v-col>
+                        </v-row>
+                      </v-list-item>
+                    </v-col>
+                    <v-col class="mb-4" cols="12" lg="4">
+                      <v-btn
+                        v-if="watchUser == selectUserData.uid"
+                        class="mx-3"
+                        fab
+                        dark
+                        x-small
+                        color="blue"
+                        @click="editPost(post, index)"
+                      >
+                        <v-icon>mdi-pencil</v-icon>
+                      </v-btn>
+                      <v-btn
+                        v-if="watchUser == selectUserData.uid"
+                        class="mx-3"
+                        fab
+                        dark
+                        x-small
+                        color="pink"
+                        @click="deletePost(post)"
+                      >
+                        <v-icon>mdi-delete</v-icon>
+                      </v-btn>
+                    </v-col>
+                  </v-row>
+                </v-card>
+              </v-list>
+              <v-col v-if="postLists.length == 0" cols="12">
+                <v-content>
+                  <v-list-item-content>
+                    <v-list-item-title class="mb-14">
+                      投稿記事はまだありません。
+                    </v-list-item-title>
+                  </v-list-item-content>
+                </v-content>
+              </v-col>
 
-                <v-col cols="12">
-                  <v-content>
-                    <v-pagination
-                      v-model="page"
-                      :length="length"
-                      class="pagination-more-width:400px"
-                      @input="pageChange"
-                    />
-                  </v-content>
-                </v-col>
-              </v-card>
-            </v-col>
+              <v-col cols="12">
+                <v-content>
+                  <v-pagination
+                    v-model="page"
+                    :length="length"
+                    class="pagination-more-width:400px"
+                    @input="pageChange"
+                  />
+                </v-content>
+              </v-col>
+            </v-card>
           </v-col>
         </v-row>
       </div>

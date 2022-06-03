@@ -3,55 +3,60 @@
     <v-main background-colorr:secondary class="py-8 px-6">
       <div class="con">
         <v-row justify="center">
-          <v-col cols="8" sm="12">
+          <v-col cols="12">
             <h2>新規投稿</h2>
           </v-col>
 
-          <v-col cols="10" sm="12">
+          <v-col cols="12">
             <v-card>
               <v-list two-line>
                 <template>
-                  <form @submit.prevent>
-                    <v-row class="pa-2" justify="center">
-                      <v-col cols="12" md="12">
-                        <v-row justify="center">
-                          <!-- <v-col> -->
-                          <v-col cols="8" sm="12">
-                            <v-text-field
-                              v-model="title"
-                              outlined
-                              label="記事タイトル"
-                              required
-                              ï
+                  <!-- <form @submit.prevent> -->
+                  <v-row class="pa-2" justify="center">
+                    <v-col cols="12" md="12">
+                      <v-row justify="center">
+                        <!-- <v-col> -->
+                        <v-col cols="8" sm="12">
+                          <v-text-field
+                            v-model="title"
+                            outlined
+                            label="記事タイトル"
+                            required
+                            ï
+                          />
+                        </v-col>
+                        <v-col cols="10" sm="12">
+                          <div class="post-texttitle">記事本文</div>
+                          <client-only class="width:100%">
+                            <vue-simplemde
+                              v-model="body"
+                              :configs="configs"
+                              @on-change="handleChange"
                             />
-                          </v-col>
-                          <v-col cols="10" sm="12">
-                            <div class="post-texttitle">記事本文</div>
-                            <client-only>
-                              <vue-simplemde
-                                v-model="body"
-                                :configs="configs"
-                                @on-change="handleChange"
-                              />
-                            </client-only>
-                          </v-col>
-                          <v-col cols="8" sm="12">
-                            <TagInput v-model="tag_str" />
-                          </v-col>
-                          <!-- </v-col> -->
-                        </v-row>
-                      </v-col>
-                      <v-col cols="3">
-                        <FormItemButton
+                          </client-only>
+                        </v-col>
+                        <v-col cols="8" sm="12">
+                          <TagInput v-model="tag_str" />
+                        </v-col>
+                        <!-- </v-col> -->
+                      </v-row>
+                    </v-col>
+                    <v-col cols="3">
+                      <!-- <FormItemButton
                           block
                           label="投稿"
                           type="button"
                           @click="publishPost"
-                        />
-                      </v-col>
-                    </v-row>
-                    <!-- <v-btn class="mr-4" @click="publishPost"> 投稿 </v-btn> -->
-                  </form>
+                        /> -->
+                      <SubmitButton
+                        label="投稿"
+                        :onclick="pushPost"
+                        type="submit"
+                      />
+                    </v-col>
+                  </v-row>
+                  <!-- <v-btn class="mr-4" @click="publishPost"> 投稿 </v-btn> -->
+                  <!-- </form> -->
                 </template>
               </v-list>
             </v-card>
@@ -98,25 +103,25 @@ export default {
         initialValue: "",
         toolbar: [
           "preview",
-          "|",
+          // "|",
           "bold",
           "italic",
           "heading",
           // "heading-smaller",
           // "heading-bigger",
-          "|",
+          // "|",
           "code",
           "quote",
           "link",
-          "|",
-          "unordered-list",
-          "ordered-list",
+          // "|",
+          // "unordered-list",
+          // "ordered-list",
           "table",
           // "horizontal-rule",
           // "|",
           // "side-by-side",
           // "fullscreen",
-          "|",
+          // "|",
           "guide",
         ],
       },
@@ -159,6 +164,25 @@ export default {
       this.title = "";
       this.body = "";
       this.$router.push("/users/editComplete");
+    },
+    pushPost(event) {
+      event.preventDefault();
+      return new Promise((resolve) => {
+        this.$store.dispatch("posts/publishPost", {
+          photoURL: this.photoURL,
+          name: this.name,
+          uid: this.uid,
+          tags: this.tag_str,
+          title: this.title,
+          body: this.body,
+        });
+        this.title = "";
+        this.body = "";
+        this.$router.push("/users/editComplete");
+        resolve();
+        // setTimeout(() => {
+        // }, 1000);
+      });
     },
   },
 };

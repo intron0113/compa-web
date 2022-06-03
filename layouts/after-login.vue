@@ -220,13 +220,15 @@
     </v-main>
 
     <v-footer color="primary">
-      <v-row :justify="justify">
-        <v-col>
-          <span class="white--text"
-            >&copy; {{ new Date().getFullYear() }} {{ author }}</span
-          >
-        </v-col>
-      </v-row>
+      <v-containeer style="width: 100%">
+        <v-row justify="center">
+          <v-col cols="12">
+            <div class="white--text" style="text-align: center">
+              &copy; {{ new Date().getFullYear() }} {{ author }}
+            </div>
+          </v-col>
+        </v-row>
+      </v-containeer>
     </v-footer>
   </v-app>
 </template>
@@ -263,7 +265,7 @@ export default {
         },
       ],
       author: "Co-mpa",
-      justify: "space-between",
+
       query: "",
     };
   },

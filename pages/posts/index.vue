@@ -3,7 +3,7 @@
     <v-main background-colorr:secondary class="py-8 px-6">
       <div class="con">
         <v-row justify="center">
-          <v-col cols="8" sm="12">
+          <v-col cols="12">
             <h2>{{ post }}</h2>
           </v-col>
           <!-- <v-col cols="12">

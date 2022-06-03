@@ -3,12 +3,12 @@
     <v-main background-colorr:secondary class="py-8 px-6">
       <div class="con">
         <v-row justify="center">
-          <v-col cols="8" sm="12">
+          <v-col cols="12">
             <h2>記事編集</h2>
           </v-col>
 
           <!-- <div class="wrap" /> -->
-          <v-col cols="10" sm="12">
+          <v-col cols="12">
             <v-card>
               <v-list two-line>
                 <template>
@@ -83,25 +83,25 @@ export default {
         initialValue: "",
         toolbar: [
           "preview",
-          "|",
+          // "|",
           "bold",
           "italic",
           "heading",
           // "heading-smaller",
           // "heading-bigger",
-          "|",
+          // "|",
           "code",
           "quote",
           "link",
-          "|",
-          "unordered-list",
-          "ordered-list",
+          // "|",
+          // "unordered-list",
+          // "ordered-list",
           "table",
           // "horizontal-rule",
           // "|",
           // "side-by-side",
           // "fullscreen",
-          "|",
+          // "|",
           "guide",
         ],
       },

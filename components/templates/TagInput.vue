@@ -127,18 +127,10 @@ export default {
       if (!this.canMessageSubmit) {
         return;
       }
+      if (target.value === "") {
+        return;
+      }
 
-      // -- submit message -- //
-      // this.$store.dispatch("search/getLists", {
-      //   searchWord: target.value,
-      // });
-      // this.$store.commit("search/setQWord", {
-      //   searchWord: target.value,
-      // });
-      // this.$router.push(`/posts/search/${target.value}`);
-      // this.$router.push(`/posts/${target.value}`);
-      // this.$router.push("/login/serch");
-      // this.message = "";
       this.add(target.value.trim().replace(/,/, ""));
       target.value = "";
 
