@@ -4,7 +4,7 @@
       <div class="con">
         <v-row justify="center">
           <!-- <v-col cols="6" md="7" class="d-none d-sm-block"> -->
-          <v-col cols="8" sm="12">
+          <!-- <v-col cols="8" sm="12">
             <div
               class="v-input mx-2 mx-md-4 v-input--hide-details v-input--dense theme--light v-text-field v-text-field--single-line v-text-field--solo v-text-field--is-booted v-text-field--enclosed v-text-field--placeholder rounded-lg"
               data-v-7f162986=""
@@ -46,6 +46,11 @@
                 </div>
               </div>
             </div>
+          </v-col> -->
+          <v-col cols="8" sm="12">
+            <v-card>
+              <v-card-title>検索ワード: {{ qWord }}</v-card-title>
+            </v-card>
           </v-col>
           <v-col cols="8" sm="12">
             <h2>{{ search }}</h2>

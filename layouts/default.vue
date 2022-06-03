@@ -47,13 +47,14 @@
       <nuxt />
     </v-main>
     <v-footer color="primary">
-      <v-row :justify="justify">
-        <v-col>
-          <span class="white--text"
-            >&copy; {{ new Date().getFullYear() }} {{ author }}</span
-          >
+      <v-row justify="space-between">
+        <v-col cols="12" sm="7">
+          <!-- <div class="white--text" style="text-align: center"> -->
+          <div class="white--text">
+            &copy; {{ new Date().getFullYear() }} {{ author }}
+          </div>
         </v-col>
-        <v-col>
+        <v-col cols="12" sm="5">
           <v-list dense color="primary">
             <v-list-item
               v-for="(item, index) in footerMenuItems"

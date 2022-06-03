@@ -157,7 +157,7 @@
                           rows="6"
                           :rules="myrules"
                         />
-                        <v-btn
+                        <!-- <v-btn
                           block
                           large
                           color="accent"
@@ -165,7 +165,14 @@
                           @click="publishComment(selectPost)"
                         >
                           送信
-                        </v-btn>
+                        </v-btn> -->
+                        <SubmitButton
+                          color="accent"
+                          class="mt-4 font-weight-bold"
+                          label="送信"
+                          :onclick="pushComment"
+                          type="submit"
+                        />
                       </v-form>
                     </v-col>
                   </v-row>
@@ -257,6 +264,25 @@ export default {
       // this.$router.push("/users/editComplete");
     },
 
+    pushComment(event) {
+      event.preventDefault();
+      return new Promise((resolve) => {
+        setTimeout(() => {
+          const commentB = this.commentBody.replace(/\n/g, "\\n");
+          this.$store.dispatch("comments/publishComment", {
+            photoURL: this.photoURL,
+            name: this.name,
+            uid: this.uid,
+            postId: this.selectPost.postId,
+            postUid: this.selectPost.uid,
+            commentBody: commentB,
+          });
+
+          this.commentBody = "";
+          resolve();
+        }, 1000);
+      });
+    },
     deleteComment(comment) {
       this.$store.dispatch("comments/deleteComment", {
         commentId: comment.commentId,

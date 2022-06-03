@@ -2,8 +2,7 @@
   <v-btn
     large
     v-bind="$attrs"
-    class="button button-link"
-    color="blue darken-3"
+    class="button button-link primary"
     @click="$emit('click')"
   >
     <!-- <span class="label"> -->
@@ -33,6 +32,7 @@ export default {
   border-radius: 4px;
   appearance: none;
   background-color: $blue;
+  // background-color: #000080;
   color: #ffffff;
 
   > .label {

@@ -1,5 +1,5 @@
 <template>
-  <form class="form form-login" @submit.prevent>
+  <form class="form form-login" light @submit.prevent>
     <div class="row input">
       <toaster />
       <FormItemInput
@@ -17,7 +17,12 @@
         class="col-sm-12 mb-16"
       />
       <div class="button">
-        <FormItemButton type="submit" label="ログイン" @click="login" />
+        <FormItemButton
+          type="submit"
+          color="navy"
+          label="ログイン"
+          @click="login"
+        />
       </div>
     </div>
   </form>
