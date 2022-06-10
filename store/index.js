@@ -157,6 +157,7 @@ export const actions = {
         this.$router.push("/posts");
       });
       const user = this.$fire.auth.currentUser;
+
       const querySnapshot = await this.$fire.firestore
         .collection("user")
         .where("uid", "==", user.uid)
