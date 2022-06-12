@@ -43,8 +43,6 @@ export const actions = {
   async deleteAccount({ dispatch }) {
     try {
       await this.$fire.auth.currentUser.delete();
-      // commit("signOut");
-      // window.localStorage.clear();
       this.$router.push("/");
     } catch (error) {
       dispatch("getToast", { msg: "ユーザー情報が正しくありません" });
@@ -54,7 +52,6 @@ export const actions = {
     try {
       await this.$fire.auth.signOut();
       commit("signOut");
-      // window.localStorage.clear();
       this.$router.push("/");
     } catch {
       dispatch("getToast", { msg: "ユーザー情報が正しくありません" });
@@ -75,7 +72,6 @@ export const actions = {
   async checkLogin({ commit }) {
     try {
       const user = this.$fire.auth.currentUser;
-      // commit("loginStateChange", true);
       await commit("getData", {
         uid: user.uid,
         name: user.displayName,
@@ -93,19 +89,9 @@ export const actions = {
         payload.password
       );
       dispatch("checkLogin");
-      // this.$router.push("/auth/registerFinish");
       const storageRef = this.$fire.storage.ref();
-      // storageRef
-      //   .child(`users/${state.user.uid}.png`)
-      //   .put(payload.thumbnail)
-      // .then(() => {
-      // storageRef
-      //   .child(`users/${state.user.uid}.png`)
-      //   .getDownloadURL()
-      //   .then((url) => {
       this.$fire.auth.currentUser.updateProfile({
         displayName: payload.name,
-        // photoURL: url,
       });
       const user = this.$fire.auth.currentUser;
       this.$fire.firestore.collection("user").doc(user.uid).set({
@@ -117,38 +103,13 @@ export const actions = {
         prefectures: "",
         profileText: "",
       });
-      // });
-      // });
+
       this.$router.push("/auth/registerFinish");
     } catch (error) {
       dispatch("getToast", { msg: "ユーザー情報が正しくありません" });
     }
   },
-  // async registerGoogle({ dispatch }) {
-  //   try {
-  //     const provider = new this.$fireModule.auth.GoogleAuthProvider();
-  //     await this.$fire.auth.signInWithPopup(provider).then(() => {
-  //       dispatch("checkLogin");
-  //       this.$router.push("/posts");
-  //     });
-  //     const user = this.$fire.auth.currentUser;
 
-  //     const storageRef = this.$fire.storage.ref();
-  //     storageRef.child(`users/${user.uid}.png`).put(user.photoURL);
-
-  //     this.$fire.firestore.collection("user").doc(user.uid).set({
-  //       uid: user.uid,
-  //       name: user.displayName,
-  //       photoURL: user.photoURL,
-  //       affiliation: "",
-  //       job: "",
-  //       prefectures: "",
-  //       profileText: "",
-  //     });
-  //   } catch (error) {
-  //     dispatch("getToast", { msg: "ユーザー情報が正しくありません" });
-  //   }
-  // },
   async loginGoogle({ dispatch }) {
     try {
       const provider = new this.$fireModule.auth.GoogleAuthProvider();
