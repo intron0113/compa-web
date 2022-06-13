@@ -31,6 +31,35 @@ export const getters = {
 };
 
 export const actions = {
+  async confirmLogin({ dispatch, state }, payload) {
+    try {
+      await this.$fire.auth.onAuthStateChanged((user) => {
+        if (user) {
+          dispatch("checkLogin");
+          const storageRef = this.$fire.storage.ref();
+          this.$fire.auth.currentUser.updateProfile({
+            displayName: "ゲストログイン",
+          });
+          this.$fire.firestore.collection("user").doc(user.uid).set({
+            uid: user.uid,
+            name: "ゲストログイン",
+            photoURL: "",
+            affiliation: "",
+            job: "",
+            prefectures: "",
+            profileText: "",
+          });
+          // ...
+        } else {
+          // User is signed out
+          // ...
+        }
+      });
+    } catch (error) {
+      dispatch("getToast", { msg: "ユーザー情報が正しくありません" });
+    }
+  },
+
   // 追加
   // トーストデータをセットする
   getToast({ commit }, toast) {
