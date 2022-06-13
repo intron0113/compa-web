@@ -6,10 +6,12 @@
       <h1>アウトプットしよう</h1>
       <p>医療従事者の為の学習アウトプットサービスです。</p>
       <p>学習した事を外に出力していきましょう！！</p>
-      <div class="btn-1">
-        <nuxt-link tag="div" to="auth/register" class="btn">
+      <div class="btn-1" @click="guestsLogin">
+        <!-- <nuxt-link tag="div" to="auth/register" class="btn">
           新規登録
-        </nuxt-link>
+        </nuxt-link> -->
+
+        ゲストログイン
       </div>
     </div>
     <!-- </div> -->
@@ -28,6 +30,17 @@ export default {
     },
   },
   methods: {
+    guestsLogin() {
+      this.$fire.auth
+        .signInAnonymously()
+        .then(() => {
+          this.$store.dispatch("confirmLogin");
+          this.$router.push("/posts");
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    },
     Commit() {
       this.$router.push("commit");
     },

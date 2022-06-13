@@ -27,9 +27,40 @@
 export default {
   layout: "plain",
   middleware: "auth",
+  computed: {
+    uid() {
+      return this.$store.getters.user.uid;
+    },
+    email() {
+      return this.$store.getters.user.email;
+    },
+  },
   methods: {
     logout() {
-      this.$store.dispatch("logout");
+      if (this.email !== null) {
+        console.log(this.email);
+        this.$store.dispatch("logout");
+      } else {
+        console.log("ゲストログイン");
+        this.$store.dispatch("posts/allDeletePost", {
+          uid: this.uid,
+        });
+        this.$store.dispatch("comments/allDeleteComments", {
+          uid: this.uid,
+        });
+        this.$store.dispatch("follows/allDeleteFollows", {
+          uid: this.uid,
+        });
+        this.$store.dispatch("deleteImage", {
+          uid: this.uid,
+        });
+        this.$store.dispatch("deleteUserData", {
+          uid: this.uid,
+        });
+        this.$store.dispatch("deleteAccount", {
+          uid: this.uid,
+        });
+      }
     },
   },
 };
