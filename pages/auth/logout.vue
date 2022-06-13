@@ -38,7 +38,6 @@ export default {
   methods: {
     logout() {
       if (this.email !== null) {
-        console.log(this.email);
         this.$store.dispatch("logout");
       } else {
         console.log("ゲストログイン");
