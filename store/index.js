@@ -35,6 +35,7 @@ export const actions = {
     try {
       await this.$fire.auth.onAuthStateChanged((user) => {
         if (user) {
+          console.log(user);
           dispatch("checkLogin");
           const storageRef = this.$fire.storage.ref();
           this.$fire.auth.currentUser.updateProfile({
@@ -72,6 +73,7 @@ export const actions = {
     try {
       await this.$fire.auth.currentUser.delete();
       this.$router.push("/");
+      location.reload();
     } catch (error) {
       dispatch("getToast", { msg: "ユーザー情報が正しくありません" });
     }
