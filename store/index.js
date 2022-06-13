@@ -1,5 +1,4 @@
 export const state = () => ({
-  // loggedIn: false,
   user: {
     uid: "",
     email: "",
@@ -149,27 +148,7 @@ export const actions = {
       dispatch("getToast", { msg: "ユーザー情報が正しくありません" });
     }
   },
-  // async registerTwitter({ dispatch }) {
-  //   try {
-  //     const provider = new this.$fireModule.auth.TwitterAuthProvider();
-  //     await this.$fire.auth.signInWithPopup(provider).then(() => {
-  //       dispatch("checkLogin");
-  //       this.$router.push("/posts");
-  //     });
-  //     const user = this.$fire.auth.currentUser;
-  //     this.$fire.firestore.collection("user").doc(user.uid).set({
-  //       uid: user.uid,
-  //       name: user.displayName,
-  //       password: user.password,
-  //       affiliation: "",
-  //       job: "",
-  //       prefectures: "",
-  //       profileText: "",
-  //     });
-  //   } catch (error) {
-  //     dispatch("getToast", { msg: "ユーザー情報が正しくありません" });
-  //   }
-  // },
+
   async loginTwitter({ dispatch }) {
     try {
       const provider = new this.$fireModule.auth.TwitterAuthProvider();
@@ -310,10 +289,7 @@ export const mutations = {
   setToast(state, payload) {
     state.toast = payload;
   },
-  // loginStatusChange(state, status) {
-  //   // 認証状態を双方向に変化
-  //   state.loggedIn = status;
-  // },
+
   add(state, { uid, email, displayName, photoURL }) {
     state.user = {
       ...state.user,
@@ -340,6 +316,5 @@ export const mutations = {
     state.user.uid = "";
     state.user.name = "";
     state.user.photoURL = "";
-    // state.user.login = false
   },
 };
