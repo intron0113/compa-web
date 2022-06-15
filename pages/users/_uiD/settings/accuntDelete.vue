@@ -16,13 +16,6 @@
         </div>
       </v-col>
       <v-col cols="3">
-        <!-- <FormItemButton
-          block
-          label="削除"
-          type="button"
-          color="error"
-          @click="deletePost(selectPost)"
-        /> -->
         <v-btn color="error" depressed elevation="2" x-large @click="allDelete">
           アカウント削除
         </v-btn>
