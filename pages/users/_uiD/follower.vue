@@ -73,18 +73,6 @@
                           </v-list-item-content>
                         </v-list-item>
                       </v-col>
-                      <!-- <v-col col="4" @click="userPostPage(selectUserData)">
-                        <div>投稿</div>
-                        {{ userPosts.length }}
-                      </v-col>
-                      <v-col col="4" @click="followPage(selectUserData)">
-                        <div>フォロー</div>
-                        {{ followLists.length }}
-                      </v-col>
-                      <v-col col="4" @click="followerPage(selectUserData)">
-                        <div>フォロワー</div>
-                        {{ followerLists.length }}
-                      </v-col> -->
                     </v-row>
                   </v-list>
                 </v-card-text>
@@ -158,7 +146,6 @@
             </v-list>
           </v-col>
           <v-col cols="12" sm="7">
-            <!-- <v-col cols="12"> -->
             <v-card class="px-5">
               <v-col cols="12">
                 <v-suheader>{{ title }}</v-suheader>
@@ -166,7 +153,6 @@
 
               <v-list two-line>
                 <v-card v-for="follow in fLists" :key="follow.index">
-                  <!-- <v-card v-for="follow in followerLists" :key="follow.index"> -->
                   <v-row>
                     <v-col class="mx-3" cols="10">
                       <v-list-item @click="openUser(follow, index)">
@@ -236,7 +222,6 @@
                 </v-content>
               </v-col>
             </v-card>
-            <!-- </v-col> -->
           </v-col>
         </v-row>
       </div>
@@ -321,16 +306,6 @@ export default {
       (obj) => obj.followed_uid
     );
   },
-  // mounted() {
-  //   this.length = Math.ceil(this.followerLists.length / this.pageSize);
-  //   this.fLists = this.followerLists.slice(
-  //     this.pageSize * (this.page - 1),
-  //     this.pageSize * this.page
-  //   );
-  //   this.loginUserFollowLists = this.loginUserLists.map(
-  //     (obj) => obj.followed_uid
-  //   );
-  // },
   methods: {
     openSettings(selectUserData) {
       this.$router.push(`/users/${selectUserData.uid}/settings`);

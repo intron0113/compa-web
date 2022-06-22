@@ -11,11 +11,9 @@
             <v-card>
               <v-list two-line>
                 <template>
-                  <!-- <form @submit.prevent> -->
                   <v-row class="pa-2" justify="center">
                     <v-col cols="12" md="12">
                       <v-row justify="center">
-                        <!-- <v-col> -->
                         <v-col cols="8" sm="12">
                           <v-text-field
                             v-model="title"
@@ -38,16 +36,9 @@
                         <v-col cols="8" sm="12">
                           <TagInput v-model="tag_str" />
                         </v-col>
-                        <!-- </v-col> -->
                       </v-row>
                     </v-col>
                     <v-col cols="3">
-                      <!-- <FormItemButton
-                          block
-                          label="投稿"
-                          type="button"
-                          @click="publishPost"
-                        /> -->
                       <SubmitButton
                         label="投稿"
                         :onclick="pushPost"
@@ -55,8 +46,6 @@
                       />
                     </v-col>
                   </v-row>
-                  <!-- <v-btn class="mr-4" @click="publishPost"> 投稿 </v-btn> -->
-                  <!-- </form> -->
                 </template>
               </v-list>
             </v-card>
@@ -71,10 +60,6 @@
 export default {
   layout: "after-login",
   middleware: "auth",
-  // asyncData({ redirect, store }) {
-  //   if (!store.getters["uid"]) {
-  //     redirect("/");
-  //   }
   async asyncData({ store, route, error }) {
     const id = route.params;
     try {
@@ -90,12 +75,8 @@ export default {
       title: "",
       body: "",
       tag_str: "新規投稿",
-      // text: '',
       markdownContent: "",
-      // formData: {
-      //   title: "",
-      //   body: "",
-      // },
+
       configs: {
         autosave: {
           enabled: false,
@@ -142,16 +123,6 @@ export default {
     handleChange(data) {
       this.markdownContent = data.htmlContent;
     },
-    // async publish() {
-    //   const payload = {
-    //     user: this.uid,
-    //     ...this.formData,
-    //   };
-    //   await this.publishPost({ payload });
-    //   this.$router.push("/posts");
-    // },
-    // ...mapActions("users", ["updateUser"]),
-    // ...mapActions("posts", ["publishPost"]),
     publishPost() {
       this.$store.dispatch("posts/publishPost", {
         photoURL: this.photoURL,
@@ -180,8 +151,6 @@ export default {
         this.body = "";
         this.$router.push("/users/editComplete");
         resolve();
-        // setTimeout(() => {
-        // }, 1000);
       });
     },
   },

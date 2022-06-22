@@ -269,16 +269,12 @@ export const actions = {
               });
             });
         });
-      // location.reload();
     } catch (error) {
       dispatch("getToast", { msg: "ユーザー情報が正しくありません" });
     }
   },
   async deleteImage({}, payload) {
     const storageRef = this.$fire.storage.ref();
-    // const userRef = await this.$fire.firestore
-    //   .collection("user")
-    //   .doc(payload.uid);
 
     await storageRef.child(`users/${payload.uid}/${payload.uid}.png`).delete();
   },
