@@ -50,7 +50,6 @@ export const actions = {
             prefectures: "",
             profileText: "",
           });
-          // ...
         } else {
           // User is signed out
           // ...
@@ -261,7 +260,6 @@ export const actions = {
             .getDownloadURL()
             .then((url) => {
               this.$fire.auth.currentUser.updateProfile({
-                // uid: payload.uid,
                 photoURL: url,
               });
               userRef.update({
